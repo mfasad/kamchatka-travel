@@ -1,2 +1,17 @@
-# kamchatka-travel
-Independent guide to Kamchatka tours, seasons and travel planning
+# Камчатка — маршрут
+
+Production: https://kamchatka-travel.vercel.app
+
+Статический многостраничный SEO-сайт независимого путеводителя по Камчатке.
+
+## Сборка
+
+```powershell
+npm run build
+```
+
+Результат создаётся в `dist/`. Проект настроен для Vercel через `vercel.json`.
+
+## Партнёрская интеграция
+
+До получения партнёрского идентификатора внешние CTA ведут на обычный каталог YouTravel.me. После одобрения заменить `partnerUrl` в `src/pages.mjs` на трекинговую ссылку либо подключить API/виджет.
