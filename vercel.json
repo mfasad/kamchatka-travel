@@ -3,14 +3,6 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": true,
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "kamchatka-marshrut.vercel.app" }],
-      "destination": "https://kamchatka-travel.vercel.app/:path*",
-      "permanent": true
-    }
-  ],
   "headers": [
     {
       "source": "/assets/(.*)",
