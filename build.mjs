@@ -25,7 +25,7 @@ function header(currentPath) {
     <div class="shell header-inner">
       <a class="brand" href="/" aria-label="На главную">
         <span class="brand-mark">▲</span>
-        <span>Камчатка — маршрут<small>независимый путеводитель</small></span>
+        <span>Камчатка — трэвел<small>независимый путеводитель</small></span>
       </a>
       <button class="menu-button" type="button" data-menu-button aria-expanded="false" aria-controls="site-menu">Меню</button>
       <nav class="site-nav" id="site-menu" data-menu aria-label="Основная навигация">${nav(currentPath)}</nav>
@@ -37,18 +37,18 @@ function footer() {
   return `<footer class="site-footer">
     <div class="shell">
       <div class="footer-grid">
-        <div><a class="brand" href="/"><span class="brand-mark">▲</span><span>Камчатка — маршрут</span></a><p class="footer-about">Независимый путеводитель по форматам путешествий. Мы не являемся туроператором и не принимаем оплату за туры.</p></div>
+        <div><a class="brand" href="/"><span class="brand-mark">▲</span><span>Камчатка — трэвел</span></a><p class="footer-about">Независимый путеводитель по форматам путешествий. Мы не являемся туроператором и не принимаем оплату за туры.</p></div>
         <div><div class="footer-title">Планировать</div><div class="footer-links"><a href="/tury/">Туры</a><a href="/ekskursii/">Экскурсии</a><a href="/blog/kogda-ehat/">Когда ехать</a><a href="/blog/skolko-stoit-poezdka/">Бюджет</a></div></div>
         <div><div class="footer-title">Исследовать</div><div class="footer-links"><a href="/blog/vulkany-kamchatki/">Вулканы</a><a href="/blog/kity-na-kamchatke/">Киты и косатки</a><a href="/tury/rybalka/">Рыбалка</a><a href="/blog/dostoprimechatelnosti/">Что посмотреть</a></div></div>
         <div><div class="footer-title">Проект</div><div class="footer-links"><a href="/o-proekte/">О проекте</a><a href="/privacy/">Конфиденциальность</a><a ${partnerAttrs}>Предложения партнёра ↗</a></div></div>
       </div>
-      <div class="footer-bottom"><span>© «Камчатка — маршрут»</span><span>Цены, даты и доступность проверяйте перед бронированием.</span></div>
+      <div class="footer-bottom"><span>© «Камчатка — трэвел»</span><span>Цены, даты и доступность проверяйте перед бронированием.</span></div>
     </div>
   </footer>`;
 }
 
 function head({ title, description, path, type = 'website', schema = [] }) {
-  const fullTitle = path === '/' ? title : `${title} — Камчатка: маршрут`;
+  const fullTitle = path === '/' ? title : `${title} — Камчатка: трэвел`;
   return `<!doctype html><html lang="ru"><head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(fullTitle)}</title><meta name="description" content="${esc(description)}">
