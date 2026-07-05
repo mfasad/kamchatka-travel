@@ -1,4 +1,4 @@
-# Камчатка — маршрут
+# Камчатка — трэвел
 
 Production: https://kamchatka-travel.vercel.app
 
