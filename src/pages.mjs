@@ -2,7 +2,7 @@ export const site = {
   name: 'Камчатка — трэвел',
   shortName: 'Камчатка',
   url: 'https://kamchatka-travel.vercel.app',
-  partnerUrl: 'https://youtravel.me/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0',
+  partnerUrl: 'https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0',
   description: 'Независимый путеводитель по турам, экскурсиям и сезонам Камчатки.'
 };
 
