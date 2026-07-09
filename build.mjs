@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style.css?v=20260709-jeep-v3">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -139,11 +139,11 @@ function partnerTourTable(page) {
   return `<section class="section section-tight tour-compare" id="compare-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">Быстрый выбор</p><h2>Сравнить джип-туры по Камчатке</h2></div><p>Мы показываем устойчивые параметры: формат, ориентир цены и размер группы. Актуальные даты, места и условия открываются на странице организатора.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 6).map((tour) => `<tr>
-      <td><strong>${tour.title}</strong><span>${tour.expert ? `Эксперт: ${esc(tour.expert)}` : 'Организатор на YouTravel.me'}</span></td>
-      <td>${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
-      <td>${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
-      <td>${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
-      <td><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Посмотреть даты и места ↗</a></td>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${tour.expert ? `Эксперт: ${esc(tour.expert)}` : 'Организатор на YouTravel.me'}</small></td>
+      <td class="tour-format">${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Посмотреть даты и места ↗</a></td>
     </tr>`).join('')}</tbody></table></div>
   </div></section>`;
 }
@@ -154,7 +154,7 @@ function partnerTourBlock(page) {
   return `<section class="section section-tight partner-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">YouTravel.me</p><h2>${page.path === '/tury/dzhip-tury/' ? 'Подходящие джип-туры и внедорожные маршруты' : 'Актуальные предложения партнёра'}</h2></div><p>Данные карточек берём из публичного API YouTravel.me. Финальную цену, даты, места и условия бронирования проверяйте на стороне организатора.</p></div>
     <div class="tour-grid">${tours.map((tour) => `<article class="tour-card" data-reveal>
-      <div class="tour-card-top"><span>${esc((tour.types || [])[0] || 'Тур')}</span><strong>${tour.price ? `от ${formatRub(tour.price)}` : 'цена у организатора'}</strong></div>
+      <div class="tour-card-top"><span class="tour-badge">${esc((tour.types || [])[0] || 'Тур')}</span><strong class="tour-price-badge">${tour.price ? `от ${formatRub(tour.price)}` : 'цена у организатора'}</strong></div>
       <h3>${tour.title}</h3>
       <p>${page.path === '/tury/dzhip-tury/' ? esc(stableTourMeta(tour)) : esc(tourMeta(tour))}</p>
       <ul>
