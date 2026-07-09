@@ -121,29 +121,60 @@ function formatDate(value) {
 }
 
 function tourMeta(tour) {
-  const dates = tour.dateFrom && tour.dateTo ? `${formatDate(tour.dateFrom)} — ${formatDate(tour.dateTo)}` : 'даты у организатора';
+  const dates = tour.dateFrom && tour.dateTo ? `${formatDate(tour.dateFrom)} — ${formatDate(tour.dateTo)}` : 'актуальные даты у организатора';
   const spaces = tour.freeSpaces ? `${tour.freeSpaces} мест` : 'места уточняйте';
   const group = tour.groupSize ? `группа до ${tour.groupSize}` : '';
   return [dates, spaces, group].filter(Boolean).join(' · ');
+}
+
+function stableTourMeta(tour) {
+  const group = tour.groupSize ? `группа до ${tour.groupSize}` : '';
+  const types = (tour.types || []).slice(0, 2).join(', ');
+  return [types, group, 'даты и места у организатора'].filter(Boolean).join(' · ');
+}
+
+function partnerTourTable(page) {
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare" id="compare-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Быстрый выбор</p><h2>Сравнить джип-туры по Камчатке</h2></div><p>Мы показываем устойчивые параметры: формат, ориентир цены и размер группы. Актуальные даты, места и условия открываются на странице организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 6).map((tour) => `<tr>
+      <td><strong>${tour.title}</strong><span>${tour.expert ? `Эксперт: ${esc(tour.expert)}` : 'Организатор на YouTravel.me'}</span></td>
+      <td>${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
+      <td>${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td>${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Посмотреть даты и места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+  </div></section>`;
 }
 
 function partnerTourBlock(page) {
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
   return `<section class="section section-tight partner-tours"><div class="shell">
-    <div class="section-head"><div><p class="eyebrow">YouTravel.me</p><h2>Актуальные предложения партнёра</h2></div><p>Данные карточек обновляются из публичного API YouTravel.me. Финальную цену, даты и условия бронирования проверяйте на стороне организатора.</p></div>
+    <div class="section-head"><div><p class="eyebrow">YouTravel.me</p><h2>${page.path === '/tury/dzhip-tury/' ? 'Подходящие джип-туры и внедорожные маршруты' : 'Актуальные предложения партнёра'}</h2></div><p>Данные карточек берём из публичного API YouTravel.me. Финальную цену, даты, места и условия бронирования проверяйте на стороне организатора.</p></div>
     <div class="tour-grid">${tours.map((tour) => `<article class="tour-card" data-reveal>
-      <div class="tour-card-top"><span>${esc((tour.types || [])[0] || 'Тур')}</span><strong>${formatRub(tour.price)}</strong></div>
+      <div class="tour-card-top"><span>${esc((tour.types || [])[0] || 'Тур')}</span><strong>${tour.price ? `от ${formatRub(tour.price)}` : 'цена у организатора'}</strong></div>
       <h3>${tour.title}</h3>
-      <p>${esc(tourMeta(tour))}</p>
+      <p>${page.path === '/tury/dzhip-tury/' ? esc(stableTourMeta(tour)) : esc(tourMeta(tour))}</p>
       <ul>
         ${tour.expert ? `<li>Эксперт: ${esc(tour.expert)}${tour.rating ? ` · рейтинг ${esc(tour.rating)}` : ''}</li>` : ''}
-        ${tour.totalDates ? `<li>Доступных дат: ${esc(tour.totalDates)}</li>` : ''}
+        ${page.path === '/tury/dzhip-tury/' ? '<li>Актуальные заезды и места — на странице тура</li>' : tour.totalDates ? `<li>Доступных дат: ${esc(tour.totalDates)}</li>` : ''}
         ${tour.accommodation?.length ? `<li>${esc(tour.accommodation.slice(0, 2).join(', '))}</li>` : ''}
       </ul>
-      <a class="button button-primary" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Смотреть тур ↗</a>
+      <a class="button button-primary" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">${page.path === '/tury/dzhip-tury/' ? 'Посмотреть даты и места ↗' : 'Смотреть тур ↗'}</a>
     </article>`).join('')}</div>
     <p class="partner-tours-note">Мы не являемся туроператором и не принимаем оплату за туры. Карточки помогают быстро сравнить варианты, но актуальные условия находятся на странице организатора.</p>
+  </div></section>`;
+}
+
+function jeepConversionBlocks(page) {
+  if (page.path !== '/tury/dzhip-tury/') return '';
+  return `${partnerTourTable(page)}
+  <section class="section section-tight jeep-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Лучшие джип-туры по Камчатке — не те, где больше точек</h2><p>Сильная программа оставляет время на локации, честно показывает длительность переездов и заранее объясняет, что будет при закрытой дороге или тумане.</p><a class="button button-light" href="#best-jeep-tours">Чек-лист выбора</a></article>
+    <article class="proof-card"><img src="/images/jeep-kamchatka-road-ai.jpg" alt="" loading="lazy" width="768" height="512"><h3>Дорога важнее обещаний</h3><p>На Камчатке маршрут зависит от грунтовки, бродов, дождя и решения гида. Поэтому мы смотрим не только цену, но и запасной сценарий.</p></article>
+    <article class="proof-card"><img src="/images/jeep-kamchatka-ocean-ai.jpg" alt="" loading="lazy" width="768" height="512"><h3>Оффроуд без лишнего героизма</h3><p>Хороший оффроуд-тур — это безопасная заброска к вулканам, океану и источникам, а не экстремальная поездка ради тряски.</p></article>
   </div></section>`;
 }
 
@@ -159,6 +190,7 @@ function pageTemplate(page) {
   ${header(page.path)}
   <main id="content">
     <section class="page-hero" style="--page-hero-image: url('${imageFor(page)}')"><div class="shell"><div class="breadcrumbs">${breadcrumbMarkup(page)}</div><p class="eyebrow">${esc(page.eyebrow)}</p><h1>${esc(page.title)}</h1><p class="page-lead">${esc(page.lead)}</p></div></section>
+    ${jeepConversionBlocks(page)}
     <section class="section"><div class="shell content-layout">
       <article class="content">${page.sections.map(([title, body]) => `<section><h2>${esc(title)}</h2>${body}</section>`).join('')}${faqBlock(page.faqs)}</article>
       <aside class="sidebar"><h2>${isLegal ? 'Навигация по проекту' : 'Сравнить программы'}</h2><p>${isLegal ? 'Перейдите к путеводителю или подборке форматов путешествия.' : 'Актуальные цены, даты и условия бронирования находятся на стороне организатора.'}</p><a class="button button-primary" ${isLegal ? 'href="/tury/"' : pagePartnerAttrs}>${isLegal ? 'Перейти к турам' : 'Посмотреть предложения ↗'}</a><ul class="mini-list"><li><a href="/blog/kogda-ehat/">Когда лучше ехать</a></li><li><a href="/blog/skolko-stoit-poezdka/">Из чего складывается бюджет</a></li><li><a href="/o-proekte/">Как работает проект</a></li></ul></aside>
