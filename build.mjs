@@ -1,6 +1,7 @@
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { pages, pageByPath, site } from './src/pages.mjs';
+import { youtravelTours } from './src/youtravel-tours.generated.mjs';
 
 const dist = join(process.cwd(), 'dist');
 if (existsSync(dist)) rmSync(dist, { recursive: true, force: true });
@@ -109,6 +110,43 @@ function cards(paths = []) {
   </article>`).join('');
 }
 
+function formatRub(value) {
+  if (!value) return 'цену уточняйте';
+  return new Intl.NumberFormat('ru-RU').format(Number(value)) + ' ₽';
+}
+
+function formatDate(value) {
+  if (!value) return '';
+  return new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(`${value}T00:00:00Z`));
+}
+
+function tourMeta(tour) {
+  const dates = tour.dateFrom && tour.dateTo ? `${formatDate(tour.dateFrom)} — ${formatDate(tour.dateTo)}` : 'даты у организатора';
+  const spaces = tour.freeSpaces ? `${tour.freeSpaces} мест` : 'места уточняйте';
+  const group = tour.groupSize ? `группа до ${tour.groupSize}` : '';
+  return [dates, spaces, group].filter(Boolean).join(' · ');
+}
+
+function partnerTourBlock(page) {
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight partner-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">YouTravel.me</p><h2>Актуальные предложения партнёра</h2></div><p>Данные карточек обновляются из публичного API YouTravel.me. Финальную цену, даты и условия бронирования проверяйте на стороне организатора.</p></div>
+    <div class="tour-grid">${tours.map((tour) => `<article class="tour-card" data-reveal>
+      <div class="tour-card-top"><span>${esc((tour.types || [])[0] || 'Тур')}</span><strong>${formatRub(tour.price)}</strong></div>
+      <h3>${tour.title}</h3>
+      <p>${esc(tourMeta(tour))}</p>
+      <ul>
+        ${tour.expert ? `<li>Эксперт: ${esc(tour.expert)}${tour.rating ? ` · рейтинг ${esc(tour.rating)}` : ''}</li>` : ''}
+        ${tour.totalDates ? `<li>Доступных дат: ${esc(tour.totalDates)}</li>` : ''}
+        ${tour.accommodation?.length ? `<li>${esc(tour.accommodation.slice(0, 2).join(', '))}</li>` : ''}
+      </ul>
+      <a class="button button-primary" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Смотреть тур ↗</a>
+    </article>`).join('')}</div>
+    <p class="partner-tours-note">Мы не являемся туроператором и не принимаем оплату за туры. Карточки помогают быстро сравнить варианты, но актуальные условия находятся на странице организатора.</p>
+  </div></section>`;
+}
+
 function faqBlock(items = []) {
   if (!items.length) return '';
   return `<section class="faq"><h2>Частые вопросы</h2>${items.map((item) => `<details><summary>${esc(item.question)}</summary><p>${esc(item.answer)}</p></details>`).join('')}</section>`;
@@ -125,6 +163,7 @@ function pageTemplate(page) {
       <article class="content">${page.sections.map(([title, body]) => `<section><h2>${esc(title)}</h2>${body}</section>`).join('')}${faqBlock(page.faqs)}</article>
       <aside class="sidebar"><h2>${isLegal ? 'Навигация по проекту' : 'Сравнить программы'}</h2><p>${isLegal ? 'Перейдите к путеводителю или подборке форматов путешествия.' : 'Актуальные цены, даты и условия бронирования находятся на стороне организатора.'}</p><a class="button button-primary" ${isLegal ? 'href="/tury/"' : pagePartnerAttrs}>${isLegal ? 'Перейти к турам' : 'Посмотреть предложения ↗'}</a><ul class="mini-list"><li><a href="/blog/kogda-ehat/">Когда лучше ехать</a></li><li><a href="/blog/skolko-stoit-poezdka/">Из чего складывается бюджет</a></li><li><a href="/o-proekte/">Как работает проект</a></li></ul></aside>
     </div></section>
+    ${!isLegal ? partnerTourBlock(page) : ''}
     ${page.cards?.length ? `<section class="section section-tight related"><div class="shell"><div class="section-head"><div><p class="eyebrow">Продолжить подготовку</p><h2>Полезно по теме</h2></div><p>Связанные маршруты и практические инструкции.</p></div><div class="grid grid-3">${cards(page.cards)}</div></div></section>` : ''}
     ${!isLegal ? `<section class="section section-tight"><div class="shell"><div class="cta"><div><h2>Сначала разобраться.<br>Потом бронировать.</h2><p>Сравните программу, задайте вопросы организатору и проверьте актуальные условия.</p></div><a class="button" ${pagePartnerAttrs}>Открыть подходящие туры ↗</a></div></div></section>` : ''}
   </main>${footer()}<script src="/assets/main.js" defer></script></body></html>`;
