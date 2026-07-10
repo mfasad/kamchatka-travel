@@ -29,6 +29,18 @@ const params = new URLSearchParams({
   sort_dir: 'desc'
 });
 
+const oneDayJeepParams = new URLSearchParams({
+  take: '300',
+  lang: 'ru',
+  currency: 'rub',
+  sort_by: 'rank',
+  sort_dir: 'desc',
+  is_period_strict: '1',
+  'duration[to]': '1',
+  'types[0]': '450',
+  'languages[0]': '1151'
+});
+
 function toDate(timestamp) {
   if (!timestamp) return null;
   return new Date(Number(timestamp) * 1000).toISOString().slice(0, 10);
@@ -92,13 +104,13 @@ function isKamchatka(tour) {
 function byPage(tours) {
   const has = (tour, pattern) => pattern.test([tour.title, ...tour.types].join(' '));
   const jeepTours = tours.filter((tour) => has(tour, /джип|авто|внедорож|offroad|off-road/i));
-  const shortKamchatkaTours = tours.filter((tour) => (tour.durationDays || 99) <= 3 && has(tour, /камчат|авачин|мутнов|горел|вулкан|бухт|океан|перевал|верблюд|экскурс|джип|авто|внедорож/i));
+  const shortKamchatkaJeepTours = tours.filter((tour) => (tour.durationDays || 99) <= 3 && has(tour, /джип|авто|внедорож|offroad|off-road/i));
   return {
     '/tury/': tours.slice(0, 6),
     '/tury/vip/': tours.filter((tour) => tour.isPrivate || tour.isExclusive || has(tour, /vip|вип|индивидуаль|премиум/i)).slice(0, 6),
     '/tury/trekking/': tours.filter((tour) => has(tour, /трек|поход|восхожд|актив|пеш/i)).slice(0, 6),
     '/tury/dzhip-tury/': jeepTours.filter((tour) => (tour.durationDays || 99) > 3).slice(0, 12),
-    '/tury/dzhip-tury/one-day': shortKamchatkaTours.slice(0, 8),
+    '/tury/dzhip-tury/one-day': shortKamchatkaJeepTours.slice(0, 8),
     '/ekskursii/vulkany/': tours.filter((tour) => has(tour, /вулкан|мутнов|горел|толбач|авачин/i)).slice(0, 6)
   };
 }
@@ -136,16 +148,26 @@ async function enrichWithPartnerDetails(tours) {
 }
 
 const payload = await getJson(`${API_URL}?${params}`);
+const oneDayPayload = await getJson(`${API_URL}?${oneDayJeepParams}`);
 const sourceItems = payload?.data?.items || [];
+const oneDaySourceItems = oneDayPayload?.data?.items || [];
+const combinedSourceItems = Array.from(
+  new Map([...sourceItems, ...oneDaySourceItems].map((tour) => [Number(tour.id), tour])).values()
+);
 const tours = await enrichWithPartnerDetails(sourceItems
+  .concat(oneDaySourceItems)
   .filter(isKamchatka)
   .map(normalizeTour)
+  .filter((tour, index, array) => array.findIndex((item) => item.id === tour.id) === index)
   .filter((tour) => tour.id && tour.title && tour.url));
 
 const generated = {
   fetchedAt: new Date().toISOString(),
   sourceTotal: payload?.data?.total || null,
-  sourceFetched: sourceItems.length,
+  oneDaySourceTotal: oneDayPayload?.data?.total || null,
+  sourceFetched: combinedSourceItems.length,
+  baseSourceFetched: sourceItems.length,
+  oneDaySourceFetched: oneDaySourceItems.length,
   kamchatkaCount: tours.length,
   usedPartnerAuth: Boolean(authHeader),
   tours,
