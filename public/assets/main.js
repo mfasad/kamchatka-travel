@@ -148,24 +148,25 @@ document.querySelectorAll('[data-vip-quiz]').forEach((quiz) => {
   if (!result || !resultTitle || !resultText) return;
 
   const updateQuiz = () => {
-    const format = quiz.querySelector('input[name="vip-format"]:checked')?.value || 'private';
-    const check = quiz.querySelector('input[name="vip-check"]:checked')?.value || 'included';
+    const company = quiz.querySelector('input[name="vip-company"]:checked')?.value || 'couple';
+    const style = quiz.querySelector('input[name="vip-style"]:checked')?.value || 'private';
+    const focus = quiz.querySelector('input[name="vip-focus"]:checked')?.value || 'volcano';
 
-    let title = 'Смотрите приватные и малогрупповые программы.';
-    let text = 'Начните с туров, где прямо описаны размер группы, транспорт, размещение и условия замены маршрута.';
+    let title = 'Вам ближе приватный VIP-маршрут.';
+    let text = 'Откройте программы с небольшим составом, своим транспортом и гибкой логикой дней.';
 
-    if (format === 'comfort') {
-      title = 'Смотрите комфортные программы с понятной логистикой.';
-      text = 'Сравните размещение, длительность переездов, питание, уровень активности и возможность заменить самые погодозависимые выезды.';
+    if (style === 'comfort' || company === 'family') {
+      title = 'Вам ближе комфортный VIP-тур с мягким темпом.';
+      text = 'Ищите программы с хорошей базой размещения, умеренной активностью и понятными переездами между выездами.';
     }
 
-    if (format === 'max') {
-      title = 'Смотрите насыщенные программы с сильным маршрутом.';
-      text = 'Проверьте, не перегружен ли график, сколько времени остается на локациях и какие дни можно переставить при плохой погоде.';
+    if (style === 'max' || company === 'team') {
+      title = 'Вам ближе насыщенный VIP-маршрут.';
+      text = 'Смотрите программы, где за неделю собираются вулканы, океан, источники и несколько активных выездов без лишней паузы.';
     }
 
-    if (check === 'weather') text = `${text} Особенно внимательно уточните запасные сценарии для моря, вертолета, вулканов и грунтовых дорог.`;
-    if (check === 'group') text = `${text} Отдельно спросите, какие части тура полностью приватные, а какие могут проходить в сборном формате.`;
+    if (focus === 'ocean') text = `${text} В подборке особенно смотрите морские и береговые сценарии, а также запасной план на случай ветра.`;
+    if (focus === 'all') text = `${text} Лучший старт - обзорные программы, где не один главный выезд, а сбалансированный набор впечатлений.`;
 
     resultTitle.textContent = title;
     resultText.textContent = text;
