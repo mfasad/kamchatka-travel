@@ -12,6 +12,8 @@ const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': 
 const absolute = (path) => `${site.url}${path}`;
 const metrikaCounterId = 110576640;
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
+const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
+const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
 const partnerAttrsFor = (page) => {
   const url = page?.partnerPath ? `${site.partnerBaseUrl}&path=${encodeURI(page.partnerPath)}` : site.partnerUrl;
   return `href="${url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -161,6 +163,10 @@ function partnerTourTable(page) {
       <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
       <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Посмотреть даты и места ↗</a></td>
     </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>В таблице не все джип-туры по Камчатке.</strong><span>У организаторов могут быть новые заезды, другие маршруты и места в группах, которые не попали в короткую подборку.</span></div>
+      <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+    </div>
   </div></section>`;
 }
 
@@ -277,7 +283,7 @@ function jeepQuizBlock(page) {
 function jeepStickyCta(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
   return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые джип-туры по Камчатке">
-    <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть топовые туры ↗</a>
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
   </div>`;
 }
 
@@ -318,7 +324,7 @@ function trekkingQuizBlock(page) {
 function trekkingStickyCta(page) {
   if (page.path !== '/tury/trekking/') return '';
   return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Треккинговые туры по Камчатке">
-    <a class="button button-primary" ${partnerAttrsFor(page)}>Проверить места в походах ↗</a>
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
   </div>`;
 }
 
