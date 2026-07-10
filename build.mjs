@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v6">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v7">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
