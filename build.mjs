@@ -181,10 +181,10 @@ function oneDayJeepBlock(page) {
   if (!tours.length) return '';
   return `<section class="section section-tight one-day-jeep" id="one-day-jeep-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">Короткие программы из API</p><h2>Однодневные туры и экскурсии по Камчатке</h2></div><p>Здесь показываем только реальные предложения из API YouTravel.me с короткой длительностью. Если подходящих джип-выездов мало, не добавляем ручные строки — лучше честная витрина, чем красивая фантазия.</p></div>
-    <div class="compare-table-wrap"><table class="tour-compare-table one-day-table"><thead><tr><th>Тур</th><th>Срок</th><th>Ориентир цены</th><th>Организатор</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
-      <td class="tour-name"><strong>${tour.title}</strong><small>${esc((tour.types || []).slice(0, 2).join(', ') || 'Тур')}</small></td>
+    <div class="compare-table-wrap"><table class="tour-compare-table one-day-table"><thead><tr><th>Тур</th><th>Срок</th><th>Формат</th><th>Организатор</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${tour.title}</strong><small>Данные из API YouTravel.me</small></td>
       <td class="tour-format">${esc(durationLabel(tour))}</td>
-      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-price">${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
       <td class="tour-group">${tour.expert ? esc(tour.expert) : 'YouTravel.me'}${tour.rating ? `<small>рейтинг ${esc(tour.rating)}</small>` : ''}</td>
       <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Посмотреть стоимость ↗</a></td>
     </tr>`).join('')}</tbody></table></div>
