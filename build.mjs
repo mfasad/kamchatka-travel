@@ -139,7 +139,7 @@ function partnerTourTable(page) {
   return `<section class="section section-tight tour-compare" id="compare-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">Многодневные программы</p><h2>Многодневные джип-туры по Камчатке</h2></div><p>Это варианты для первой большой поездки: вулканы, океан, источники, переезды по грунтовкам и несколько дней в маршруте. Сравнивайте не только цену, но и темп программы, размер группы и запасной сценарий на случай погоды.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 8).map((tour) => `<tr>
-      <td class="tour-name"><strong>${tour.title}</strong><small>${tour.expert ? `Эксперт: ${esc(tour.expert)}` : 'Организатор на YouTravel.me'}</small></td>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${tour.expert ? `Организатор: ${esc(tour.expert)}` : 'Организатор на YouTravel.me'}</small></td>
       <td class="tour-format">${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
       <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
       <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
@@ -158,7 +158,7 @@ function partnerTourBlock(page) {
       <h3>${tour.title}</h3>
       <p>${page.path === '/tury/dzhip-tury/' ? esc(stableTourMeta(tour)) : esc(tourMeta(tour))}</p>
       <ul>
-        ${tour.expert ? `<li>Эксперт: ${esc(tour.expert)}${tour.rating ? ` · рейтинг ${esc(tour.rating)}` : ''}</li>` : ''}
+        ${tour.expert ? `<li>Организатор: ${esc(tour.expert)}${tour.rating ? ` · рейтинг ${esc(tour.rating)}` : ''}</li>` : ''}
         ${page.path === '/tury/dzhip-tury/' ? '<li>Актуальные заезды и места — на странице тура</li>' : tour.totalDates ? `<li>Доступных дат: ${esc(tour.totalDates)}</li>` : ''}
         ${tour.accommodation?.length ? `<li>${esc(tour.accommodation.slice(0, 2).join(', '))}</li>` : ''}
       </ul>
@@ -188,7 +188,7 @@ function oneDayJeepBlock(page) {
       <td class="tour-format">${esc(route[1])}</td>
       <td class="tour-price">${esc(route[2])}</td>
       <td class="tour-group">${esc(route[3])}</td>
-      <td class="tour-action"><a class="button button-compact" ${partnerAttrs}>Проверить наличие ↗</a></td>
+      <td class="tour-action"><a class="button button-compact" ${partnerAttrs}>Посмотреть стоимость ↗</a></td>
     </tr>`).join('')}</tbody></table></div>
     <p class="partner-tours-note">По однодневным маршрутам особенно важны сезон, состояние дороги и точка старта. Перед оплатой уточняйте, будет ли это внедорожник, вахтовка или смешанный трансфер, сколько времени займёт дорога и что заменит маршрут при плохой погоде.</p>
   </div></section>`;
