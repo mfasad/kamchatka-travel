@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260710-volcano-v1';
+const assetVersion = '20260710-volcano-insights-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -147,6 +147,48 @@ function durationLabel(tour) {
   return `${tour.durationDays} дней`;
 }
 
+const tourInsights = {
+  19592: {
+    summary: 'Насыщенный маршрут для первой большой поездки, где вулканы соединены с океаном, источниками и внедорожной логистикой.',
+    goodFor: 'Подойдёт тем, кто хочет увидеть несколько главных районов без самостоятельной сборки трансферов и отдельных экскурсий.',
+    check: 'До бронирования стоит уточнить самые длинные переезды, запасной план на случай закрытой дороги и состав включённых услуг.'
+  },
+  30002: {
+    summary: 'Комбинированная программа с вулканами, океаном и морской темой, где впечатления зависят от погоды и состояния моря.',
+    goodFor: 'Хороший вариант для путешественников, которым важна не только пешая часть, но и контраст вулканов, берега и водных выездов.',
+    check: 'Проверьте, какие активности являются основными, какие заменяются при непогоде и как организован день с выходом к океану.'
+  },
+  62340: {
+    summary: 'Активный вулканический тур без автономного рюкзака: акцент на ходовых днях, рельефе и физической готовности.',
+    goodFor: 'Подойдёт тем, кто хочет идти по вулканическим районам, но не планирует нести лагерь и снаряжение на себе.',
+    check: 'Сравните километры, набор высоты, покрытие тропы, требования к обуви и условия разворота при тумане или сильном ветре.'
+  },
+  54147: {
+    summary: 'Более лёгкий формат знакомства с вулканами и океаном, где важны комфорт, темп и понятная логистика между локациями.',
+    goodFor: 'Подойдёт тем, кто хочет вулканические виды без ощущения спортивного похода каждый день.',
+    check: 'Уточните длительность пеших участков, тип транспорта и то, какие элементы программы зависят от погоды сильнее всего.'
+  },
+  71441: {
+    summary: 'Расширенная программа с Камчаткой и Сахалином, где вулканическая часть связана с более сложной межрегиональной логистикой.',
+    goodFor: 'Подойдёт опытным путешественникам, которым интересен не один выезд, а большой маршрут с несколькими природными сценариями.',
+    check: 'Особенно внимательно проверьте перелёты или переезды между регионами, погодные переносы и правила замены авиационных активностей.'
+  },
+  58250: {
+    summary: 'Вулканический маршрут с океаном, рафтингом и активными днями: программа шире обычной экскурсии к одному вулкану.',
+    goodFor: 'Хороший вариант для тех, кто хочет совместить разные форматы и готов к умеренной нагрузке в течение недели.',
+    check: 'Уточните, какие дни самые активные, что входит в снаряжение, как меняется маршрут при плохой погоде и какой запас по времени заложен.'
+  }
+};
+
+function tourInsightDetails(tour) {
+  const insight = tourInsights[tour.id];
+  if (!insight) return '';
+  return `<details class="tour-insight"><summary>Подробнее о программе</summary><div class="tour-insight-body">
+    <p>${esc(insight.summary)}</p>
+    <ul><li><strong>Кому подойдёт:</strong> ${esc(insight.goodFor)}</li><li><strong>Что проверить:</strong> ${esc(insight.check)}</li></ul>
+  </div></details>`;
+}
+
 function partnerTourTable(page) {
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
@@ -173,7 +215,7 @@ function trekkingTourTable(page) {
   return `<section class="section section-tight tour-compare trekking-compare" id="compare-trekking-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">Походы и треккинг</p><h2>Актуальные треккинговые туры по Камчатке</h2></div><p>Сравните длительность, нагрузку, формат размещения и размер группы. Финальную стоимость, даты, свободные места и требования к участникам проверяйте на странице организатора.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Нагрузка</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
-      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small></td>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
       <td class="tour-format">${tour.activity ? `активность ${esc(tour.activity)} из 5` : esc((tour.types || []).slice(0, 2).join(', ') || 'треккинг')}</td>
       <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
       <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
@@ -193,7 +235,7 @@ function volcanoTourTable(page) {
   return `<section class="section section-tight tour-compare volcano-compare" id="compare-volcano-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">Вулканические программы</p><h2>Актуальные туры и экскурсии на вулканы Камчатки</h2></div><p>Сравните длительность, нагрузку, группу и цену. Финальные даты, свободные места, погодные переносы и состав услуг проверяйте на странице организатора перед бронированием.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Нагрузка</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
-      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small></td>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
       <td class="tour-format">${tour.activity ? `активность ${esc(tour.activity)} из 5` : esc((tour.types || []).slice(0, 2).join(', ') || 'вулканический маршрут')}</td>
       <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
       <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
