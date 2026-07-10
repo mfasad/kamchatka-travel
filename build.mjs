@@ -144,9 +144,9 @@ function partnerTourTable(page) {
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
   return `<section class="section section-tight tour-compare" id="compare-tours"><div class="shell">
-    <div class="section-head"><div><p class="eyebrow">Многодневные программы</p><h2>Многодневные джип-туры по Камчатке</h2></div><p>Это варианты для первой большой поездки: вулканы, океан, источники, переезды по грунтовкам и несколько дней в маршруте. Сравнивайте не только цену, но и темп программы, размер группы и запасной сценарий на случай погоды.</p></div>
+    <div class="section-head"><div><p class="eyebrow">Многодневные программы</p><h2>Многодневные джип-туры по Камчатке</h2></div><p>Формат для большой первой поездки: вулканы, океан, источники, грунтовки и несколько дней в маршруте. Сравнивайте не только цену, но и темп программы, размер группы, транспорт и запасной сценарий на случай тумана, дождя или закрытой дороги.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 8).map((tour) => `<tr>
-      <td class="tour-name"><strong>${tour.title}</strong><small>${tour.expert ? `Организатор: ${esc(tour.expert)}` : 'Организатор на YouTravel.me'}</small></td>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${tour.expert ? `Организатор: ${esc(tour.expert)}` : 'Организатор тура'}</small></td>
       <td class="tour-format">${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
       <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
       <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
@@ -159,7 +159,7 @@ function partnerTourBlock(page) {
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
   return `<section class="section section-tight partner-tours"><div class="shell">
-    <div class="section-head"><div><p class="eyebrow">YouTravel.me</p><h2>${page.path === '/tury/dzhip-tury/' ? 'Подходящие джип-туры и внедорожные маршруты' : 'Актуальные предложения партнёра'}</h2></div><p>Данные карточек берём из публичного API YouTravel.me. Финальную цену, даты, места и условия бронирования проверяйте на стороне организатора.</p></div>
+    <div class="section-head"><div><p class="eyebrow">Подборка туров</p><h2>${page.path === '/tury/dzhip-tury/' ? 'Джип-туры и внедорожные маршруты' : 'Актуальные предложения партнёра'}</h2></div><p>Откройте понравившуюся программу, чтобы посмотреть актуальные даты, свободные места, финальную стоимость и условия бронирования у организатора.</p></div>
     <div class="tour-grid">${tours.map((tour) => `<article class="tour-card" data-reveal>
       <div class="tour-card-top"><span class="tour-badge">${esc((tour.types || [])[0] || 'Тур')}</span><strong class="tour-price-badge">${tour.price ? `от ${formatRub(tour.price)}` : 'цена у организатора'}</strong></div>
       <h3>${tour.title}</h3>
@@ -171,7 +171,7 @@ function partnerTourBlock(page) {
       </ul>
       <a class="button button-primary" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">${page.path === '/tury/dzhip-tury/' ? 'Посмотреть даты и места ↗' : 'Смотреть тур ↗'}</a>
     </article>`).join('')}</div>
-    <p class="partner-tours-note">Мы не являемся туроператором и не принимаем оплату за туры. Карточки помогают быстро сравнить варианты, но актуальные условия находятся на странице организатора.</p>
+    <p class="partner-tours-note">Мы не являемся туроператором и не принимаем оплату за туры. Подборка помогает быстро сравнить варианты, а актуальные условия бронирования открываются на странице организатора.</p>
   </div></section>`;
 }
 
@@ -180,12 +180,12 @@ function oneDayJeepBlock(page) {
   const tours = youtravelTours.byPage?.['/tury/dzhip-tury/one-day'] || [];
   if (!tours.length) return '';
   return `<section class="section section-tight one-day-jeep" id="one-day-jeep-tours"><div class="shell">
-    <div class="section-head"><div><p class="eyebrow">Короткие программы из API</p><h2>Однодневные туры и экскурсии по Камчатке</h2></div><p>Здесь показываем только реальные предложения из API YouTravel.me с короткой длительностью. Если подходящих джип-выездов мало, не добавляем ручные строки — лучше честная витрина, чем красивая фантазия.</p></div>
+    <div class="section-head"><div><p class="eyebrow">На один день</p><h2>Однодневные джип-туры по Камчатке</h2></div><p>Короткий формат для тех, кто хочет увидеть вулканы, перевалы, каньоны или термальные источники без смены гостиницы. Такие джип-туры удобно добавить к основной поездке или выбрать как первый внедорожный выезд по Камчатке.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table one-day-table"><thead><tr><th>Тур</th><th>Срок</th><th>Формат</th><th>Организатор</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
       <td class="tour-name"><strong>${tour.title}</strong><small>Однодневный джип-тур</small></td>
       <td class="tour-format">${esc(durationLabel(tour))}</td>
       <td class="tour-price">${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
-      <td class="tour-group">${tour.expert ? esc(tour.expert) : 'YouTravel.me'}${tour.rating ? `<small>рейтинг ${esc(tour.rating)}</small>` : ''}</td>
+      <td class="tour-group">${tour.expert ? esc(tour.expert) : 'Организатор тура'}${tour.rating ? `<small>рейтинг ${esc(tour.rating)}</small>` : ''}</td>
       <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Посмотреть стоимость ↗</a></td>
     </tr>`).join('')}</tbody></table></div>
   </div></section>`;
@@ -194,7 +194,7 @@ function oneDayJeepBlock(page) {
 function jeepConversionBlocks(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
   return `<section class="section section-tight jeep-lead"><div class="shell">
-    <p>Джип-туры по Камчатке бывают двух типов: многодневные экспедиционные программы и короткие выезды на один день. Ниже мы разделили их, чтобы было проще выбрать формат: сначала большие маршруты с проживанием и плотной логистикой, затем однодневные поездки из Петропавловска-Камчатского и окрестностей.</p>
+    <p>Джип-туры по Камчатке бывают двух типов: многодневные внедорожные маршруты и короткие выезды на один день. Сначала сравните большие программы с проживанием и плотной логистикой, затем посмотрите однодневные варианты из Петропавловска-Камчатского и окрестностей.</p>
   </div></section>
   ${partnerTourTable(page)}
   ${oneDayJeepBlock(page)}
