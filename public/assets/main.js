@@ -19,16 +19,6 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('[data-reveal]').forEach((node) => observer.observe(node));
 
-document.addEventListener('click', (event) => {
-  const link = event.target.closest?.('a[href*="travelme.g2afse.com/click"]');
-  if (!link || typeof window.ym !== 'function') return;
-  window.ym(110576640, 'reachGoal', 'affiliate_click', {
-    url: link.href,
-    text: link.textContent.trim(),
-    page: window.location.pathname
-  });
-});
-
 document.querySelectorAll('[data-jeep-quiz]').forEach((quiz) => {
   const result = quiz.querySelector('[data-jeep-quiz-result]');
   const resultTitle = result?.querySelector('strong');
