@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v7">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v8">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -191,11 +191,61 @@ function oneDayJeepBlock(page) {
   </div></section>`;
 }
 
+function jeepQuizBlock(page) {
+  if (page.path !== '/tury/dzhip-tury/') return '';
+  return `<section class="section section-tight jeep-quiz-section" id="jeep-quiz"><div class="shell">
+    <div class="jeep-quiz" data-jeep-quiz>
+      <div class="jeep-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Подобрать джип-тур по Камчатке за 30 секунд</h2>
+        <p>Ответьте на три вопроса — и станет понятнее, смотреть многодневный маршрут, однодневный выезд или программу с максимальным числом локаций.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>Сколько времени хотите провести в дороге?</legend>
+          <label><input type="radio" name="jeep-duration" value="one" checked> Один день: вулкан, перевал, каньон или источники</label>
+          <label><input type="radio" name="jeep-duration" value="week"> 5–8 дней: первая большая поездка по Камчатке</label>
+          <label><input type="radio" name="jeep-duration" value="long"> 9+ дней: максимум локаций и меньше спешки</label>
+        </fieldset>
+        <fieldset>
+          <legend>Что важнее всего увидеть?</legend>
+          <label><input type="radio" name="jeep-focus" value="volcano" checked> Вулканы и лавовые поля</label>
+          <label><input type="radio" name="jeep-focus" value="ocean"> Океан, бухты и видовые дороги</label>
+          <label><input type="radio" name="jeep-focus" value="comfort"> Источники, комфорт и спокойный темп</label>
+        </fieldset>
+        <fieldset>
+          <legend>Какой формат ближе?</legend>
+          <label><input type="radio" name="jeep-style" value="active" checked> Активно, но без спортивного экстрима</label>
+          <label><input type="radio" name="jeep-style" value="comfort"> Побольше комфорта и понятной логистики</label>
+          <label><input type="radio" name="jeep-style" value="family"> Для пары, семьи или небольшой компании</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-jeep-quiz-result>
+          <strong>Начните с однодневных джип-туров.</strong>
+          <span>Так проще протестировать формат без смены гостиницы и большой логистики.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" data-jeep-quiz-link href="#one-day-jeep-tours">Показать подходящие варианты</a>
+          <a class="button button-light" ${partnerAttrsFor(page)}>Смотреть все джип-туры ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function jeepStickyCta(page) {
+  if (page.path !== '/tury/dzhip-tury/') return '';
+  return `<div class="mobile-sticky-cta" aria-label="Быстрый выбор джип-тура">
+    <a class="button button-primary" href="#jeep-quiz">Подобрать джип-тур</a>
+    <a class="button" ${partnerAttrsFor(page)}>Даты и места ↗</a>
+  </div>`;
+}
+
 function jeepConversionBlocks(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
   return `<section class="section section-tight jeep-lead"><div class="shell">
     <p>Джип-туры по Камчатке бывают двух типов: многодневные внедорожные маршруты и короткие выезды на один день. Сначала сравните большие программы с проживанием и плотной логистикой, затем посмотрите однодневные варианты из Петропавловска-Камчатского и окрестностей.</p>
   </div></section>
+  ${jeepQuizBlock(page)}
   ${partnerTourTable(page)}
   ${oneDayJeepBlock(page)}
   <section class="section section-tight jeep-proof"><div class="shell proof-grid">
@@ -225,7 +275,7 @@ function pageTemplate(page) {
     ${!isLegal ? partnerTourBlock(page) : ''}
     ${page.cards?.length ? `<section class="section section-tight related"><div class="shell"><div class="section-head"><div><p class="eyebrow">Продолжить подготовку</p><h2>Полезно по теме</h2></div><p>Связанные маршруты и практические инструкции.</p></div><div class="grid grid-3">${cards(page.cards)}</div></div></section>` : ''}
     ${!isLegal ? `<section class="section section-tight"><div class="shell"><div class="cta"><div><h2>Сначала разобраться.<br>Потом бронировать.</h2><p>Сравните программу, задайте вопросы организатору и проверьте актуальные условия.</p></div><a class="button" ${pagePartnerAttrs}>Открыть подходящие туры ↗</a></div></div></section>` : ''}
-  </main>${footer()}<script src="/assets/main.js?v=20260710-menu" defer></script></body></html>`;
+  </main>${jeepStickyCta(page)}${footer()}<script src="/assets/main.js?v=20260710-jeep-quiz" defer></script></body></html>`;
 }
 
 function homeTemplate() {
