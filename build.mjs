@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v10">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-trekking-v1">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -155,6 +155,22 @@ function partnerTourTable(page) {
   </div></section>`;
 }
 
+function trekkingTourTable(page) {
+  if (page.path !== '/tury/trekking/') return '';
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare trekking-compare" id="compare-trekking-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Походы и треккинг</p><h2>Актуальные треккинговые туры по Камчатке</h2></div><p>Сравните длительность, нагрузку, формат размещения и размер группы. Финальную стоимость, даты, свободные места и требования к участникам проверяйте на странице организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Нагрузка</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small></td>
+      <td class="tour-format">${tour.activity ? `активность ${esc(tour.activity)} из 5` : esc((tour.types || []).slice(0, 2).join(', ') || 'треккинг')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить даты ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+  </div></section>`;
+}
+
 function partnerTourBlock(page) {
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
@@ -169,7 +185,7 @@ function partnerTourBlock(page) {
         ${page.path === '/tury/dzhip-tury/' ? '<li>Актуальные заезды и места — на странице тура</li>' : tour.totalDates ? `<li>Доступных дат: ${esc(tour.totalDates)}</li>` : ''}
         ${tour.accommodation?.length ? `<li>${esc(tour.accommodation.slice(0, 2).join(', '))}</li>` : ''}
       </ul>
-      <a class="button button-primary" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">${page.path === '/tury/dzhip-tury/' ? 'Посмотреть даты и места ↗' : 'Смотреть тур ↗'}</a>
+      <a class="button button-primary" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">${page.path === '/tury/dzhip-tury/' || page.path === '/tury/trekking/' ? 'Посмотреть даты и места ↗' : 'Смотреть тур ↗'}</a>
     </article>`).join('')}</div>
     <p class="partner-tours-note">Мы не являемся туроператором и не принимаем оплату за туры. Подборка помогает быстро сравнить варианты, а актуальные условия бронирования открываются на странице организатора.</p>
   </div></section>`;
@@ -252,6 +268,69 @@ function jeepStickyCta(page) {
   </div>`;
 }
 
+function trekkingQuizBlock(page) {
+  if (page.path !== '/tury/trekking/') return '';
+  return `<section class="section section-tight jeep-quiz-section trekking-quiz-section" id="trekking-quiz"><div class="shell">
+    <div class="jeep-quiz trekking-quiz" data-trekking-quiz>
+      <div class="jeep-quiz-copy trekking-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Понять свой формат похода за 30 секунд</h2>
+        <p>Отметьте, какой уровень автономности и нагрузки вам ближе. Это поможет открыть подборку с правильными вопросами к организатору.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>Какой формат нужен?</legend>
+          <label><input type="radio" name="trekking-format" value="light" checked> Радиальные выходы без тяжёлого рюкзака</label>
+          <label><input type="radio" name="trekking-format" value="active"> Несколько активных дней с восхождениями</label>
+          <label><input type="radio" name="trekking-format" value="camp"> Палатки, автономность и смена лагерей</label>
+        </fieldset>
+        <fieldset>
+          <legend>Что важнее всего проверить?</legend>
+          <label><input type="radio" name="trekking-check" value="load" checked> Километры, набор высоты и вес рюкзака</label>
+          <label><input type="radio" name="trekking-check" value="comfort"> Ночёвки, питание и доступ к багажу</label>
+          <label><input type="radio" name="trekking-check" value="weather"> Запасные дни и замены при непогоде</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-trekking-quiz-result>
+          <strong>Смотрите походы без тяжёлого рюкзака.</strong>
+          <span>Начните с программ, где ходовые дни чередуются с базой, а требования к участникам описаны по дням.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Показать треккинговые туры ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function trekkingStickyCta(page) {
+  if (page.path !== '/tury/trekking/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Треккинговые туры по Камчатке">
+    <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть походы ↗</a>
+  </div>`;
+}
+
+function trekkingConversionBlocks(page) {
+  if (page.path !== '/tury/trekking/') return '';
+  return `<section class="section section-tight jeep-lead trekking-lead"><div class="shell">
+    <p>Походы по Камчатке сильно различаются по автономности: от радиальных выходов с ночёвкой на базе до маршрутов с палатками и снаряжением. Сначала выберите уровень нагрузки, затем сравните реальные программы и проверьте условия у организатора.</p>
+  </div></section>
+  ${trekkingQuizBlock(page)}
+  ${trekkingTourTable(page)}
+  <section class="section section-tight jeep-proof trekking-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Хороший поход описывает нагрузку, а не только красивые виды</h2><p>Сильная программа показывает километры, набор высоты, вес рюкзака, ночёвки и решение на случай закрытого перевала или плохой видимости.</p><a class="button button-light" href="#compare-trekking-tours">Сравнить туры</a></article>
+    <article class="proof-card"><img src="/images/trekking-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Рюкзак меняет всё</h3><p>Радиальный выход и автономный маршрут могут идти по похожему району, но ощущаться как разные путешествия из-за веса и ночёвок.</p></article>
+    <article class="proof-card"><img src="/images/volcano-excursion-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода решает темп</h3><p>На шлаке, снегу и мокрых камнях важны не обещания, а запасные дни, связь и готовность развернуться по решению гида.</p></article>
+  </div></section>`;
+}
+
+function conversionBlocks(page) {
+  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}`;
+}
+
+function stickyCta(page) {
+  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}`;
+}
+
 function jeepConversionBlocks(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
   return `<section class="section section-tight jeep-lead"><div class="shell">
@@ -279,7 +358,7 @@ function pageTemplate(page) {
   ${header(page.path)}
   <main id="content">
     <section class="page-hero" style="--page-hero-image: url('${imageFor(page)}')"><div class="shell"><div class="breadcrumbs">${breadcrumbMarkup(page)}</div><p class="eyebrow">${esc(page.eyebrow)}</p><h1>${esc(page.title)}</h1><p class="page-lead">${esc(page.lead)}</p></div></section>
-    ${jeepConversionBlocks(page)}
+    ${conversionBlocks(page)}
     <section class="section"><div class="shell content-layout">
       <article class="content">${page.sections.map(([title, body]) => `<section><h2>${esc(title)}</h2>${body}</section>`).join('')}${faqBlock(page.faqs)}</article>
       <aside class="sidebar"><h2>${isLegal ? 'Навигация по проекту' : 'Сравнить программы'}</h2><p>${isLegal ? 'Перейдите к путеводителю или подборке форматов путешествия.' : 'Актуальные цены, даты и условия бронирования находятся на стороне организатора.'}</p><a class="button button-primary" ${isLegal ? 'href="/tury/"' : pagePartnerAttrs}>${isLegal ? 'Перейти к турам' : 'Посмотреть предложения ↗'}</a><ul class="mini-list"><li><a href="/blog/kogda-ehat/">Когда лучше ехать</a></li><li><a href="/blog/skolko-stoit-poezdka/">Из чего складывается бюджет</a></li><li><a href="/o-proekte/">Как работает проект</a></li></ul></aside>
@@ -287,7 +366,7 @@ function pageTemplate(page) {
     ${!isLegal ? partnerTourBlock(page) : ''}
     ${page.cards?.length ? `<section class="section section-tight related"><div class="shell"><div class="section-head"><div><p class="eyebrow">Продолжить подготовку</p><h2>Полезно по теме</h2></div><p>Связанные маршруты и практические инструкции.</p></div><div class="grid grid-3">${cards(page.cards)}</div></div></section>` : ''}
     ${!isLegal ? `<section class="section section-tight"><div class="shell"><div class="cta"><div><h2>Сначала разобраться.<br>Потом бронировать.</h2><p>Сравните программу, задайте вопросы организатору и проверьте актуальные условия.</p></div><a class="button" ${pagePartnerAttrs}>Открыть подходящие туры ↗</a></div></div></section>` : ''}
-  </main>${jeepStickyCta(page)}${footer()}<script src="/assets/main.js?v=20260710-jeep-quiz-v2" defer></script></body></html>`;
+  </main>${stickyCta(page)}${footer()}<script src="/assets/main.js?v=20260710-trekking-v1" defer></script></body></html>`;
 }
 
 function homeTemplate() {
