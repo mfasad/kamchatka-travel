@@ -140,3 +140,37 @@ document.querySelectorAll('[data-volcano-quiz]').forEach((quiz) => {
   quiz.addEventListener('change', updateQuiz);
   updateQuiz();
 });
+
+document.querySelectorAll('[data-vip-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-vip-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const format = quiz.querySelector('input[name="vip-format"]:checked')?.value || 'private';
+    const check = quiz.querySelector('input[name="vip-check"]:checked')?.value || 'included';
+
+    let title = 'Смотрите приватные и малогрупповые программы.';
+    let text = 'Начните с туров, где прямо описаны размер группы, транспорт, размещение и условия замены маршрута.';
+
+    if (format === 'comfort') {
+      title = 'Смотрите комфортные программы с понятной логистикой.';
+      text = 'Сравните размещение, длительность переездов, питание, уровень активности и возможность заменить самые погодозависимые выезды.';
+    }
+
+    if (format === 'max') {
+      title = 'Смотрите насыщенные программы с сильным маршрутом.';
+      text = 'Проверьте, не перегружен ли график, сколько времени остается на локациях и какие дни можно переставить при плохой погоде.';
+    }
+
+    if (check === 'weather') text = `${text} Особенно внимательно уточните запасные сценарии для моря, вертолета, вулканов и грунтовых дорог.`;
+    if (check === 'group') text = `${text} Отдельно спросите, какие части тура полностью приватные, а какие могут проходить в сборном формате.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
