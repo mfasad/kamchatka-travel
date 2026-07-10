@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260710-vip-volcano-quiz-fix-v1';
+const assetVersion = '20260710-oneday-excursions-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -314,6 +314,60 @@ function oneDayJeepBlock(page) {
   </div></section>`;
 }
 
+function oneDayExcursionTable(page) {
+  if (page.path !== '/ekskursii/odnodnevnye/') return '';
+  const tours = youtravelTours.byPage?.['/tury/dzhip-tury/one-day'] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare oneday-compare" id="compare-oneday-excursions"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Экскурсии на один день</p><h2>Актуальные однодневные экскурсии по Камчатке</h2></div><p>Сравните цель поездки, нагрузку, цену и размер группы. Даты, свободные места, точку старта, трансфер и погодные замены проверяйте на странице организатора перед бронированием.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table one-day-table"><thead><tr><th>Программа</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 8).map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small></td>
+      <td class="tour-format">${tour.activity ? `активность ${esc(tour.activity)} из 5` : esc((tour.types || []).slice(0, 2).join(', ') || 'экскурсия')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>В таблице только часть однодневных вариантов.</strong><span>У организаторов могут быть свежие даты, другие маршруты к океану, вулканам и источникам, а также места в небольших группах.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие предложения ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function oneDayExcursionQuizBlock(page) {
+  if (page.path !== '/ekskursii/odnodnevnye/') return '';
+  return `<section class="section section-tight jeep-quiz-section oneday-quiz-section" id="oneday-quiz"><div class="shell">
+    <div class="jeep-quiz oneday-quiz" data-oneday-quiz>
+      <div class="jeep-quiz-copy oneday-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какую экскурсию выбрать на один день?</h2>
+        <p>Отметьте главный сценарий и ограничение по темпу. Это не бронирование, а быстрый фильтр перед сравнением реальных программ и условий у организатора.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>Что вы хотите видеть в центре?</legend>
+          <label><input type="radio" name="oneday-focus" value="volcano" checked> Вулканический район, перевал или лавовые поля</label>
+          <label><input type="radio" name="oneday-focus" value="ocean"> Океан, чёрный пляж, бухты и смотровые</label>
+          <label><input type="radio" name="oneday-focus" value="springs"> Источники, каньон или спокойная природная локация</label>
+        </fieldset>
+        <fieldset>
+          <legend>Что важнее проверить заранее?</legend>
+          <label><input type="radio" name="oneday-check" value="timing" checked> Время в дороге, точку сбора и возвращение</label>
+          <label><input type="radio" name="oneday-check" value="load"> Пешую часть, покрытие тропы и экипировку</label>
+          <label><input type="radio" name="oneday-check" value="weather"> Запасной маршрут при тумане, ветре или закрытой дороге</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-oneday-quiz-result>
+          <strong>Смотрите наземные однодневные экскурсии.</strong>
+          <span>Начните с программ, где понятны дорога, пешая часть, время возвращения и условия замены при непогоде.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать по датам и местам ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
 function jeepQuizBlock(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
   return `<section class="section section-tight jeep-quiz-section" id="jeep-quiz"><div class="shell">
@@ -524,6 +578,13 @@ function volcanoStickyCta(page) {
   </div>`;
 }
 
+function oneDayExcursionStickyCta(page) {
+  if (page.path !== '/ekskursii/odnodnevnye/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
 function trekkingConversionBlocks(page) {
   if (page.path !== '/tury/trekking/') return '';
   return `<section class="section section-tight jeep-lead trekking-lead"><div class="shell">
@@ -552,6 +613,20 @@ function volcanoConversionBlocks(page) {
   </div></section>`;
 }
 
+function oneDayExcursionConversionBlocks(page) {
+  if (page.path !== '/ekskursii/odnodnevnye/') return '';
+  return `<section class="section section-tight jeep-lead oneday-lead"><div class="shell">
+    <p>Однодневные экскурсии по Камчатке удобны, когда уже есть база в Петропавловске-Камчатском или Елизово и нужно выбрать один сильный выезд без смены гостиницы. Главный фильтр здесь не “самая красивая точка”, а баланс дороги, пешей части, времени возвращения и запасного плана.</p>
+  </div></section>
+  ${oneDayExcursionQuizBlock(page)}
+  ${oneDayExcursionTable(page)}
+  <section class="section section-tight jeep-proof oneday-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Хорошая однодневная экскурсия честно считает часы</h2><p>Смотрите, сколько времени уйдёт на дорогу, где начинается пешая часть, что входит в цену и чем организатор заменяет маршрут при тумане, ветре или закрытой дороге.</p><a class="button button-light" href="#compare-oneday-excursions">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/black-beach-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Один день не резиновый</h3><p>Лучше выбрать одну главную цель и оставить запас на дорогу, чем собрать слишком много точек и провести день в переездах.</p></article>
+    <article class="proof-card"><img src="/images/volcano-excursion-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода меняет сценарий</h3><p>Для вулканов, океана и грунтовых дорог важен план Б: наземная замена, перенос или понятный порядок возврата.</p></article>
+  </div></section>`;
+}
+
 function vipConversionBlocks(page) {
   if (page.path !== '/tury/vip/') return '';
   return `<section class="section section-tight jeep-lead vip-lead"><div class="shell">
@@ -567,11 +642,11 @@ function vipConversionBlocks(page) {
 }
 
 function conversionBlocks(page) {
-  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${vipConversionBlocks(page)}`;
+  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${vipStickyCta(page)}`;
+  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
