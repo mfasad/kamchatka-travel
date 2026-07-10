@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v9">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v10">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -247,9 +247,8 @@ function jeepQuizBlock(page) {
 
 function jeepStickyCta(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
-  return `<div class="mobile-sticky-cta" aria-label="Быстрый выбор джип-тура">
-    <a class="button button-primary" href="#jeep-quiz">Подобрать джип-тур</a>
-    <a class="button" ${partnerAttrsFor(page)}>Даты и места ↗</a>
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые джип-туры по Камчатке">
+    <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть топовые туры ↗</a>
   </div>`;
 }
 
