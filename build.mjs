@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260710-volcano-quiz-v2';
+const assetVersion = '20260710-vip-volcano-quiz-fix-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -392,13 +392,13 @@ function vipQuizBlock(page) {
           <label><input type="radio" name="vip-company" value="team"> Друзья / команда, хочется больше движения</label>
         </fieldset>
         <fieldset>
-          <legend>2. Какой стиль поездки?</legend>
+          <legend>2. Какой стиль поездки вам ближе?</legend>
           <label><input type="radio" name="vip-style" value="private" checked> Свой темп, приватный транспорт, меньше пересечений с группами</label>
           <label><input type="radio" name="vip-style" value="comfort"> Комфортное размещение, умеренная активность, понятные переезды</label>
           <label><input type="radio" name="vip-style" value="max"> Больше локаций, яркие выезды, готовность к плотному графику</label>
         </fieldset>
         <fieldset>
-          <legend>3. Что должно быть в центре?</legend>
+          <legend>3. Что вы хотите видеть в центре?</legend>
           <label><input type="radio" name="vip-focus" value="volcano" checked> Вулканы, источники и наземные маршруты</label>
           <label><input type="radio" name="vip-focus" value="ocean"> Океан, морские выезды и береговые впечатления</label>
           <label><input type="radio" name="vip-focus" value="all"> Смешанная программа: всего понемногу</label>
@@ -487,13 +487,13 @@ function volcanoQuizBlock(page) {
       </div>
       <div class="jeep-quiz-panel">
         <fieldset>
-          <legend>Какой стиль поездки вам ближе?</legend>
+          <legend>Какой формат вам ближе?</legend>
           <label><input type="radio" name="volcano-format" value="overview" checked> Обзорная экскурсия с автомобильной заброской</label>
           <label><input type="radio" name="volcano-format" value="ascent"> Восхождение или длинная пешая часть</label>
           <label><input type="radio" name="volcano-format" value="multi"> Несколько вулканических районов за поездку</label>
         </fieldset>
         <fieldset>
-          <legend>Что вы хотите видеть в центре?</legend>
+          <legend>Что вам важнее?</legend>
           <label><input type="radio" name="volcano-check" value="weather" checked> Запасной маршрут при тумане, ветре или закрытой дороге</label>
           <label><input type="radio" name="volcano-check" value="load"> Километры, набор высоты и покрытие тропы</label>
           <label><input type="radio" name="volcano-check" value="gear"> Обувь, палки, питание, трансфер и страховку</label>
