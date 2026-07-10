@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v4">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v5">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -133,6 +133,13 @@ function stableTourMeta(tour) {
   return [types, group, 'даты и места у организатора'].filter(Boolean).join(' · ');
 }
 
+function durationLabel(tour) {
+  if (!tour.durationDays) return 'срок у организатора';
+  if (tour.durationDays === 1) return '1 день';
+  if (tour.durationDays >= 2 && tour.durationDays <= 4) return `${tour.durationDays} дня`;
+  return `${tour.durationDays} дней`;
+}
+
 function partnerTourTable(page) {
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
@@ -170,27 +177,18 @@ function partnerTourBlock(page) {
 
 function oneDayJeepBlock(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
-  const partnerAttrs = partnerAttrsFor(page);
-  const routes = [
-    ['Вачкажец', '1 день', 'озеро, цирк, водопады и короткие пешие участки', 'Для первого джип-выезда без ночёвки'],
-    ['Халактырский пляж и океан', 'полдня или 1 день', 'чёрный песок, прибой, фотостопы и мягкий оффроуд', 'Если хочется быстро увидеть Тихий океан'],
-    ['Мутновский и Дачные источники', '1 день', 'внедорожная дорога, фумаролы, горячие источники', 'Для насыщенного вулканического дня'],
-    ['Горелый вулкан', '1 день', 'заброска к плато и подъём к кратерам по погоде', 'Для тех, кто готов к пешей нагрузке'],
-    ['Авачинский перевал и гора Верблюд', '1 день', 'дорога к вулканам, смотровые точки, прогулка', 'Для знакомства с домашними вулканами'],
-    ['Малки или Зеленовские озерки', '1 день', 'источники, купание, спокойная логистика', 'Для отдыха после активных маршрутов'],
-    ['Мыс Маячный и бухты Авачинской губы', '1 день', 'виды на океан, скалы, маяк и фотостопы', 'Для красивого маршрута без тяжёлого подъёма'],
-    ['Индивидуальный джип на день', 'по запросу', 'маршрут собирают под погоду, темп и интересы группы', 'Для семьи или компании без сборной группы']
-  ];
+  const tours = youtravelTours.byPage?.['/tury/dzhip-tury/one-day'] || [];
+  if (!tours.length) return '';
   return `<section class="section section-tight one-day-jeep" id="one-day-jeep-tours"><div class="shell">
-    <div class="section-head"><div><p class="eyebrow">Однодневные варианты</p><h2>Однодневные джип-туры по Камчатке</h2></div><p>Если нет 8–13 дней на большую программу, смотрите короткие внедорожные маршруты из Петропавловска-Камчатского и ближайших баз. Такие поездки проще встроить в отпуск и комбинировать с морской прогулкой, вулканами или источниками.</p></div>
-    <div class="compare-table-wrap"><table class="tour-compare-table one-day-table"><thead><tr><th>Направление</th><th>Срок</th><th>Что обычно входит</th><th>Кому подходит</th><th></th></tr></thead><tbody>${routes.map((route) => `<tr>
-      <td class="tour-name"><strong>${esc(route[0])}</strong><small>Однодневный джип-маршрут</small></td>
-      <td class="tour-format">${esc(route[1])}</td>
-      <td class="tour-price">${esc(route[2])}</td>
-      <td class="tour-group">${esc(route[3])}</td>
-      <td class="tour-action"><a class="button button-compact" ${partnerAttrs}>Посмотреть стоимость ↗</a></td>
+    <div class="section-head"><div><p class="eyebrow">Короткие программы из API</p><h2>Однодневные туры и экскурсии по Камчатке</h2></div><p>Здесь показываем только реальные предложения из API YouTravel.me с короткой длительностью. Если подходящих джип-выездов мало, не добавляем ручные строки — лучше честная витрина, чем красивая фантазия.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table one-day-table"><thead><tr><th>Тур</th><th>Срок</th><th>Ориентир цены</th><th>Организатор</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${esc((tour.types || []).slice(0, 2).join(', ') || 'Тур')}</small></td>
+      <td class="tour-format">${esc(durationLabel(tour))}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.expert ? esc(tour.expert) : 'YouTravel.me'}${tour.rating ? `<small>рейтинг ${esc(tour.rating)}</small>` : ''}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Посмотреть стоимость ↗</a></td>
     </tr>`).join('')}</tbody></table></div>
-    <p class="partner-tours-note">По однодневным маршрутам особенно важны сезон, состояние дороги и точка старта. Перед оплатой уточняйте, будет ли это внедорожник, вахтовка или смешанный трансфер, сколько времени займёт дорога и что заменит маршрут при плохой погоде.</p>
+    <p class="partner-tours-note">Источник строк — публичный API YouTravel.me. Стоимость, точные даты, наличие мест, транспорт и замены по погоде проверяйте на странице организатора.</p>
   </div></section>`;
 }
 
