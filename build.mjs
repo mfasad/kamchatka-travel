@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v5">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v6">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -146,7 +146,7 @@ function partnerTourTable(page) {
   return `<section class="section section-tight tour-compare" id="compare-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">Многодневные программы</p><h2>Многодневные джип-туры по Камчатке</h2></div><p>Формат для большой первой поездки: вулканы, океан, источники, грунтовки и несколько дней в маршруте. Сравнивайте не только цену, но и темп программы, размер группы, транспорт и запасной сценарий на случай тумана, дождя или закрытой дороги.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 8).map((tour) => `<tr>
-      <td class="tour-name"><strong>${tour.title}</strong><small>${tour.expert ? `Организатор: ${esc(tour.expert)}` : 'Организатор тура'}</small></td>
+      <td class="tour-name"><strong>${tour.title}</strong><small>Многодневный джип-тур${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small></td>
       <td class="tour-format">${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
       <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
       <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
