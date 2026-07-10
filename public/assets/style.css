@@ -135,13 +135,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .breadcrumbs { margin-bottom: 34px; color: rgba(255,255,255,.5); font-size: 13px; }
 .breadcrumbs a { color: rgba(255,255,255,.76); text-decoration: none; }
 .content-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 64px; align-items: start; }
-.content { font-size: 18px; }
+.content-layout > * { min-width: 0; }
+.content { min-width: 0; max-width: 100%; font-size: 18px; overflow-wrap: break-word; }
 .content h2 { margin-top: 64px; font-size: clamp(34px, 4vw, 52px); }
 .content h2:first-child { margin-top: 0; }
 .content h3 { margin: 34px 0 10px; font-size: 24px; }
-.content p { color: #33443e; }
+.content p { color: #33443e; overflow-wrap: break-word; }
 .content ul { padding-left: 22px; }
-.content li { margin: 8px 0; }
+.content li { margin: 8px 0; overflow-wrap: break-word; }
 .note { margin: 32px 0; padding: 24px 28px; border-left: 4px solid var(--ember); background: var(--paper-2); border-radius: 0 18px 18px 0; }
 .sidebar { position: sticky; top: 98px; padding: 24px; border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); }
 .sidebar h2 { font-family: Georgia, serif; font-size: 27px; line-height: 1.05; margin: 0 0 12px; }
@@ -276,4 +277,4 @@ button, a { -webkit-tap-highlight-color: transparent; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   [data-reveal] { opacity: 1; transform: none; }
 }
-.table-scroll{overflow-x:auto;margin:24px 0}.comparison-table{width:100%;border-collapse:collapse;min-width:620px;font-size:.95rem}.comparison-table th,.comparison-table td{padding:14px 16px;border:1px solid rgba(23,34,31,.16);text-align:left;vertical-align:top}.comparison-table th{background:var(--ink);color:var(--cream);font-weight:700}.comparison-table tbody tr:nth-child(even){background:rgba(23,34,31,.04)}
+.table-scroll{width:100%;max-width:100%;overflow-x:auto;margin:24px 0;-webkit-overflow-scrolling:touch}.comparison-table{width:100%;border-collapse:collapse;min-width:620px;font-size:.95rem}.comparison-table th,.comparison-table td{padding:14px 16px;border:1px solid rgba(23,34,31,.16);text-align:left;vertical-align:top}.comparison-table th{background:var(--ink);color:var(--white);font-weight:700}.comparison-table tbody tr:nth-child(even){background:rgba(23,34,31,.04)}
