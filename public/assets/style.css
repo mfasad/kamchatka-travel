@@ -156,6 +156,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .faq summary { cursor: pointer; font-weight: 850; font-size: 18px; }
 .faq p { margin-bottom: 0; }
 .related { padding-top: 70px; border-top: 1px solid var(--line); }
+.jeep-lead { padding-top: 42px; padding-bottom: 42px; background: var(--paper-2); border-bottom: 1px solid var(--line); }
+.jeep-lead p { max-width: 920px; margin: 0 auto; color: #33443e; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; }
 .partner-tours { padding-top: 70px; border-top: 1px solid var(--line); background: linear-gradient(180deg, rgba(23,34,31,.035), transparent); }
 .tour-compare { padding-top: 54px; padding-bottom: 54px; background: var(--paper-2); border-bottom: 1px solid var(--line); }
 .compare-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 28px; background: var(--white); box-shadow: 0 18px 50px rgba(23,34,31,.08); }
@@ -171,6 +173,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .tour-compare-table .tour-group { min-width: 110px; white-space: nowrap; }
 .tour-compare-table .tour-action { width: 190px; }
 .tour-compare-table .tour-action .button { width: 100%; white-space: normal; min-height: 48px; line-height: 1.15; text-align: center; }
+.one-day-jeep .compare-table-wrap { overflow-x: visible; }
+.one-day-table { min-width: 0; table-layout: fixed; }
+.one-day-table .tour-name { width: 22%; min-width: 0; }
+.one-day-table .tour-format { width: 13%; min-width: 0; }
+.one-day-table .tour-price { width: 27%; min-width: 0; white-space: normal; font-weight: 650; color: #33443e; }
+.one-day-table .tour-group { width: 22%; min-width: 0; white-space: normal; }
+.one-day-table .tour-action { width: 16%; }
+.one-day-table .button-compact { padding-left: 10px; padding-right: 10px; font-size: 11px; }
 .tour-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .tour-card { display: flex; flex-direction: column; gap: 14px; min-height: 100%; padding: 22px; border: 1px solid var(--line); border-radius: 26px; background: var(--white); box-shadow: 0 18px 45px rgba(23,34,31,.08); }
 .tour-card-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; flex-wrap: wrap; color: var(--muted); font-size: 12px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
@@ -214,12 +224,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 900px) {
   .menu-button { display: inline-flex; }
   .site-nav { position: absolute; top: 72px; left: 20px; right: 20px; padding: 12px; background: var(--ink); border: 1px solid rgba(255,255,255,.12); border-radius: 18px; flex-direction: column; align-items: stretch; }
+  .menu-button[aria-expanded="false"] + .site-nav { display: none; }
   .site-nav[hidden] { display: none; }
   .site-nav a { text-align: center; }
   .hero { min-height: 700px; }
   .section-head, .content-layout, .cta { grid-template-columns: 1fr; }
   .grid-3 { grid-template-columns: 1fr 1fr; }
   .tour-grid { grid-template-columns: 1fr 1fr; }
+  .one-day-jeep .compare-table-wrap { overflow-x: auto; }
+  .one-day-table { min-width: 760px; table-layout: auto; }
   .proof-grid { grid-template-columns: 1fr; }
   .sidebar { position: static; }
   .trust-strip { grid-template-columns: 1fr 1fr; }
