@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-trekking-v1">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-trekking-v2">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -168,6 +168,10 @@ function trekkingTourTable(page) {
       <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
       <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить даты ↗</a></td>
     </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>В таблице только часть подходящих программ.</strong><span>У организаторов могут быть другие даты, новые места и форматы без тяжёлого рюкзака.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Проверить свежие предложения и места ↗</a>
+    </div>
   </div></section>`;
 }
 
@@ -366,7 +370,7 @@ function pageTemplate(page) {
     ${!isLegal ? partnerTourBlock(page) : ''}
     ${page.cards?.length ? `<section class="section section-tight related"><div class="shell"><div class="section-head"><div><p class="eyebrow">Продолжить подготовку</p><h2>Полезно по теме</h2></div><p>Связанные маршруты и практические инструкции.</p></div><div class="grid grid-3">${cards(page.cards)}</div></div></section>` : ''}
     ${!isLegal ? `<section class="section section-tight"><div class="shell"><div class="cta"><div><h2>Сначала разобраться.<br>Потом бронировать.</h2><p>Сравните программу, задайте вопросы организатору и проверьте актуальные условия.</p></div><a class="button" ${pagePartnerAttrs}>Открыть подходящие туры ↗</a></div></div></section>` : ''}
-  </main>${stickyCta(page)}${footer()}<script src="/assets/main.js?v=20260710-trekking-v1" defer></script></body></html>`;
+  </main>${stickyCta(page)}${footer()}<script src="/assets/main.js?v=20260710-trekking-v2" defer></script></body></html>`;
 }
 
 function homeTemplate() {
