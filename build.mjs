@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260710-volcano-quiz-v1';
+const assetVersion = '20260710-volcano-quiz-v2';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -487,13 +487,13 @@ function volcanoQuizBlock(page) {
       </div>
       <div class="jeep-quiz-panel">
         <fieldset>
-          <legend>Какой формат вам ближе?</legend>
+          <legend>Какой стиль поездки вам ближе?</legend>
           <label><input type="radio" name="volcano-format" value="overview" checked> Обзорная экскурсия с автомобильной заброской</label>
           <label><input type="radio" name="volcano-format" value="ascent"> Восхождение или длинная пешая часть</label>
           <label><input type="radio" name="volcano-format" value="multi"> Несколько вулканических районов за поездку</label>
         </fieldset>
         <fieldset>
-          <legend>Что вам важнее?</legend>
+          <legend>Что вы хотите видеть в центре?</legend>
           <label><input type="radio" name="volcano-check" value="weather" checked> Запасной маршрут при тумане, ветре или закрытой дороге</label>
           <label><input type="radio" name="volcano-check" value="load"> Километры, набор высоты и покрытие тропы</label>
           <label><input type="radio" name="volcano-check" value="gear"> Обувь, палки, питание, трансфер и страховку</label>
