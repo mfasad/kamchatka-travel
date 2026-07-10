@@ -34,6 +34,14 @@ function toDate(timestamp) {
   return new Date(Number(timestamp) * 1000).toISOString().slice(0, 10);
 }
 
+function durationDays(dateFrom, dateTo) {
+  if (!dateFrom || !dateTo) return null;
+  const start = new Date(`${dateFrom}T00:00:00Z`);
+  const end = new Date(`${dateTo}T00:00:00Z`);
+  const diff = Math.round((end - start) / 86400000) + 1;
+  return Number.isFinite(diff) && diff > 0 ? diff : null;
+}
+
 async function getJson(url, { auth = false } = {}) {
   const headers = { Accept: 'application/json' };
   if (auth && authHeader) headers.Authorization = authHeader;
@@ -44,6 +52,8 @@ async function getJson(url, { auth = false } = {}) {
 
 function normalizeTour(tour) {
   const date = tour.dates?.group_min_price || tour.dates?.group || null;
+  const dateFrom = toDate(date?.date_from);
+  const dateTo = toDate(date?.date_to);
   const partnerUrl = tour.link ? `${PARTNER_BASE_URL}&path=${encodeURI(tour.link)}` : PARTNER_BASE_URL;
   return {
     id: Number(tour.id),
@@ -56,8 +66,9 @@ function normalizeTour(tour) {
     rating: tour.expert?.rating ? Number(tour.expert.rating) : null,
     reviews: tour.expert?.count_reviews ? Number(tour.expert.count_reviews) : null,
     price: date?.actual_price || date?.price || null,
-    dateFrom: toDate(date?.date_from),
-    dateTo: toDate(date?.date_to),
+    dateFrom,
+    dateTo,
+    durationDays: durationDays(dateFrom, dateTo),
     freeSpaces: date?.free_spaces ?? null,
     groupSize: date?.group_size ?? null,
     totalDates: tour.dates?.total || 0,
@@ -80,11 +91,14 @@ function isKamchatka(tour) {
 
 function byPage(tours) {
   const has = (tour, pattern) => pattern.test([tour.title, ...tour.types].join(' '));
+  const jeepTours = tours.filter((tour) => has(tour, /джип|авто|внедорож|offroad|off-road/i));
+  const shortKamchatkaTours = tours.filter((tour) => (tour.durationDays || 99) <= 3 && has(tour, /камчат|авачин|мутнов|горел|вулкан|бухт|океан|перевал|верблюд|экскурс|джип|авто|внедорож/i));
   return {
     '/tury/': tours.slice(0, 6),
     '/tury/vip/': tours.filter((tour) => tour.isPrivate || tour.isExclusive || has(tour, /vip|вип|индивидуаль|премиум/i)).slice(0, 6),
     '/tury/trekking/': tours.filter((tour) => has(tour, /трек|поход|восхожд|актив|пеш/i)).slice(0, 6),
-    '/tury/dzhip-tury/': tours.filter((tour) => has(tour, /джип|авто|внедорож|offroad|off-road/i)).slice(0, 12),
+    '/tury/dzhip-tury/': jeepTours.filter((tour) => (tour.durationDays || 99) > 3).slice(0, 12),
+    '/tury/dzhip-tury/one-day': shortKamchatkaTours.slice(0, 8),
     '/ekskursii/vulkany/': tours.filter((tour) => has(tour, /вулкан|мутнов|горел|толбач|авачин/i)).slice(0, 6)
   };
 }
