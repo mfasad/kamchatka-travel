@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260709-jeep-v3">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v4">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -137,7 +137,7 @@ function partnerTourTable(page) {
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
   return `<section class="section section-tight tour-compare" id="compare-tours"><div class="shell">
-    <div class="section-head"><div><p class="eyebrow">Быстрый выбор</p><h2>Сравнить джип-туры по Камчатке</h2></div><p>Мы показываем устойчивые параметры: формат, ориентир цены и размер группы. Актуальные даты, места и условия открываются на странице организатора.</p></div>
+    <div class="section-head"><div><p class="eyebrow">Многодневные программы</p><h2>Многодневные джип-туры по Камчатке</h2></div><p>Это варианты для первой большой поездки: вулканы, океан, источники, переезды по грунтовкам и несколько дней в маршруте. Сравнивайте не только цену, но и темп программы, размер группы и запасной сценарий на случай погоды.</p></div>
     <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 8).map((tour) => `<tr>
       <td class="tour-name"><strong>${tour.title}</strong><small>${tour.expert ? `Эксперт: ${esc(tour.expert)}` : 'Организатор на YouTravel.me'}</small></td>
       <td class="tour-format">${esc((tour.types || []).slice(0, 2).join(', ') || 'джип-тур')}</td>
@@ -183,7 +183,7 @@ function oneDayJeepBlock(page) {
   ];
   return `<section class="section section-tight one-day-jeep" id="one-day-jeep-tours"><div class="shell">
     <div class="section-head"><div><p class="eyebrow">Однодневные варианты</p><h2>Однодневные джип-туры по Камчатке</h2></div><p>Если нет 8–13 дней на большую программу, смотрите короткие внедорожные маршруты из Петропавловска-Камчатского и ближайших баз. Такие поездки проще встроить в отпуск и комбинировать с морской прогулкой, вулканами или источниками.</p></div>
-    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Направление</th><th>Срок</th><th>Что обычно входит</th><th>Кому подходит</th><th></th></tr></thead><tbody>${routes.map((route) => `<tr>
+    <div class="compare-table-wrap"><table class="tour-compare-table one-day-table"><thead><tr><th>Направление</th><th>Срок</th><th>Что обычно входит</th><th>Кому подходит</th><th></th></tr></thead><tbody>${routes.map((route) => `<tr>
       <td class="tour-name"><strong>${esc(route[0])}</strong><small>Однодневный джип-маршрут</small></td>
       <td class="tour-format">${esc(route[1])}</td>
       <td class="tour-price">${esc(route[2])}</td>
@@ -196,7 +196,10 @@ function oneDayJeepBlock(page) {
 
 function jeepConversionBlocks(page) {
   if (page.path !== '/tury/dzhip-tury/') return '';
-  return `${partnerTourTable(page)}
+  return `<section class="section section-tight jeep-lead"><div class="shell">
+    <p>Джип-туры по Камчатке бывают двух типов: многодневные экспедиционные программы и короткие выезды на один день. Ниже мы разделили их, чтобы было проще выбрать формат: сначала большие маршруты с проживанием и плотной логистикой, затем однодневные поездки из Петропавловска-Камчатского и окрестностей.</p>
+  </div></section>
+  ${partnerTourTable(page)}
   ${oneDayJeepBlock(page)}
   <section class="section section-tight jeep-proof"><div class="shell proof-grid">
     <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Лучшие джип-туры по Камчатке — не те, где больше точек</h2><p>Сильная программа оставляет время на локации, честно показывает длительность переездов и заранее объясняет, что будет при закрытой дороге или тумане.</p><a class="button button-light" href="#best-jeep-tours">Чек-лист выбора</a></article>
@@ -225,7 +228,7 @@ function pageTemplate(page) {
     ${!isLegal ? partnerTourBlock(page) : ''}
     ${page.cards?.length ? `<section class="section section-tight related"><div class="shell"><div class="section-head"><div><p class="eyebrow">Продолжить подготовку</p><h2>Полезно по теме</h2></div><p>Связанные маршруты и практические инструкции.</p></div><div class="grid grid-3">${cards(page.cards)}</div></div></section>` : ''}
     ${!isLegal ? `<section class="section section-tight"><div class="shell"><div class="cta"><div><h2>Сначала разобраться.<br>Потом бронировать.</h2><p>Сравните программу, задайте вопросы организатору и проверьте актуальные условия.</p></div><a class="button" ${pagePartnerAttrs}>Открыть подходящие туры ↗</a></div></div></section>` : ''}
-  </main>${footer()}<script src="/assets/main.js" defer></script></body></html>`;
+  </main>${footer()}<script src="/assets/main.js?v=20260710-menu" defer></script></body></html>`;
 }
 
 function homeTemplate() {
