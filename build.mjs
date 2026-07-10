@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260710-oneday-excursions-v1';
+const assetVersion = '20260711-oneday-quiz-copy-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -351,10 +351,10 @@ function oneDayExcursionQuizBlock(page) {
           <label><input type="radio" name="oneday-focus" value="springs"> Источники, каньон или спокойная природная локация</label>
         </fieldset>
         <fieldset>
-          <legend>Что важнее проверить заранее?</legend>
-          <label><input type="radio" name="oneday-check" value="timing" checked> Время в дороге, точку сбора и возвращение</label>
-          <label><input type="radio" name="oneday-check" value="load"> Пешую часть, покрытие тропы и экипировку</label>
-          <label><input type="radio" name="oneday-check" value="weather"> Запасной маршрут при тумане, ветре или закрытой дороге</label>
+          <legend>Какой темп дня вам ближе?</legend>
+          <label><input type="radio" name="oneday-check" value="timing" checked> Спокойный день с понятным стартом и возвращением</label>
+          <label><input type="radio" name="oneday-check" value="load"> Активная прогулка ради видов и маршрута</label>
+          <label><input type="radio" name="oneday-check" value="weather"> Гибкий сценарий, если погода меняет планы</label>
         </fieldset>
         <div class="jeep-quiz-result" data-oneday-quiz-result>
           <strong>Смотрите наземные однодневные экскурсии.</strong>
