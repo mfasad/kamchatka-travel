@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260710-volcano-insights-v1';
+const assetVersion = '20260710-vip-page-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -177,6 +177,36 @@ const tourInsights = {
     summary: 'Вулканический маршрут с океаном, рафтингом и активными днями: программа шире обычной экскурсии к одному вулкану.',
     goodFor: 'Хороший вариант для тех, кто хочет совместить разные форматы и готов к умеренной нагрузке в течение недели.',
     check: 'Уточните, какие дни самые активные, что входит в снаряжение, как меняется маршрут при плохой погоде и какой запас по времени заложен.'
+  },
+  30994: {
+    summary: 'Многодневная программа с активным набором форматов: горы, рыбалка, гастрономия, сплав и восхождения. Это скорее насыщенное путешествие с премиальными ожиданиями к организации, чем спокойный отельный отдых.',
+    goodFor: 'Подойдет тем, кто хочет за одну поездку собрать разные сценарии Камчатки и готов к активности, смене локаций и простому размещению на части маршрута.',
+    check: 'Проверьте, какие дни проходят в палатках или гостевых домиках, где возможны замены по погоде и какие услуги действительно индивидуальны, а какие идут в составе группы.'
+  },
+  20106: {
+    summary: 'Более камерный авторский формат на 8 дней с приватным признаком в данных тура. Сильная сторона такой программы - управляемый темп и понятная логистика без чрезмерной длительности.',
+    goodFor: 'Подойдет путешественникам, которым важны небольшая группа, сопровождение организатора и первое знакомство с Камчаткой без длинной экспедиционной нагрузки.',
+    check: 'Уточните, полностью ли тур приватный, какие экскурсии могут проходить в сборном формате, какие гостиницы подтверждаются и как решаются переносы при закрытой дороге.'
+  },
+  55359: {
+    summary: 'Комфортный недельный маршрут с размещением до уровня 4* и семейным типом в данных тура. Его удобно рассматривать как VIP-альтернативу для первой поездки без грубой экспедиционности.',
+    goodFor: 'Подойдет тем, кто хочет больше комфорта, понятный график и умеренную активность, но все равно хочет увидеть вулканические и обзорные локации.',
+    check: 'Сравните категории номеров, состав питания, длительность переездов и то, какие активности заменяются при плохой погоде без доплат.'
+  },
+  65874: {
+    summary: 'Восьмидневная летняя программа с широким набором размещения, включая отели высокого уровня, лоджи и коттеджи. В данных тура отмечены приватность и невысокая активность.',
+    goodFor: 'Хороший вариант для тех, кто хочет Камчатку с комфортной базой, короткими активными отрезками и гибкостью под состав компании.',
+    check: 'Попросите организатора расшифровать, какое размещение стоит в базовой цене, где возможен апгрейд и какие выезды зависят от состояния дорог.'
+  },
+  30002: {
+    summary: 'Семидневная программа с океанской темой и эксклюзивным признаком: киты, вулканы, баня на берегу и яркий эмоциональный сценарий. Важно отделить факты маршрута от вау-обещаний.',
+    goodFor: 'Подойдет тем, кто хочет морской акцент и насыщенную неделю без длинной экспедиции, но готов проверять погодные замены особенно внимательно.',
+    check: 'Уточните условия морского выхода, запасной день или замену при ветре, размер группы и что именно входит в стоимость береговой программы.'
+  },
+  68479: {
+    summary: 'Калейдоскоп-тур на 8 дней с внедорожным типом и комфортом выше среднего. По смыслу это быстрый обзор Камчатки для тех, кому важны разные локации без чрезмерной физической нагрузки.',
+    goodFor: 'Подойдет для первой поездки, когда хочется сравнить вулканы, дороги и обзорные места, но сохранить компактную длительность и небольшой состав группы.',
+    check: 'Проверьте, что означает бонус от автора, какие локации являются обязательными, а какие зависят от погоды, и сколько времени остается на самих точках.'
   }
 };
 
@@ -345,6 +375,67 @@ function jeepStickyCta(page) {
   </div>`;
 }
 
+function vipQuizBlock(page) {
+  if (page.path !== '/tury/vip/') return '';
+  return `<section class="section section-tight jeep-quiz-section vip-quiz-section" id="vip-quiz"><div class="shell">
+    <div class="jeep-quiz vip-quiz" data-vip-quiz>
+      <div class="jeep-quiz-copy vip-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Понять свой VIP-формат за 30 секунд</h2>
+        <p>VIP-тур на Камчатку может означать приватный автомобиль, высокий уровень размещения, индивидуальный темп или просто малую группу. Отметьте главный приоритет перед сравнением программ.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>Что важнее всего?</legend>
+          <label><input type="radio" name="vip-format" value="private" checked> Приватность, гибкий темп и меньше случайных попутчиков</label>
+          <label><input type="radio" name="vip-format" value="comfort"> Комфортное размещение, понятные переезды и мягкая нагрузка</label>
+          <label><input type="radio" name="vip-format" value="max"> Максимум локаций, сильные впечатления и плотная программа</label>
+        </fieldset>
+        <fieldset>
+          <legend>Что нужно проверить до оплаты?</legend>
+          <label><input type="radio" name="vip-check" value="included" checked> Что входит в базовую цену, а что считается опцией</label>
+          <label><input type="radio" name="vip-check" value="weather"> Запасной план при тумане, ветре, закрытой дороге или отмене моря</label>
+          <label><input type="radio" name="vip-check" value="group"> Размер группы, транспорт и какие части тура не приватные</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-vip-quiz-result>
+          <strong>Смотрите приватные и малогрупповые программы.</strong>
+          <span>Начните с туров, где прямо описаны размер группы, транспорт, размещение и условия замены маршрута.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Проверить VIP-туры и места →</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function vipTourTable(page) {
+  if (page.path !== '/tury/vip/') return '';
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare vip-compare" id="compare-vip-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">VIP и индивидуальные форматы</p><h2>Актуальные VIP-туры на Камчатку</h2></div><p>Сравнивайте не только цену: для премиального формата важны размер группы, приватность, уровень размещения, активность и то, как организатор заменяет погодозависимые выезды. Финальные даты, места и состав услуг проверяйте на странице тура.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${tour.isPrivate ? 'приватный / малогрупповой' : tour.isExclusive ? 'эксклюзивный набор' : esc((tour.types || []).slice(0, 2).join(', ') || 'VIP-тур')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места →</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>В таблице только часть подходящих программ.</strong><span>У организаторов могут быть другие даты, индивидуальные условия, свободные места и апгрейды размещения, которые не попали в короткую подборку.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать по датам и уровню комфорта →</a>
+    </div>
+  </div></section>`;
+}
+
+function vipStickyCta(page) {
+  if (page.path !== '/tury/vip/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
 function trekkingQuizBlock(page) {
   if (page.path !== '/tury/trekking/') return '';
   return `<section class="section section-tight jeep-quiz-section trekking-quiz-section" id="trekking-quiz"><div class="shell">
@@ -455,12 +546,26 @@ function volcanoConversionBlocks(page) {
   </div></section>`;
 }
 
+function vipConversionBlocks(page) {
+  if (page.path !== '/tury/vip/') return '';
+  return `<section class="section section-tight jeep-lead vip-lead"><div class="shell">
+    <p>VIP-туры на Камчатку стоит сравнивать не по одному слову в названии, а по тому, что реально делает поездку управляемой: приватность, размещение, транспорт, размер группы, запасные сценарии и понятная смета. Сначала выберите приоритет, затем проверьте реальные программы и условия у организатора.</p>
+  </div></section>
+  ${vipQuizBlock(page)}
+  ${vipTourTable(page)}
+  <section class="section section-tight jeep-proof vip-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Сильный VIP-тур честно объясняет, за что вы платите</h2><p>Ищите не громкое слово VIP, а расшифровку: кто едет с вами, какой транспорт используется, где ночевки, что входит в цену и какой план действует при погодных переносах.</p><a class="button button-light" href="#compare-vip-tours">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/vip-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Приватность бывает частичной</h3><p>Даже дорогая программа может совмещать отдельные экскурсии с другими участниками. Уточняйте, какие дни действительно индивидуальные, а какие проходят в сборном формате.</p></article>
+    <article class="proof-card"><img src="/images/lodge-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Комфорт держится на деталях</h3><p>Категория номера, питание, трансферы, багаж, связь и замены при непогоде важнее красивого названия. Попросите смету и программу по дням до оплаты.</p></article>
+  </div></section>`;
+}
+
 function conversionBlocks(page) {
-  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}`;
+  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${vipConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}`;
+  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${vipStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
