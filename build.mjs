@@ -62,7 +62,7 @@ function head({ title, description, path, type = 'website', schema = [] }) {
   <meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${absolute(path)}">
   <meta property="og:image" content="${absolute('/images/hero-kamchatka.jpg')}"><meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#17221f"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v8">
+  <link rel="stylesheet" href="/assets/style.css?v=20260710-jeep-v9">
   ${schema.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`).join('\n')}
   </head><body>`;
 }
@@ -198,34 +198,47 @@ function jeepQuizBlock(page) {
       <div class="jeep-quiz-copy">
         <p class="eyebrow">Быстрый выбор</p>
         <h2>Подобрать джип-тур по Камчатке за 30 секунд</h2>
-        <p>Ответьте на три вопроса — и станет понятнее, смотреть многодневный маршрут, однодневный выезд или программу с максимальным числом локаций.</p>
+        <p>Выберите формат поездки и отметьте, что для вас важнее. Это не бронирование, а быстрый фильтр мышления перед переходом к реальным программам.</p>
       </div>
       <div class="jeep-quiz-panel">
-        <fieldset>
-          <legend>Сколько времени хотите провести в дороге?</legend>
-          <label><input type="radio" name="jeep-duration" value="one" checked> Один день: вулкан, перевал, каньон или источники</label>
-          <label><input type="radio" name="jeep-duration" value="week"> 5–8 дней: первая большая поездка по Камчатке</label>
-          <label><input type="radio" name="jeep-duration" value="long"> 9+ дней: максимум локаций и меньше спешки</label>
-        </fieldset>
-        <fieldset>
-          <legend>Что важнее всего увидеть?</legend>
-          <label><input type="radio" name="jeep-focus" value="volcano" checked> Вулканы и лавовые поля</label>
-          <label><input type="radio" name="jeep-focus" value="ocean"> Океан, бухты и видовые дороги</label>
-          <label><input type="radio" name="jeep-focus" value="comfort"> Источники, комфорт и спокойный темп</label>
-        </fieldset>
-        <fieldset>
-          <legend>Какой формат ближе?</legend>
-          <label><input type="radio" name="jeep-style" value="active" checked> Активно, но без спортивного экстрима</label>
-          <label><input type="radio" name="jeep-style" value="comfort"> Побольше комфорта и понятной логистики</label>
-          <label><input type="radio" name="jeep-style" value="family"> Для пары, семьи или небольшой компании</label>
-        </fieldset>
+        <div class="jeep-quiz-tabs" role="tablist" aria-label="Формат джип-тура">
+          <button type="button" class="is-active" data-jeep-tab="one-day" role="tab" aria-selected="true">Однодневный</button>
+          <button type="button" data-jeep-tab="multi-day" role="tab" aria-selected="false">Многодневный</button>
+        </div>
+        <div class="jeep-quiz-pane is-active" data-jeep-pane="one-day">
+          <fieldset>
+            <legend>Какой выезд нужен на один день?</legend>
+            <label><input type="radio" name="jeep-one-focus" value="volcano" checked> Вулкан, перевал или лавовые поля</label>
+            <label><input type="radio" name="jeep-one-focus" value="ocean"> Океан, пляж, бухты и видовые дороги</label>
+            <label><input type="radio" name="jeep-one-focus" value="springs"> Термальные источники, каньон или спокойный маршрут</label>
+          </fieldset>
+          <fieldset>
+            <legend>Какой темп комфортен?</legend>
+            <label><input type="radio" name="jeep-one-style" value="active" checked> Активно, но без спортивного экстрима</label>
+            <label><input type="radio" name="jeep-one-style" value="comfort"> Побольше комфорта, понятной логистики и можно с ребёнком</label>
+            <label><input type="radio" name="jeep-one-style" value="private"> Небольшая компания или индивидуальный формат</label>
+          </fieldset>
+        </div>
+        <div class="jeep-quiz-pane" data-jeep-pane="multi-day" hidden>
+          <fieldset>
+            <legend>Какой многодневный маршрут ближе?</legend>
+            <label><input type="radio" name="jeep-multi-duration" value="week" checked> 5–8 дней: первая большая поездка по Камчатке</label>
+            <label><input type="radio" name="jeep-multi-duration" value="long"> 9+ дней: максимум локаций и меньше спешки</label>
+            <label><input type="radio" name="jeep-multi-duration" value="comfort"> Спокойнее, с проживанием и понятными переездами</label>
+          </fieldset>
+          <fieldset>
+            <legend>Что важнее в программе?</legend>
+            <label><input type="radio" name="jeep-multi-focus" value="volcano" checked> Вулканы, океан и главные места в одной поездке</label>
+            <label><input type="radio" name="jeep-multi-focus" value="max"> Больше локаций и насыщенный маршрут</label>
+            <label><input type="radio" name="jeep-multi-focus" value="family"> Побольше комфорта, понятной логистики и можно с ребёнком</label>
+          </fieldset>
+        </div>
         <div class="jeep-quiz-result" data-jeep-quiz-result>
-          <strong>Начните с однодневных джип-туров.</strong>
-          <span>Так проще протестировать формат без смены гостиницы и большой логистики.</span>
+          <strong>Откроем подборку джип-туров по Камчатке.</strong>
+          <span>На странице партнёра вы сможете сравнить даты, стоимость, места и детали маршрута у организаторов.</span>
         </div>
         <div class="jeep-quiz-actions">
-          <a class="button button-primary" data-jeep-quiz-link href="#one-day-jeep-tours">Показать подходящие варианты</a>
-          <a class="button button-light" ${partnerAttrsFor(page)}>Смотреть все джип-туры ↗</a>
+          <a class="button button-primary" data-jeep-quiz-link ${partnerAttrsFor(page)}>Показать подходящие туры ↗</a>
         </div>
       </div>
     </div>
@@ -275,7 +288,7 @@ function pageTemplate(page) {
     ${!isLegal ? partnerTourBlock(page) : ''}
     ${page.cards?.length ? `<section class="section section-tight related"><div class="shell"><div class="section-head"><div><p class="eyebrow">Продолжить подготовку</p><h2>Полезно по теме</h2></div><p>Связанные маршруты и практические инструкции.</p></div><div class="grid grid-3">${cards(page.cards)}</div></div></section>` : ''}
     ${!isLegal ? `<section class="section section-tight"><div class="shell"><div class="cta"><div><h2>Сначала разобраться.<br>Потом бронировать.</h2><p>Сравните программу, задайте вопросы организатору и проверьте актуальные условия.</p></div><a class="button" ${pagePartnerAttrs}>Открыть подходящие туры ↗</a></div></div></section>` : ''}
-  </main>${jeepStickyCta(page)}${footer()}<script src="/assets/main.js?v=20260710-jeep-quiz" defer></script></body></html>`;
+  </main>${jeepStickyCta(page)}${footer()}<script src="/assets/main.js?v=20260710-jeep-quiz-v2" defer></script></body></html>`;
 }
 
 function homeTemplate() {
