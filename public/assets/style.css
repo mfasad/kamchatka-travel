@@ -200,6 +200,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .tour-compare-table .tour-group { min-width: 110px; white-space: nowrap; }
 .tour-compare-table .tour-action { width: 190px; }
 .tour-compare-table .tour-action .button { width: 100%; white-space: normal; min-height: 48px; line-height: 1.15; text-align: center; }
+.tour-insight { margin-top: 12px; max-width: 520px; border-top: 1px solid rgba(23,34,31,.1); }
+.tour-insight summary { display: inline-flex; align-items: center; margin-top: 10px; color: var(--moss); font-size: 13px; font-weight: 900; cursor: pointer; }
+.tour-insight summary:hover { color: var(--ink); }
+.tour-insight-body { padding: 10px 0 2px; color: #33443e; font-size: 13px; line-height: 1.45; }
+.tour-insight-body p { margin: 0 0 8px; }
+.tour-insight-body ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.tour-insight-body li { margin: 5px 0; }
 .table-partner-cta { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center; margin-top: 18px; padding: 22px 24px; border: 1px solid rgba(23,34,31,.12); border-radius: 28px; background: var(--white); box-shadow: 0 18px 45px rgba(23,34,31,.07); }
 .table-partner-cta strong { display: block; font-size: 20px; line-height: 1.2; }
 .table-partner-cta span { display: block; margin-top: 5px; color: var(--muted); font-size: 14px; line-height: 1.45; }
