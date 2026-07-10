@@ -179,6 +179,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .one-day-table .tour-format { width: 13%; min-width: 0; }
 .one-day-table .tour-price { width: 27%; min-width: 0; white-space: normal; font-weight: 650; color: #33443e; }
 .one-day-table .tour-group { width: 22%; min-width: 0; white-space: normal; }
+.one-day-table .tour-group small { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.25; }
 .one-day-table .tour-action { width: 16%; }
 .one-day-table .button-compact { padding-left: 10px; padding-right: 10px; font-size: 11px; }
 .tour-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
