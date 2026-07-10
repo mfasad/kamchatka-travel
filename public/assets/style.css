@@ -199,6 +199,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .tour-compare-table .tour-group { min-width: 110px; white-space: nowrap; }
 .tour-compare-table .tour-action { width: 190px; }
 .tour-compare-table .tour-action .button { width: 100%; white-space: normal; min-height: 48px; line-height: 1.15; text-align: center; }
+.table-partner-cta { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center; margin-top: 18px; padding: 22px 24px; border: 1px solid rgba(23,34,31,.12); border-radius: 28px; background: var(--white); box-shadow: 0 18px 45px rgba(23,34,31,.07); }
+.table-partner-cta strong { display: block; font-size: 20px; line-height: 1.2; }
+.table-partner-cta span { display: block; margin-top: 5px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.table-partner-cta .button { min-width: 300px; white-space: nowrap; }
 .one-day-jeep .compare-table-wrap { overflow-x: visible; }
 .one-day-table { min-width: 0; table-layout: fixed; }
 .one-day-table .tour-name { width: 22%; min-width: 0; }
@@ -264,6 +268,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .compare-table-wrap { box-shadow: 0 18px 50px rgba(23,34,31,.08), inset -34px 0 26px -26px rgba(23,34,31,.22); }
   .compare-table-wrap::after { content: "Прокрутите →"; position: sticky; right: 10px; top: 10px; z-index: 2; float: right; display: inline-flex; margin: 10px 10px -40px 0; padding: 6px 10px; border-radius: 999px; background: var(--acid); color: var(--ink); font-size: 11px; font-weight: 900; letter-spacing: .04em; pointer-events: none; box-shadow: 0 8px 20px rgba(23,34,31,.14); }
   .tour-compare-table .tour-name { min-width: 270px; }
+  .table-partner-cta { grid-template-columns: 1fr; }
+  .table-partner-cta .button { width: 100%; min-width: 0; white-space: normal; text-align: center; }
   .one-day-jeep .compare-table-wrap { overflow-x: auto; }
   .one-day-table { min-width: 760px; table-layout: auto; }
   .proof-grid { grid-template-columns: 1fr; }
