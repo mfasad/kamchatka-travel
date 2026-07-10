@@ -175,3 +175,37 @@ document.querySelectorAll('[data-vip-quiz]').forEach((quiz) => {
   quiz.addEventListener('change', updateQuiz);
   updateQuiz();
 });
+
+document.querySelectorAll('[data-oneday-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-oneday-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const focus = quiz.querySelector('input[name="oneday-focus"]:checked')?.value || 'volcano';
+    const check = quiz.querySelector('input[name="oneday-check"]:checked')?.value || 'timing';
+
+    let title = 'Смотрите наземные однодневные экскурсии.';
+    let text = 'Начните с программ, где понятны дорога, пешая часть, время возвращения и условия замены при непогоде.';
+
+    if (focus === 'ocean') {
+      title = 'Смотрите экскурсии к океану и смотровым.';
+      text = 'Для такого дня важны точка старта, состояние дороги к побережью, ветер и время на самой локации, а не только количество остановок.';
+    }
+
+    if (focus === 'springs') {
+      title = 'Смотрите спокойные однодневные маршруты.';
+      text = 'Подойдут программы к источникам, каньонам и природным локациям без слишком длинной пешей части и позднего возвращения.';
+    }
+
+    if (check === 'load') text = `${text} Уточните километры пешком, набор высоты, обувь, питание и возможность остаться у транспорта.`;
+    if (check === 'weather') text = `${text} Спросите, чем заменяют маршрут при тумане, ветре, закрытой дороге или плохой видимости.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
