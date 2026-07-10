@@ -72,3 +72,37 @@ document.querySelectorAll('[data-jeep-quiz]').forEach((quiz) => {
   quiz.addEventListener('change', updateQuiz);
   updateQuiz();
 });
+
+document.querySelectorAll('[data-trekking-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-trekking-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const format = quiz.querySelector('input[name="trekking-format"]:checked')?.value || 'light';
+    const check = quiz.querySelector('input[name="trekking-check"]:checked')?.value || 'load';
+
+    let title = 'Смотрите походы без тяжёлого рюкзака.';
+    let text = 'Начните с программ, где ходовые дни чередуются с базой, а требования к участникам описаны по дням.';
+
+    if (format === 'active') {
+      title = 'Смотрите активные треккинговые туры.';
+      text = 'Подойдут маршруты с несколькими ходовыми днями, вулканическими районами и понятным запасом на погоду.';
+    }
+
+    if (format === 'camp') {
+      title = 'Смотрите автономные походные программы.';
+      text = 'Особенно внимательно проверьте вес личного и группового снаряжения, ночёвки, связь и точки эвакуации.';
+    }
+
+    if (check === 'comfort') text = `${text} Сравните размещение, питание, доступ к багажу и возможность пропустить отдельный выход.`;
+    if (check === 'weather') text = `${text} Уточните запасные дни, варианты замены и кто принимает решение о развороте.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
