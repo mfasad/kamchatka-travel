@@ -271,8 +271,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .trust-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; }
   .footer-grid > :last-child { grid-column: 2 / -1; }
-  .mobile-sticky-cta { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60; display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 8px; border: 1px solid rgba(255,255,255,.18); border-radius: 22px; background: rgba(17,27,24,.92); box-shadow: 0 18px 60px rgba(0,0,0,.28); backdrop-filter: blur(18px); }
-  .mobile-sticky-cta .button { min-height: 46px; padding: 0 14px; font-size: 13px; white-space: nowrap; }
+  .mobile-sticky-cta { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60; display: grid; grid-template-columns: 1fr; gap: 8px; padding: 8px; border: 1px solid rgba(255,255,255,.18); border-radius: 24px; background: rgba(17,27,24,.92); box-shadow: 0 18px 60px rgba(0,0,0,.28); backdrop-filter: blur(18px); }
+  .mobile-sticky-cta .button { width: 100%; min-height: 52px; padding: 0 18px; font-size: 15px; white-space: nowrap; letter-spacing: .01em; }
   .mobile-sticky-cta .button:not(.button-primary) { color: var(--white); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.08); }
   .site-footer { padding-bottom: 112px; }
 }
