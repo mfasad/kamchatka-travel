@@ -106,3 +106,37 @@ document.querySelectorAll('[data-trekking-quiz]').forEach((quiz) => {
   quiz.addEventListener('change', updateQuiz);
   updateQuiz();
 });
+
+document.querySelectorAll('[data-volcano-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-volcano-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const format = quiz.querySelector('input[name="volcano-format"]:checked')?.value || 'overview';
+    const check = quiz.querySelector('input[name="volcano-check"]:checked')?.value || 'weather';
+
+    let title = 'Смотрите обзорные вулканические экскурсии.';
+    let text = 'Начните с программ, где понятны дорога, пешая часть и замена маршрута при плохой видимости.';
+
+    if (format === 'ascent') {
+      title = 'Смотрите программы с восхождением.';
+      text = 'Проверьте набор высоты, покрытие тропы, темп группы и условия разворота, если погода или самочувствие меняются.';
+    }
+
+    if (format === 'multi') {
+      title = 'Смотрите многодневные туры на вулканы.';
+      text = 'Подойдут программы с несколькими районами и резервом по дням, чтобы не ставить главный вулкан в единственное погодное окно.';
+    }
+
+    if (check === 'load') text = `${text} Сравните километры, набор высоты, длительность пешей части и возможность остаться у транспорта.`;
+    if (check === 'gear') text = `${text} Уточните обувь, палки, питание, страховку, трансфер и платные опции до бронирования.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
