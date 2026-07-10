@@ -23,46 +23,51 @@ document.querySelectorAll('[data-jeep-quiz]').forEach((quiz) => {
   const result = quiz.querySelector('[data-jeep-quiz-result]');
   const resultTitle = result?.querySelector('strong');
   const resultText = result?.querySelector('span');
-  const resultLink = quiz.querySelector('[data-jeep-quiz-link]');
-  if (!result || !resultTitle || !resultText || !resultLink) return;
+  const tabs = quiz.querySelectorAll('[data-jeep-tab]');
+  const panes = quiz.querySelectorAll('[data-jeep-pane]');
+  if (!result || !resultTitle || !resultText || !tabs.length || !panes.length) return;
 
   const updateQuiz = () => {
-    const duration = quiz.querySelector('input[name="jeep-duration"]:checked')?.value || 'one';
-    const focus = quiz.querySelector('input[name="jeep-focus"]:checked')?.value || 'volcano';
-    const style = quiz.querySelector('input[name="jeep-style"]:checked')?.value || 'active';
+    const activeTab = quiz.querySelector('[data-jeep-tab].is-active')?.dataset.jeepTab || 'one-day';
+    const oneFocus = quiz.querySelector('input[name="jeep-one-focus"]:checked')?.value || 'volcano';
+    const oneStyle = quiz.querySelector('input[name="jeep-one-style"]:checked')?.value || 'active';
+    const multiDuration = quiz.querySelector('input[name="jeep-multi-duration"]:checked')?.value || 'week';
+    const multiFocus = quiz.querySelector('input[name="jeep-multi-focus"]:checked')?.value || 'volcano';
 
-    let title = 'Начните с однодневных джип-туров.';
-    let text = 'Так проще протестировать формат без смены гостиницы и большой логистики.';
-    let href = '#one-day-jeep-tours';
-    let cta = 'Показать однодневные туры';
+    let title = 'Смотрите однодневные джип-туры.';
+    let text = 'Подойдут, если хочется добавить к поездке один сильный выезд без смены гостиницы: вулкан, перевал, океан, каньон или источники.';
 
-    if (duration === 'week') {
-      title = 'Смотрите многодневные джип-туры на 5–8 дней.';
-      text = 'Это хороший формат для первой большой поездки: вулканы, океан, источники и несколько переездов без постоянного выбора на месте.';
-      href = '#compare-tours';
-      cta = 'Сравнить многодневные туры';
-    }
-
-    if (duration === 'long') {
-      title = 'Ищите расширенную программу с запасом по времени.';
-      text = 'Для максимума локаций важны не только точки маршрута, но и резерв на погоду, дороги и отдых между выездами.';
-      href = '#compare-tours';
-      cta = 'Смотреть большие маршруты';
-    }
-
-    if (focus === 'comfort' || style === 'comfort') {
-      text = `${text} Обратите внимание на проживание, размер группы и запасной сценарий при плохой погоде.`;
-    }
-
-    if (style === 'family') {
-      text = `${text} Для семьи или небольшой компании особенно важны понятный темп и короткие плечи переездов.`;
+    if (activeTab === 'multi-day') {
+      title = multiDuration === 'long' ? 'Смотрите расширенные многодневные маршруты.' : 'Смотрите многодневные джип-туры.';
+      text = 'Это формат для большой поездки по Камчатке: несколько дней в маршруте, проживание, переезды, главные локации и запасной план на погоду.';
+      if (multiFocus === 'max') text = `${text} Если хочется максимум мест, особенно внимательно сравните темп программы и время на самих локациях.`;
+      if (multiFocus === 'family' || multiDuration === 'comfort') text = `${text} Для поездки с ребёнком или спокойного темпа смотрите размер группы, проживание и длительность переездов.`;
+    } else {
+      if (oneFocus === 'ocean') text = 'Подойдут короткие выезды к океану, бухтам и видовым дорогам — хороший формат без сложной логистики.';
+      if (oneFocus === 'springs') text = 'Смотрите спокойные однодневные маршруты к источникам, каньонам и локациям без перегруженного темпа.';
+      if (oneStyle === 'comfort') text = `${text} Для поездки с ребёнком особенно важны понятный тайминг, посадка в машине и короткие пешие участки.`;
+      if (oneStyle === 'private') text = `${text} Для небольшой компании лучше смотреть варианты с гибким темпом и понятными условиями у организатора.`;
     }
 
     resultTitle.textContent = title;
     resultText.textContent = text;
-    resultLink.setAttribute('href', href);
-    resultLink.textContent = cta;
   };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((item) => {
+        const isActive = item === tab;
+        item.classList.toggle('is-active', isActive);
+        item.setAttribute('aria-selected', String(isActive));
+      });
+      panes.forEach((pane) => {
+        const isActive = pane.dataset.jeepPane === tab.dataset.jeepTab;
+        pane.classList.toggle('is-active', isActive);
+        pane.hidden = !isActive;
+      });
+      updateQuiz();
+    });
+  });
 
   quiz.addEventListener('change', updateQuiz);
   updateQuiz();
