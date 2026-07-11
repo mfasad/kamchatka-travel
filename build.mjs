@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-oneday-insight-popover-v1';
+const assetVersion = '20260711-fishing-page-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -247,6 +247,37 @@ const tourInsights = {
     summary: 'Индивидуальный формат первого знакомства с Камчаткой для небольшой компании. Цена в такой программе может относиться ко всей компании, поэтому её важно сравнивать не с местом в сборной группе, а с приватным сценарием дня.',
     goodFor: 'Подойдет семье или небольшой компании, которой важны свой темп, гибкость и меньше пересечений с другими участниками.',
     check: 'Уточните фактический размер группы, часы работы гида и транспорта, маршрут по точкам, доплаты и правила изменения программы по погоде.'
+  }
+  ,
+  42882: {
+    summary: 'Комбинированный тур с рыбалкой, сплавом, внедорожными выездами и экскурсионной частью. Рыбалка здесь выглядит как один из акцентов большой поездки, а не единственная цель маршрута.',
+    goodFor: 'Подойдёт для первой Камчатки, если хочется совместить рыбалку с вулканами, дорогой, источниками и другими локациями без самостоятельной сборки логистики.',
+    check: 'Уточните, сколько времени реально отведено на ловлю, какие снасти входят, где проходит рыбалка и чем заменяют водный день при непогоде.'
+  },
+  32371: {
+    summary: 'Формат “всё включено” с рыбалкой, семейной логикой, гастрономией, походными и автомобильными элементами. Сильная сторона такого тура — бытовая собранность, но состав включённых услуг нужно читать особенно внимательно.',
+    goodFor: 'Подойдёт тем, кто хочет рыбалку без сложной подготовки и предпочитает заранее понятные трансферы, питание и базовую организацию.',
+    check: 'Проверьте, какие расходы действительно входят, предоставляются ли снасти и одежда, какие дни зависят от погоды и есть ли ограничения по возрасту.'
+  },
+  11430: {
+    summary: 'Десятидневная активная программа, где рыбалка сочетается с походом, сплавом, восхождениями и внедорожной логистикой. Это скорее приключенческий маршрут, чем спокойная рыболовная база.',
+    goodFor: 'Подойдёт опытным путешественникам, которым важна разная активность каждый день и которые готовы к насыщенному графику.',
+    check: 'Сравните нагрузку, ночёвки, снаряжение, длительность забросок и то, какая часть маршрута посвящена именно рыбалке.'
+  },
+  68582: {
+    summary: 'Семидневный рыболовный тур с небольшим размером группы и автомобильной логистикой. По набору фактов он ближе к тематической поездке, где рыбалка стоит в центре.',
+    goodFor: 'Подойдёт тем, кто едет на Камчатку прежде всего ради ловли и хочет понятный недельный формат без слишком высокой физической нагрузки.',
+    check: 'Уточните реки или акватории, лицензии, снасти, условия проживания, хранение улова и запасной план на случай воды или ветра.'
+  },
+  37567: {
+    summary: 'Однодневный морской выход к бухте Русская с рыбалкой и морским форматом. Такой день удобно добавить к основной поездке, но он особенно зависит от ветра и состояния моря.',
+    goodFor: 'Подойдёт тем, кто уже живёт в районе Петропавловска-Камчатского или хочет отдельный морской день без многодневного тура.',
+    check: 'Проверьте точку старта, продолжительность на воде, питание, одежду, число людей на судне и правила переноса при штормовом прогнозе.'
+  },
+  74168: {
+    summary: 'Однодневная рыбалка на реках Камчатки с берега в мини-группе. Это самый прямой формат для тех, кто хочет именно ловлю, а не обзорный тур с короткой рыболовной вставкой.',
+    goodFor: 'Подойдёт новичкам и опытным рыбакам, которым важен короткий речной выезд, индивидуальное внимание и понятная логистика из города или базы.',
+    check: 'Уточните место ловли, правила и разрешения, снасти, вейдерсы, питание, трансфер и что происходит при подъёме воды.'
   }
 };
 
@@ -538,6 +569,67 @@ function vipStickyCta(page) {
   </div>`;
 }
 
+function fishingQuizBlock(page) {
+  if (page.path !== '/tury/rybalka/') return '';
+  return `<section class="section section-tight jeep-quiz-section fishing-quiz-section" id="fishing-quiz"><div class="shell">
+    <div class="jeep-quiz fishing-quiz" data-fishing-quiz>
+      <div class="jeep-quiz-copy fishing-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какая рыбалка на Камчатке вам ближе?</h2>
+        <p>Ответьте на два вопроса перед сравнением программ: нужен ли отдельный рыболовный выезд, морской день или большой тур, где рыбалка встроена в маршрут.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>1. Какой формат поездки вам ближе?</legend>
+          <label><input type="radio" name="fishing-format" value="river" checked> Речная рыбалка с акцентом на ловлю</label>
+          <label><input type="radio" name="fishing-format" value="sea"> Морская рыбалка или выход к бухтам</label>
+          <label><input type="radio" name="fishing-format" value="combo"> Большой тур: рыбалка плюс вулканы, сплав или гастрономия</label>
+        </fieldset>
+        <fieldset>
+          <legend>2. Что важнее всего проверить?</legend>
+          <label><input type="radio" name="fishing-check" value="gear" checked> Снасти, вейдерсы, лицензии и инструктор</label>
+          <label><input type="radio" name="fishing-check" value="weather"> Запасной план при воде, ветре или шторме</label>
+          <label><input type="radio" name="fishing-check" value="comfort"> Размещение, питание и бытовые условия</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-fishing-quiz-result>
+          <strong>Смотрите речные рыболовные программы.</strong>
+          <span>Начните с туров, где прямо описаны место ловли, снасти, лицензии и работа инструктора.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать рыболовные туры по датам ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function fishingTourTable(page) {
+  if (page.path !== '/tury/rybalka/') return '';
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare fishing-compare" id="compare-fishing-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Реальные предложения</p><h2>Рыболовные туры и программы с рыбалкой</h2></div><p>В таблице собраны реальные предложения партнёра, где рыбалка указана в типах или названии. Сравнивайте не только цену, но и роль рыбалки в маршруте: главный смысл поездки, морской день или один из блоков большого тура.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${esc((tour.types || []).slice(0, 3).join(', ') || 'рыболовный тур')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Рыбалка быстро зависит от сезона и условий на воде.</strong><span>У организаторов могут быть новые даты, свободные места, другие реки, морские выходы или запасные сценарии, которых нет в короткой таблице.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие предложения ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function fishingStickyCta(page) {
+  if (page.path !== '/tury/rybalka/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
 function trekkingQuizBlock(page) {
   if (page.path !== '/tury/trekking/') return '';
   return `<section class="section section-tight jeep-quiz-section trekking-quiz-section" id="trekking-quiz"><div class="shell">
@@ -683,12 +775,26 @@ function vipConversionBlocks(page) {
   </div></section>`;
 }
 
+function fishingConversionBlocks(page) {
+  if (page.path !== '/tury/rybalka/') return '';
+  return `<section class="section section-tight jeep-lead fishing-lead"><div class="shell">
+    <p>Рыболовные туры на Камчатку стоит сравнивать по роли рыбалки в маршруте: отдельный речной выезд, морской день, недельная тематическая программа или большой тур, где ловля встроена между вулканами, сплавом и океаном. Сначала выберите формат, затем проверьте снасти, лицензии, безопасность и запасной план у организатора.</p>
+  </div></section>
+  ${fishingQuizBlock(page)}
+  ${fishingTourTable(page)}
+  <section class="section section-tight jeep-proof fishing-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Хорошая рыбалка честно говорит не только про улов</h2><p>Сильная программа описывает место ловли, правила, снасти, роль инструктора, безопасность на воде и замену при шторме, подъёме воды или закрытом участке.</p><a class="button button-light" href="#compare-fishing-tours">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/fishing-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Формат важнее красивого слова</h3><p>“Рыбалка” может означать день на реке, морской выход, сплав с ловлей или короткую активность в обзорном туре. Смотрите, сколько времени действительно отдано воде.</p></article>
+    <article class="proof-card"><img src="/images/black-beach-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода меняет воду</h3><p>Ветер, волна, уровень воды и правила промысла могут менять маршрут. До оплаты попросите понятный план замены и условия переноса.</p></article>
+  </div></section>`;
+}
+
 function conversionBlocks(page) {
-  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}`;
+  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}`;
+  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
