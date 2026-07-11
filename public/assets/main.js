@@ -274,3 +274,37 @@ document.querySelectorAll('[data-fishing-quiz]').forEach((quiz) => {
   quiz.addEventListener('change', updateQuiz);
   updateQuiz();
 });
+
+document.querySelectorAll('[data-excursions-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-excursions-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const focus = quiz.querySelector('input[name="excursions-focus"]:checked')?.value || 'volcano';
+    const style = quiz.querySelector('input[name="excursions-style"]:checked')?.value || 'easy';
+
+    let title = 'Смотрите наземные экскурсии к вулканам и источникам.';
+    let text = 'Начните с программ, где понятны дорога, пешая часть, запасной маршрут и время возвращения.';
+
+    if (focus === 'ocean') {
+      title = 'Смотрите экскурсии к океану и морские выходы.';
+      text = 'Для такого дня особенно важны ветер, состояние моря, тип судна или дороги к берегу и условия переноса.';
+    }
+
+    if (focus === 'air') {
+      title = 'Смотрите вертолётные и удалённые маршруты с резервом.';
+      text = 'Планируйте запасной день и заранее проверьте правила переноса, возврата, регистрации и ограничений по весу.';
+    }
+
+    if (style === 'active') text = `${text} Вам ближе маршруты с ранним стартом и пешей частью, поэтому уточните километры, набор высоты и обувь.`;
+    if (style === 'private') text = `${text} Для семьи или небольшой компании смотрите индивидуальные условия, посадку в машине и доплаты за изменение маршрута.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
