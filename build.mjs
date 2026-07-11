@@ -1785,12 +1785,81 @@ function helicopterStickyCtaFixed(page) {
   return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке"><a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a></div>`;
 }
 
+
+function budgetTours() {
+  const candidates = [
+    ...(youtravelTours.byPage?.['/tury/'] || []),
+    ...(youtravelTours.byPage?.['/tury/vse-vklyucheno/'] || []),
+    ...(youtravelTours.byPage?.['/ekskursii/odnodnevnye/'] || []),
+    ...(youtravelTours.byPage?.['/tury/dzhip-tury/'] || []),
+    ...(youtravelTours.byPage?.['/tury/vip/'] || []),
+    ...(youtravelTours.byPage?.['/tury/gastro/'] || [])
+  ];
+  const seen = new Set();
+  return candidates.filter((tour) => {
+    if (!tour?.id || seen.has(tour.id)) return false;
+    seen.add(tour.id);
+    return true;
+  }).sort((a, b) => (a.price || 999999999) - (b.price || 999999999) || (a.durationDays || 99) - (b.durationDays || 99)).slice(0, 8);
+}
+
+function budgetTourTable(page) {
+  const tours = budgetTours();
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare budget-compare" id="compare-budget-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Проверить стоимость</p><h2>Программы, по которым удобно считать бюджет поездки</h2></div><p>В таблице собраны разные форматы: обзорные туры, активные маршруты и короткие выезды. Сравнивайте цену с длительностью, включёнными услугами, размером группы и условиями переноса, а финальную стоимость проверяйте у организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${esc((tour.types || []).slice(0, 3).join(', ') || 'тур по Камчатке')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить стоимость ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Цены и места быстро меняются под даты.</strong><span>Откройте свежие предложения, чтобы проверить актуальную стоимость, включённые услуги, правила переноса и доплаты перед бронированием.</span></div>
+      <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function budgetConversionBlocks(page) {
+  if (page.path !== '/blog/skolko-stoit-poezdka/') return '';
+  return `<section class="section section-tight jeep-lead budget-lead"><div class="shell"><p>Страница помогает быстро разложить бюджет поездки на Камчатку по сценариям: самостоятельная база, однодневные экскурсии, многодневный тур, всё включено, серф-лагерь или волонтёрский формат. Главная задача — не угадать единственную цену, а понять, какие расходы обязательно проверить до оплаты.</p></div></section>
+  <section class="section section-tight jeep-quiz-section budget-quiz-section"><div class="shell">
+    <div class="jeep-quiz budget-quiz" data-budget-quiz>
+      <div class="jeep-quiz-copy budget-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой бюджетный сценарий вам ближе?</h2>
+        <p>Ответьте по темпу и степени самостоятельности. Подсказка не бронирует поездку, но помогает понять, какие программы и доплаты смотреть первыми.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset><legend>Какой формат поездки вам ближе?</legend><label><input type="radio" name="budget-format" value="independent" checked> Собрать базу самостоятельно и взять 1-2 выезда</label><label><input type="radio" name="budget-format" value="tour"> Взять многодневный тур с готовой логистикой</label><label><input type="radio" name="budget-format" value="camp"> Рассмотреть серф-лагерь, волонтёрство или длительную базу</label></fieldset>
+        <fieldset><legend>Где вы готовы экономить?</legend><label><input type="radio" name="budget-save" value="comfort" checked> На комфорте проживания, но не на безопасности маршрута</label><label><input type="radio" name="budget-save" value="count"> На количестве дальних выездов</label><label><input type="radio" name="budget-save" value="dates"> На датах и гибкости расписания</label></fieldset>
+        <div class="jeep-quiz-result" data-budget-quiz-result><strong>Сравните самостоятельную базу с однодневными выездами.</strong><span>Проверьте трансферы, питание, снаряжение и запасной день: именно они часто меняют итоговую стоимость.</span></div>
+        <div class="jeep-quiz-actions"><a class="button button-primary" ${topToursPartnerAttrs}>Проверить свежую стоимость ↗</a><a class="button button-light" href="#compare-budget-tours">Сравнить программы</a></div>
+      </div>
+    </div>
+  </div></section>
+  ${budgetTourTable(page)}
+  <section class="section section-tight jeep-proof budget-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Дешёвый план на Камчатке должен выдерживать погоду, дорогу и переносы</h2><p>Считайте не только цену тура, но и ночи до старта, трансферы, питание, одежду, запасной день и правила возврата. Экономия работает, когда у маршрута есть понятный резерв.</p><a class="button button-light" href="#compare-budget-tours">Проверить программы</a></article>
+    <article class="proof-card"><img src="/images/budget-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Перелёт не весь бюджет</h3><p>После билетов остаются трансферы, жильё до старта, питание, экипировка и выезды. Сравнивайте итог поездки, а не одну строку расходов.</p></article>
+    <article class="proof-card"><img src="/images/seasons-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Сезон меняет доступность</h3><p>Низкая цена бесполезна, если нужные дороги, вулканы или океанские выходы не подходят под даты. Сначала сценарий, потом календарь.</p></article>
+  </div></section>`;
+}
+
+function budgetStickyCta(page) {
+  if (page.path !== '/blog/skolko-stoit-poezdka/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке"><a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a></div>`;
+}
+
+
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${volcanoBlogConversionBlocks(page)}${whalesConversionBlocks(page)}${seasonalConversionBlocks(page)}${attractionsConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
+  return `${budgetConversionBlocks(page)}${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${volcanoBlogConversionBlocks(page)}${whalesConversionBlocks(page)}${seasonalConversionBlocks(page)}${attractionsConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${volcanoBlogStickyCta(page)}${whalesStickyCta(page)}${seasonalStickyCta(page)}${attractionsStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
+  return `${budgetStickyCta(page)}${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${volcanoBlogStickyCta(page)}${whalesStickyCta(page)}${seasonalStickyCta(page)}${attractionsStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
