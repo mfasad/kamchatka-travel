@@ -309,6 +309,41 @@ document.querySelectorAll('[data-family-quiz]').forEach((quiz) => {
   updateQuiz();
 });
 
+
+document.querySelectorAll('[data-inclusive-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-inclusive-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const style = quiz.querySelector('input[name="inclusive-style"]:checked')?.value || 'comfort';
+    const risk = quiz.querySelector('input[name="inclusive-risk"]:checked')?.value || 'budget';
+
+    let title = 'Смотрите комфортные пакетные туры.';
+    let text = 'Начните с программ, где подробно расписаны проживание, питание, трансферы и условия замены выездов.';
+
+    if (style === 'active') {
+      title = 'Смотрите насыщенные пакетные маршруты.';
+      text = 'Подойдут программы, где вулканы, океан, источники и внедорожные дни уже собраны в один маршрут без отдельной сборки экскурсий.';
+    }
+
+    if (style === 'family') {
+      title = 'Смотрите спокойные пакетные туры для семьи.';
+      text = 'Выбирайте программы с понятной базой, умеренными переездами, питанием и запасным сценарием для уставших участников.';
+    }
+
+    if (risk === 'weather') text = `${text} Отдельно спросите, чем заменяют море, вертолёт, вулкан или закрытую дорогу и как это влияет на стоимость.`;
+    if (risk === 'logistics') text = `${text} Проверьте аэропортовые трансферы, багаж, адрес проживания, ранние выезды и питание по каждому дню.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
+
 document.querySelectorAll('[data-excursions-quiz]').forEach((quiz) => {
   const result = quiz.querySelector('[data-excursions-quiz-result]');
   const resultTitle = result?.querySelector('strong');
