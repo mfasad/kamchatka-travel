@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-inclusive-v1';
+const assetVersion = '20260711-winter-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -298,6 +298,11 @@ const tourInsights = {
     summary: 'Однодневная рыбалка на реках Камчатки с берега в мини-группе. Это самый прямой формат для тех, кто хочет именно ловлю, а не обзорный тур с короткой рыболовной вставкой.',
     goodFor: 'Подойдёт новичкам и опытным рыбакам, которым важен короткий речной выезд, индивидуальное внимание и понятная логистика из города или базы.',
     check: 'Уточните место ловли, правила и разрешения, снасти, вейдерсы, питание, трансфер и что происходит при подъёме воды.'
+  },
+  68407: {
+    summary: 'Зимний недельный формат с городом и Паратункой: акцент не на спортивной экстремальности, а на снежной Камчатке, термальной базе и понятной логистике.',
+    goodFor: 'Подойдёт для первой зимней поездки, если хочется увидеть регион в снегу, но не строить путешествие вокруг фрирайда или сложной экспедиции.',
+    check: 'Проверьте зимние трансферы, список одежды, время на источниках, запасной сценарий при пурге и то, какие выезды зависят от состояния дороги.'
   }
 };
 
@@ -379,7 +384,7 @@ function partnerTourBlock(page) {
     <div class="section-head"><div><p class="eyebrow">Подборка туров</p><h2>${page.path === '/tury/dzhip-tury/' ? 'Джип-туры и внедорожные маршруты' : 'Актуальные предложения партнёра'}</h2></div><p>Откройте понравившуюся программу, чтобы посмотреть актуальные даты, свободные места, финальную стоимость и условия бронирования у организатора.</p></div>
     <div class="tour-grid">${tours.map((tour) => `<article class="tour-card" data-reveal>
       <div class="tour-card-top"><span class="tour-badge">${esc((tour.types || [])[0] || 'Тур')}</span><strong class="tour-price-badge">${tour.price ? `от ${formatRub(tour.price)}` : 'цена у организатора'}</strong></div>
-      <h3>${tour.title}</h3>
+      <h3>${esc(tour.title.trim())}</h3>
       <p>${page.path === '/tury/dzhip-tury/' ? esc(stableTourMeta(tour)) : esc(tourMeta(tour))}</p>
       <ul>
         ${tour.expert ? `<li>Организатор: ${esc(tour.expert)}${tour.rating ? ` · рейтинг ${esc(tour.rating)}` : ''}</li>` : ''}
@@ -838,6 +843,92 @@ function allInclusiveConversionBlocks(page) {
   </div></section>`;
 }
 
+function winterQuizBlock(page) {
+  if (page.path !== '/tury/zima/') return '';
+  return `<section class="section section-tight jeep-quiz-section winter-quiz-section" id="winter-quiz"><div class="shell">
+    <div class="jeep-quiz winter-quiz" data-winter-quiz>
+      <div class="jeep-quiz-copy winter-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой зимний формат вам ближе?</h2>
+        <p>Ответьте для себя на два вопроса перед сравнением программ: хотите спокойную базу с источниками, снежную активность или спортивный маршрут с отдельными требованиями к безопасности.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>Что вы хотите видеть в центре поездки?</legend>
+          <label><input type="radio" name="winter-format" value="relax" checked> Город, Паратунку, источники и спокойные зимние выезды</label>
+          <label><input type="radio" name="winter-format" value="snow"> Снегоходы, перевалы, вулканические районы и больше движения</label>
+          <label><input type="radio" name="winter-format" value="sport"> Фрирайд, ски-тур или другой спортивный снежный сценарий</label>
+        </fieldset>
+        <fieldset>
+          <legend>Какой уровень комфорта нужен?</legend>
+          <label><input type="radio" name="winter-comfort" value="base" checked> Тёплая база и возврат к проживанию после выездов</label>
+          <label><input type="radio" name="winter-comfort" value="active"> Готовность к ранним стартам, ветру и длинным переездам</label>
+          <label><input type="radio" name="winter-comfort" value="safety"> Главное — инструктор, снаряжение, связь и лавинная оценка</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-winter-quiz-result>
+          <strong>Смотрите зимние туры с Паратункой и источниками.</strong>
+          <span>Начните с программ, где понятны проживание, трансферы, список одежды и запасной сценарий при пурге.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать зимние туры по датам ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function winterTourFocus(tour) {
+  const haystack = `${tour.title || ''} ${(tour.types || []).join(' ')}`.toLowerCase();
+  if (/фрирайд|ски|горнолыж|лавин/.test(haystack)) return 'спорт и снег';
+  if (/снего|перевал|вулкан/.test(haystack)) return 'снежная активность';
+  if (/паратунк|источник|релакс|город|морозн/.test(haystack)) return 'релакс и источники';
+  return (tour.types || []).slice(0, 2).join(', ') || 'зимний маршрут';
+}
+
+function winterTourTable(page) {
+  if (page.path !== '/tury/zima/') return '';
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return `<section class="section section-tight tour-compare winter-compare" id="compare-winter-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Зимние предложения</p><h2>Зимние туры лучше проверять по свежим датам</h2></div><p>Зимняя выдача меняется по снегу, датам, транспорту и составу групп. Если в короткой подборке сейчас мало подходящих программ, откройте свежие предложения и сравните условия организаторов.</p></div>
+    <div class="table-partner-cta"><div><strong>Не фиксируем зимние места и цены вручную.</strong><span>Смотрите актуальные даты, свободные места, список одежды, транспорт и запасной сценарий на странице организатора.</span></div><a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть зимние предложения ↗</a></div>
+  </div></section>`;
+  return `<section class="section section-tight tour-compare winter-compare" id="compare-winter-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Реальные зимние программы</p><h2>Зимние туры на Камчатку: что сравнить перед бронированием</h2></div><p>В таблице собраны зимние предложения, которые сейчас есть в подборке. Сравнивайте не только цену: важны даты, транспорт, тёплая база, список одежды, погодные замены и условия организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Зимний акцент</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title.trim())}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${esc(winterTourFocus(tour))}${tour.accommodation?.length ? `<small>${esc(tour.accommodation.slice(0, 2).join(', '))}</small>` : ''}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Зимняя таблица — только короткий старт для выбора.</strong><span>У партнёра могут быть новые даты, другие снежные форматы, места в группах и условия по одежде, которые лучше проверить перед оплатой.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие зимние туры ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function winterStickyCta(page) {
+  if (page.path !== '/tury/zima/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
+function winterConversionBlocks(page) {
+  if (page.path !== '/tury/zima/') return '';
+  return `<section class="section section-tight jeep-lead winter-lead"><div class="shell">
+    <p>Камчатка зимой — это не один формат, а несколько разных сценариев: спокойная база с источниками, снежные выезды к природным локациям или спортивные программы с отдельными требованиями к опыту. Сначала выберите ритм, затем сравните реальные предложения и проверьте условия у организатора.</p>
+  </div></section>
+  ${winterQuizBlock(page)}
+  ${winterTourTable(page)}
+  <section class="section section-tight jeep-proof winter-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Хороший зимний тур честно говорит, что будет при пурге</h2><p>Смотрите, где можно согреться, какой транспорт используется, какие выезды зависят от дороги и чем заменяют маршрут при плохой видимости или лавинной опасности.</p><a class="button button-light" href="#compare-winter-tours">Сравнить зимние туры</a></article>
+    <article class="proof-card"><img src="/images/winter-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Тёплая база важна</h3><p>После снежного выезда нужны сушка вещей, горячая вода, нормальное питание и понятный трансфер. Зимой бытовые детали влияют на впечатление сильнее, чем кажется.</p></article>
+    <article class="proof-card"><img src="/images/seasons-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода сильнее плана</h3><p>Дорога, ветер, снег и видимость могут менять день. Хорошая программа заранее объясняет перенос, замену и решение организатора по безопасности.</p></article>
+  </div></section>`;
+}
+
 function trekkingQuizBlock(page) {
   if (page.path !== '/tury/trekking/') return '';
   return `<section class="section section-tight jeep-quiz-section trekking-quiz-section" id="trekking-quiz"><div class="shell">
@@ -1221,11 +1312,11 @@ function helicopterStickyCtaFixed(page) {
 }
 
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${winterConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${winterStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
