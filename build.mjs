@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-gastro-v1';
+const assetVersion = '20260711-volcano-blog-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -1120,6 +1120,13 @@ function volcanoStickyCta(page) {
   </div>`;
 }
 
+function volcanoBlogStickyCta(page) {
+  if (page.path !== '/blog/vulkany-kamchatki/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
 function oneDayExcursionStickyCta(page) {
   if (page.path !== '/ekskursii/odnodnevnye/') return '';
   return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
@@ -1152,6 +1159,60 @@ function volcanoConversionBlocks(page) {
     <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Сильная экскурсия на вулкан честно описывает запасной план</h2><p>Ищите программу, где названы пешая часть, транспорт, ограничения по погоде и решение на случай закрытой дороги или плохой видимости.</p><a class="button button-light" href="#compare-volcano-tours">Сравнить программы</a></article>
     <article class="proof-card"><img src="/images/volcano-excursion-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Вершина не обязательна</h3><p>Для первого знакомства часто достаточно плато, перевала или подножия: меньше риска перегрузить день и больше шансов спокойно увидеть район.</p></article>
     <article class="proof-card"><img src="/images/trekking-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Покрытие меняет сложность</h3><p>Шлак, снег, камни и ветер могут сделать короткую дистанцию тяжелее, чем кажется по километрам. Уточняйте требования до оплаты.</p></article>
+  </div></section>`;
+}
+
+function volcanoBlogConversionBlocks(page) {
+  if (page.path !== '/blog/vulkany-kamchatki/') return '';
+  const tours = youtravelTours.byPage?.['/ekskursii/vulkany/'] || [];
+  const table = tours.length ? `<section class="section section-tight tour-compare volcano-blog-compare" id="volcano-routes"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Маршруты к вулканам</p><h2>Вулканические программы, которые стоит сравнить</h2></div><p>Для первого отбора смотрите длительность, нагрузку, размер группы и условия организатора. Даты, свободные места, точную стоимость и погодные замены проверяйте перед бронированием.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Что проверить</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 6).map((tour) => `<tr>
+      <td class="tour-name"><strong>${tour.title}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${tour.activity ? `нагрузка ${esc(tour.activity)} из 5` : esc((tour.types || []).slice(0, 2).join(', ') || 'вулканический маршрут')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Вулканические маршруты быстро меняются по датам и условиям.</strong><span>Если нужного района нет в короткой подборке, проверьте свежие программы, соседние даты и альтернативные форматы у организаторов.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать по датам ↗</a>
+    </div>
+  </div></section>` : '';
+  return `<section class="section section-tight jeep-lead volcano-lead"><div class="shell">
+    <p>Эта страница помогает разобраться в вулканах Камчатки как в карте решений: какие районы ближе к городу, где нужна многодневная логистика, почему самый высокий вулкан не всегда лучший выбор и какие вопросы задать организатору перед оплатой.</p>
+  </div></section>
+  <section class="section section-tight jeep-quiz-section volcano-quiz-section"><div class="shell">
+    <div class="jeep-quiz volcano-quiz">
+      <div class="jeep-quiz-copy volcano-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой вулканический сценарий вам ближе?</h2>
+        <p>Выберите не название горы, а ритм поездки. Так проще перейти от чтения к программам, где понятны дорога, нагрузка и запасной план.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <div class="checklist-panel">
+          <h3>Хочу один сильный день</h3>
+          <p>Смотрите обзорные экскурсии к Горелому, Авачинскому району, перевалам и вулканическим плато с понятным временем возвращения.</p>
+          <a class="button button-primary" href="/ekskursii/vulkany/">Открыть экскурсии на вулканы</a>
+        </div>
+        <div class="checklist-panel">
+          <h3>Хочу идти пешком и видеть больше рельефа</h3>
+          <p>Сравните треккинговые туры: там важны километры, набор высоты, ночёвки, покрытие тропы и требования к участникам.</p>
+          <a class="button button-light" href="/tury/trekking/">Сравнить походы</a>
+        </div>
+        <div class="checklist-panel">
+          <h3>Хочу несколько районов за поездку</h3>
+          <p>Берите многодневный формат с резервом на погоду, чтобы не ставить главный вулкан в единственное погодное окно.</p>
+          <a class="button button-light" ${topToursPartnerAttrs}>Посмотреть топовые туры ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  ${table}
+  <section class="section section-tight jeep-proof volcano-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как читать карту</p><h2>Вулканы Камчатки выбирают по логистике, а не по одной высоте</h2><p>Проверьте район, дорогу, пешую часть, запасной маршрут и сезонные ограничения. Это честнее, чем выбирать по фотографии кратера.</p><a class="button button-light" href="#volcano-routes">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/volcano-excursion-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Ближе не всегда проще</h3><p>Даже район рядом с городом может стать сложным из-за снега, ветра, закрытой дороги или состояния тропы.</p></article>
+    <article class="proof-card"><img src="/images/trekking-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Резервный день спасает поездку</h3><p>Для вулканов лучше иметь запасной сценарий: другой район, перенос выезда или программа без подъёма к вершине.</p></article>
   </div></section>`;
 }
 
@@ -1421,11 +1482,11 @@ function helicopterStickyCtaFixed(page) {
 }
 
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${volcanoBlogConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${volcanoBlogStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
