@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-oneday-tour-insights-v1';
+const assetVersion = '20260711-oneday-insight-popover-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -253,10 +253,12 @@ const tourInsights = {
 function tourInsightDetails(tour) {
   const insight = tourInsights[tour.id];
   if (!insight) return '';
-  return `<details class="tour-insight"><summary>Подробнее о программе</summary><div class="tour-insight-body">
+  return `<div class="tour-insight" data-tour-insight><button class="tour-insight-toggle" type="button" data-tour-insight-toggle aria-expanded="false">Подробнее о программе</button><div class="tour-insight-panel" data-tour-insight-panel hidden>
+    <div class="tour-insight-panel-head"><strong>Коротко о программе</strong><span>На что смотреть перед бронированием</span></div>
+    <div class="tour-insight-body">
     <p>${esc(insight.summary)}</p>
     <ul><li><strong>Кому подойдёт:</strong> ${esc(insight.goodFor)}</li><li><strong>Что проверить:</strong> ${esc(insight.check)}</li></ul>
-  </div></details>`;
+  </div></div></div>`;
 }
 
 function partnerTourTable(page) {
