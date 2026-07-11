@@ -8,9 +8,9 @@ if (existsSync(dist)) rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
-const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-tours-hub-v1';
+const assetVersion = '20260711-excursions-hub-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -207,6 +207,11 @@ const tourInsights = {
     summary: 'Калейдоскоп-тур на 8 дней с внедорожным типом и комфортом выше среднего. По смыслу это быстрый обзор Камчатки для тех, кому важны разные локации без чрезмерной физической нагрузки.',
     goodFor: 'Подойдет для первой поездки, когда хочется сравнить вулканы, дороги и обзорные места, но сохранить компактную длительность и небольшой состав группы.',
     check: 'Проверьте, что означает бонус от автора, какие локации являются обязательными, а какие зависят от погоды, и сколько времени остается на самих точках.'
+  },
+  43020: {
+    summary: 'Однодневная экскурсия на Авачинский перевал с экструзией Верблюд — классический короткий сценарий для знакомства с вулканическим рельефом рядом с городом.',
+    goodFor: 'Подойдет тем, кто хочет выразительный вулканический день без ночевки вне базы и без сложной многодневной логистики.',
+    check: 'Уточните состояние дороги, длительность пешей части, требования к обуви, посадку в транспорте и замену маршрута при тумане или сильном ветре.'
   },
   37224: {
     summary: 'Однодневный выезд к Авачинскому району с акцентом на вулканический рельеф и гору Верблюд. Это хороший формат, когда хочется увидеть вулканическую Камчатку без многодневного маршрута.',
@@ -873,12 +878,87 @@ function toursHubStickyCta(page) {
   </div>`;
 }
 
+function excursionsHubQuizBlock(page) {
+  if (page.path !== '/ekskursii/') return '';
+  return `<section class="section section-tight jeep-quiz-section excursions-hub-quiz-section" id="excursions-quiz"><div class="shell">
+    <div class="jeep-quiz excursions-hub-quiz" data-excursions-quiz>
+      <div class="jeep-quiz-copy excursions-hub-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какая экскурсия по Камчатке вам ближе?</h2>
+        <p>Ответьте на два вопроса перед сравнением программ: что хочется увидеть в центре дня и какой темп будет комфортен вашей группе.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>1. Что вы хотите видеть в центре?</legend>
+          <label><input type="radio" name="excursions-focus" value="volcano" checked> Вулканический район, перевал, лавовые поля или горячие источники</label>
+          <label><input type="radio" name="excursions-focus" value="ocean"> Океан, бухты, морская прогулка или чёрный пляж</label>
+          <label><input type="radio" name="excursions-focus" value="air"> Вертолётный маршрут или удалённая природная локация</label>
+        </fieldset>
+        <fieldset>
+          <legend>2. Какой ритм дня вам ближе?</legend>
+          <label><input type="radio" name="excursions-style" value="easy" checked> Спокойный день с понятным возвращением вечером</label>
+          <label><input type="radio" name="excursions-style" value="active"> Активный маршрут с пешей частью и ранним стартом</label>
+          <label><input type="radio" name="excursions-style" value="private"> Индивидуальный темп для семьи или небольшой компании</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-excursions-quiz-result>
+          <strong>Смотрите наземные экскурсии к вулканам и источникам.</strong>
+          <span>Начните с программ, где понятны дорога, пешая часть, запасной маршрут и время возвращения.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать экскурсии по датам ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function excursionsHubTable(page) {
+  if (page.path !== '/ekskursii/') return '';
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare excursions-hub-compare" id="compare-kamchatka-excursions"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Реальные предложения</p><h2>Экскурсии и короткие программы по Камчатке</h2></div><p>В таблице собраны реальные предложения партнёра, которые подходят для короткого выезда или экскурсионного формата. Сравнивайте длительность, транспорт, нагрузку, группу и погодные условия, а даты и места проверяйте на странице организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${esc((tour.types || []).slice(0, 3).join(', ') || 'экскурсия')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Короткая таблица не заменяет свежую выдачу организаторов.</strong><span>У партнёра могут быть новые даты, индивидуальные экскурсии, морские выходы, вертолётные программы и места в группах, которые не попали в подборку.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие предложения ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function excursionsHubConversionBlocks(page) {
+  if (page.path !== '/ekskursii/') return '';
+  return `<section class="section section-tight jeep-lead excursions-hub-lead"><div class="shell">
+    <p>Экскурсии по Камчатке лучше выбирать как набор сценариев, а не как список красивых названий: один день на вулканический район, один день у океана, один резерв под погоду или спокойную замену. Сначала определите главный фокус, затем проверьте реальную длительность, транспорт и условия у организатора.</p>
+  </div></section>
+  ${excursionsHubQuizBlock(page)}
+  ${excursionsHubTable(page)}
+  <section class="section section-tight jeep-proof excursions-hub-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Хорошая экскурсия честно считает дорогу, нагрузку и запасной план</h2><p>Ищите программу, где названы точка старта, тип транспорта, пешая часть, время возвращения и решение на случай тумана, ветра или закрытой дороги.</p><a class="button button-light" href="#compare-kamchatka-excursions">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/excursions-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Один день должен иметь фокус</h3><p>Лучше выбрать главную цель и оставить время на дорогу, чем собрать десять остановок и увидеть каждую слишком быстро.</p></article>
+    <article class="proof-card"><img src="/images/helicopter-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода сильнее расписания</h3><p>Вертолёт, море и вулканические дороги требуют резерва. Спросите о переносе, замене и возврате до оплаты.</p></article>
+  </div></section>`;
+}
+
+function excursionsHubStickyCta(page) {
+  if (page.path !== '/ekskursii/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
