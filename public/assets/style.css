@@ -168,6 +168,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .oneday-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(31,104,108,.76)), url('/images/black-beach-kamchatka.jpg') center/cover; }
 .fishing-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(35,104,122,.72)), url('/images/fishing-kamchatka.jpg') center/cover; }
 .family-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(63,107,79,.76)), url('/images/family-kamchatka.jpg') center/cover; }
+.gastro-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(91,72,38,.78)), url('/images/gastro-kamchatka.jpg') center/cover; }
 .winter-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(35,104,122,.78)), url('/images/winter-kamchatka.jpg') center/cover; }
 .jeep-quiz-copy .eyebrow { color: var(--acid); }
 .jeep-quiz-copy h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(36px, 5vw, 62px); line-height: .98; letter-spacing: -.04em; font-weight: 500; }
