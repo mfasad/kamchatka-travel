@@ -275,6 +275,40 @@ document.querySelectorAll('[data-fishing-quiz]').forEach((quiz) => {
   updateQuiz();
 });
 
+document.querySelectorAll('[data-family-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-family-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const age = quiz.querySelector('input[name="family-age"]:checked')?.value || 'small';
+    const style = quiz.querySelector('input[name="family-style"]:checked')?.value || 'base';
+
+    let title = 'Смотрите мягкие семейные маршруты.';
+    let text = 'Начните с программ, где понятны база, самый длинный переезд, питание, детское кресло и запасной день.';
+
+    if (age === 'teen') {
+      title = 'Смотрите активные семейные туры без перегруза.';
+      text = 'Подросткам часто подходят вулканы, океан и треккинговые дни, но важно заранее сверить километры, подъёмы и время возвращения.';
+    }
+
+    if (age === 'mixed') {
+      title = 'Смотрите гибкие маршруты для разного возраста.';
+      text = 'Лучше выбирать программы, где часть семьи может пропустить сложный выезд, остаться на базе или заменить день на более спокойный.';
+    }
+
+    if (style === 'active') text = `${text} Сравните нагрузку самого длинного дня, внедорожные участки и возможность развернуться без конфликта с группой.`;
+    if (style === 'comfort') text = `${text} Проверьте размещение, питание, сушку одежды, бассейн или источники и какие услуги действительно входят в цену.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
+
 document.querySelectorAll('[data-excursions-quiz]').forEach((quiz) => {
   const result = quiz.querySelector('[data-excursions-quiz-result]');
   const resultTitle = result?.querySelector('strong');
