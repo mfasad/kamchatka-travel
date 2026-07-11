@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-fishing-quiz-choice-v1';
+const assetVersion = '20260711-tours-hub-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -352,6 +352,7 @@ function volcanoTourTable(page) {
 }
 
 function partnerTourBlock(page) {
+  if (page.path === '/tury/') return '';
   const tours = youtravelTours.byPage?.[page.path] || [];
   if (!tours.length) return '';
   return `<section class="section section-tight partner-tours"><div class="shell">
@@ -789,12 +790,95 @@ function fishingConversionBlocks(page) {
   </div></section>`;
 }
 
+
+
+function toursHubQuizBlock(page) {
+  if (page.path !== '/tury/') return '';
+  return `<section class="section section-tight jeep-quiz-section tours-hub-quiz-section" id="tours-quiz"><div class="shell">
+    <div class="jeep-quiz tours-hub-quiz">
+      <div class="jeep-quiz-copy tours-hub-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой стиль поездки на Камчатку вам ближе?</h2>
+        <p>Ответьте для себя на три вопроса перед сравнением туров: сколько дней есть, какая нагрузка комфортна и что должно быть в центре маршрута. Это помогает открыть подборку уже с правильными вопросами к организатору.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>1. Сколько дней вы готовы провести в маршруте?</legend>
+          <label><input type="radio" name="tours-duration" checked> 5-8 дней: первая большая поездка без лишней спешки</label>
+          <label><input type="radio" name="tours-duration"> 9+ дней: больше районов, меньше риска не успеть из-за погоды</label>
+          <label><input type="radio" name="tours-duration"> 1-3 дня: база уже выбрана, нужны отдельные экскурсии</label>
+        </fieldset>
+        <fieldset>
+          <legend>2. Какой уровень нагрузки вам ок?</legend>
+          <label><input type="radio" name="tours-load" checked> Умеренный: вулканы, океан, источники и переезды без автономного похода</label>
+          <label><input type="radio" name="tours-load"> Активный: восхождения, треккинг, сплав или несколько ходовых дней</label>
+          <label><input type="radio" name="tours-load"> Мягкий: комфортная база, меньше переездов, можно с детьми</label>
+        </fieldset>
+        <fieldset>
+          <legend>3. Что вы хотите видеть в центре?</legend>
+          <label><input type="radio" name="tours-focus" checked> Вулканы, океан и главные места в одном туре</label>
+          <label><input type="radio" name="tours-focus"> Рыбалка, гастрономия, этноформат или тематический маршрут</label>
+          <label><input type="radio" name="tours-focus"> Индивидуальный темп, приватность или повышенный комфорт</label>
+        </fieldset>
+        <div class="jeep-quiz-result">
+          <strong>Сначала сравните реальные программы, затем проверьте даты и места.</strong>
+          <span>В таблице ниже собраны актуальные туры на Камчатку из партнерской выдачи. Финальную стоимость, свободные места и условия замены маршрута уточняйте у организатора.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать туры по датам →</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function toursHubTable(page) {
+  if (page.path !== '/tury/') return '';
+  const tours = youtravelTours.byPage?.[page.path] || [];
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare tours-hub-compare" id="compare-kamchatka-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Реальные предложения</p><h2>Актуальные туры на Камчатку</h2></div><p>Сравнивайте не только цену: важны длительность, размер группы, тип маршрута, проживание, нагрузка и запасной план на случай тумана, дождя или закрытой дороги. Даты, места и финальная стоимость открываются на странице организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Тур</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.slice(0, 8).map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${esc((tour.types || []).slice(0, 3).join(', ') || 'тур по Камчатке')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места →</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>В таблице только часть доступных туров на Камчатку.</strong><span>У организаторов могут быть свежие заезды, другие форматы, новые места в группах и условия, которые не попали в короткую подборку.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие предложения →</a>
+    </div>
+  </div></section>`;
+}
+
+function toursHubConversionBlocks(page) {
+  if (page.path !== '/tury/') return '';
+  return `<section class="section section-tight jeep-lead tours-hub-lead"><div class="shell">
+    <p>Туры на Камчатку лучше выбирать не по самому громкому названию, а по сценарию поездки: сколько дней вы готовы быть в дороге, какие локации обязательны, насколько комфортны переезды и какая нагрузка подходит группе. Хорошая программа честно показывает, что входит в стоимость, где возможны погодные замены и какие вопросы нужно задать организатору до оплаты.</p>
+  </div></section>
+  ${toursHubQuizBlock(page)}
+  ${toursHubTable(page)}
+  <section class="section section-tight jeep-proof tours-hub-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Лучшие туры на Камчатку не пытаются показать всё любой ценой</h2><p>Сильный маршрут оставляет время на погоду, не прячет долгие переезды и заранее объясняет, какие выезды зависят от дороги, моря или видимости.</p><a class="button button-light" href="#compare-kamchatka-tours">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/volcano-excursion-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Формат важнее списка мест</h3><p>Один тур может быть обзорным и комфортным, другой - активным с восхождениями и ранними стартами. Сравнивайте темп, а не только названия локаций.</p></article>
+    <article class="proof-card"><img src="/images/black-beach-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода требует запаса</h3><p>Для вулканов, океана и удаленных районов важны резервные дни, понятная замена маршрута и условия возврата или переноса у организатора.</p></article>
+  </div></section>`;
+}
+
+function toursHubStickyCta(page) {
+  if (page.path !== '/tury/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры →</a>
+  </div>`;
+}
+
 function conversionBlocks(page) {
-  return `${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
