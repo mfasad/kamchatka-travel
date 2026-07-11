@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-volcano-blog-v2';
+const assetVersion = '20260711-volcano-blog-v3';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
