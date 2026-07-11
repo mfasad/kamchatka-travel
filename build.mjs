@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-helicopter-v1';
+const assetVersion = '20260711-family-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -189,9 +189,14 @@ const tourInsights = {
     check: 'Уточните, полностью ли тур приватный, какие экскурсии могут проходить в сборном формате, какие гостиницы подтверждаются и как решаются переносы при закрытой дороге.'
   },
   55359: {
-    summary: 'Комфортный недельный маршрут с размещением до уровня 4* и семейным типом в данных тура. Его удобно рассматривать как VIP-альтернативу для первой поездки без грубой экспедиционности.',
+    summary: 'Комфортный недельный маршрут с размещением до уровня 4* и семейной логикой без грубой экспедиционности.',
     goodFor: 'Подойдет тем, кто хочет больше комфорта, понятный график и умеренную активность, но все равно хочет увидеть вулканические и обзорные локации.',
     check: 'Сравните категории номеров, состав питания, длительность переездов и то, какие активности заменяются при плохой погоде без доплат.'
+  },
+  43446: {
+    summary: 'Комфортная программа с внедорожными и экскурсионными днями, где невысокая активность важнее гонки за максимумом точек.',
+    goodFor: 'Подойдёт семье, которой нужен большой обзор Камчатки без ощущения спортивной экспедиции каждый день.',
+    check: 'Уточните самые длинные переезды, состав размещения, питание для ребёнка и какие выезды можно заменить при усталости или погоде.'
   },
   65874: {
     summary: 'Восьмидневная летняя программа с широким набором размещения, включая отели высокого уровня, лоджи и коттеджи. В данных тура отмечены приватность и невысокая активность.',
@@ -261,8 +266,13 @@ const tourInsights = {
   },
   32371: {
     summary: 'Формат “всё включено” с рыбалкой, семейной логикой, гастрономией, походными и автомобильными элементами. Сильная сторона такого тура — бытовая собранность, но состав включённых услуг нужно читать особенно внимательно.',
-    goodFor: 'Подойдёт тем, кто хочет рыбалку без сложной подготовки и предпочитает заранее понятные трансферы, питание и базовую организацию.',
+    goodFor: 'Подойдёт семье, которая хочет заранее понятные трансферы, питание и базовую организацию, но готова проверить нагрузку каждого дня.',
     check: 'Проверьте, какие расходы действительно входят, предоставляются ли снасти и одежда, какие дни зависят от погоды и есть ли ограничения по возрасту.'
+  },
+  70220: {
+    summary: 'Бережный по названию и фактам маршрут с умеренной активностью, экскурсионной логикой и внедорожными выездами без чрезмерной спортивной подачи.',
+    goodFor: 'Подойдёт для первого семейного знакомства, если нужен мягкий темп, паузы и понятное возвращение на базу.',
+    check: 'Спросите про длительность каждого переезда, возможность пропустить выезд, питание, детское кресло и запасной сценарий при непогоде.'
   },
   11430: {
     summary: 'Десятидневная активная программа, где рыбалка сочетается с походом, сплавом, восхождениями и внедорожной логистикой. Это скорее приключенческий маршрут, чем спокойная рыболовная база.',
@@ -271,8 +281,13 @@ const tourInsights = {
   },
   68582: {
     summary: 'Семидневный рыболовный тур с небольшим размером группы и автомобильной логистикой. По набору фактов он ближе к тематической поездке, где рыбалка стоит в центре.',
-    goodFor: 'Подойдёт тем, кто едет на Камчатку прежде всего ради ловли и хочет понятный недельный формат без слишком высокой физической нагрузки.',
+    goodFor: 'Подойдёт семье с подростком или ребёнком, которому интересна рыбалка, если организатор подтверждает возраст, безопасность на воде и темп.',
     check: 'Уточните реки или акватории, лицензии, снасти, условия проживания, хранение улова и запасной план на случай воды или ветра.'
+  },
+  67102: {
+    summary: 'Насыщенный экскурсионный маршрут с семейным типом и внедорожными участками. Он может быть интересным, но требует особенно внимательно сверить нагрузку.',
+    goodFor: 'Подойдёт семьям с активными подростками или взрослым составом, которым важен полный набор впечатлений и умеренная бытовая предсказуемость.',
+    check: 'Уточните, какие дни самые длинные, можно ли сократить пешую часть, как устроены ночёвки и что меняется при плохой погоде.'
   },
   37567: {
     summary: 'Однодневный морской выход к бухте Русская с рыбалкой и морским форматом. Такой день удобно добавить к основной поездке, но он особенно зависит от ветра и состояния моря.',
@@ -636,6 +651,89 @@ function fishingStickyCta(page) {
   </div>`;
 }
 
+function familyTours() {
+  const tours = youtravelTours.tours || [];
+  const scored = tours.map((tour) => {
+    const haystack = `${tour.title || ''} ${(tour.types || []).join(' ')} ${(tour.accommodation || []).join(' ')}`.toLowerCase();
+    let score = 0;
+    if (haystack.includes('семей')) score += 8;
+    if (haystack.includes('дет')) score += 5;
+    if ((tour.types || []).some((type) => type.toLowerCase().includes('экскурсион'))) score += 2;
+    if (tour.activity && tour.activity <= 2) score += 4;
+    if (tour.activity === 3) score += 1;
+    if (tour.comfort && tour.comfort >= 4) score += 3;
+    if (tour.groupSize && tour.groupSize <= 10) score += 2;
+    if (tour.durationDays && tour.durationDays >= 5 && tour.durationDays <= 9) score += 1;
+    return { tour, score };
+  });
+  return scored
+    .filter(({ score }) => score >= 5)
+    .sort((a, b) => b.score - a.score || (b.tour.rating || 0) - (a.tour.rating || 0) || (a.tour.price || 0) - (b.tour.price || 0))
+    .map(({ tour }) => tour)
+    .slice(0, 8);
+}
+
+function familyQuizBlock(page) {
+  if (page.path !== '/tury/s-detmi/') return '';
+  return `<section class="section section-tight jeep-quiz-section family-quiz-section" id="family-quiz"><div class="shell">
+    <div class="jeep-quiz family-quiz" data-family-quiz>
+      <div class="jeep-quiz-copy family-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой семейный ритм вам ближе?</h2>
+        <p>Ответьте на два вопроса перед сравнением программ: возраст и темп поездки часто важнее количества локаций в маршруте.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>Кто едет на Камчатку?</legend>
+          <label><input type="radio" name="family-age" value="small" checked> Младший ребёнок: важны короткие дни и тёплая база</label>
+          <label><input type="radio" name="family-age" value="teen"> Подросток: можно больше активности, но без перегруза</label>
+          <label><input type="radio" name="family-age" value="mixed"> Разный возраст: нужен гибкий сценарий для всей семьи</label>
+        </fieldset>
+        <fieldset>
+          <legend>Какой темп поездки вам комфортен?</legend>
+          <label><input type="radio" name="family-style" value="base" checked> Одна база, меньше переездов и понятные возвращения</label>
+          <label><input type="radio" name="family-style" value="active"> Больше вулканов, океана и активных дней</label>
+          <label><input type="radio" name="family-style" value="comfort"> Больше комфорта, питания и заранее ясных включений</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-family-quiz-result>
+          <strong>Смотрите мягкие семейные маршруты.</strong>
+          <span>Начните с программ, где понятны база, самый длинный переезд, питание, детское кресло и запасной день.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать семейные туры по датам ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function familyTourTable(page) {
+  if (page.path !== '/tury/s-detmi/') return '';
+  const tours = familyTours();
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare family-compare" id="compare-family-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Семейные варианты</p><h2>Туры на Камчатку с детьми и мягким темпом</h2></div><p>В таблице собраны реальные программы, где есть семейный признак, умеренная активность, комфортное размещение или небольшой состав группы. Финальные даты, возрастные условия, места и состав услуг проверяйте у организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Почему может подойти</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${tour.activity && tour.activity <= 2 ? 'мягкая активность' : tour.comfort && tour.comfort >= 4 ? 'комфортный формат' : esc((tour.types || []).slice(0, 2).join(', ') || 'семейный тур')}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Возрастные условия лучше проверять до оплаты.</strong><span>У организаторов могут быть новые даты, другие семейные форматы, детские кресла, ограничения по возрасту и погодные замены, которых нет в короткой таблице.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие семейные туры ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function familyStickyCta(page) {
+  if (page.path !== '/tury/s-detmi/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
 function trekkingQuizBlock(page) {
   if (page.path !== '/tury/trekking/') return '';
   return `<section class="section section-tight jeep-quiz-section trekking-quiz-section" id="trekking-quiz"><div class="shell">
@@ -792,6 +890,20 @@ function fishingConversionBlocks(page) {
     <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Хорошая рыбалка честно говорит не только про улов</h2><p>Сильная программа описывает место ловли, правила, снасти, роль инструктора, безопасность на воде и замену при шторме, подъёме воды или закрытом участке.</p><a class="button button-light" href="#compare-fishing-tours">Сравнить программы</a></article>
     <article class="proof-card"><img src="/images/fishing-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Формат важнее красивого слова</h3><p>“Рыбалка” может означать день на реке, морской выход, сплав с ловлей или короткую активность в обзорном туре. Смотрите, сколько времени действительно отдано воде.</p></article>
     <article class="proof-card"><img src="/images/black-beach-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода меняет воду</h3><p>Ветер, волна, уровень воды и правила промысла могут менять маршрут. До оплаты попросите понятный план замены и условия переноса.</p></article>
+  </div></section>`;
+}
+
+function familyConversionBlocks(page) {
+  if (page.path !== '/tury/s-detmi/') return '';
+  return `<section class="section section-tight jeep-lead family-lead"><div class="shell">
+    <p>Туры на Камчатку с детьми стоит выбирать по самому сложному дню маршрута: сколько часов в машине, где можно согреться, что будет при усталости ребёнка и как организатор заменяет погодозависимые активности. Сначала выберите семейный ритм, затем сравните реальные программы и условия.</p>
+  </div></section>
+  ${familyQuizBlock(page)}
+  ${familyTourTable(page)}
+  <section class="section section-tight jeep-proof family-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Хороший семейный тур честно оставляет место для паузы</h2><p>Сильная программа объясняет минимальный возраст, самый длинный переезд, питание, детское кресло, связь, аптечку и запасной сценарий при плохой погоде.</p><a class="button button-light" href="#compare-family-tours">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/family-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Темп важнее списка мест</h3><p>С ребёнком лучше увидеть меньше, но спокойно: вернуться засветло, высушить одежду, нормально поесть и оставить силы на следующий день.</p></article>
+    <article class="proof-card"><img src="/images/lodge-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>База влияет на всю поездку</h3><p>Тёплое размещение, питание, бассейн, сушилка и короткий трансфер иногда важнее, чем ещё одна точка в программе.</p></article>
   </div></section>`;
 }
 
@@ -1005,11 +1117,11 @@ function helicopterStickyCtaFixed(page) {
 }
 
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
