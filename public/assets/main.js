@@ -249,7 +249,7 @@ document.querySelectorAll('[data-fishing-quiz]').forEach((quiz) => {
 
   const updateQuiz = () => {
     const format = quiz.querySelector('input[name="fishing-format"]:checked')?.value || 'river';
-    const check = quiz.querySelector('input[name="fishing-check"]:checked')?.value || 'gear';
+    const style = quiz.querySelector('input[name="fishing-style"]:checked')?.value || 'easy';
 
     let title = 'Смотрите речные рыболовные программы.';
     let text = 'Начните с туров, где прямо описаны место ловли, снасти, лицензии и работа инструктора.';
@@ -264,8 +264,8 @@ document.querySelectorAll('[data-fishing-quiz]').forEach((quiz) => {
       text = 'Этот формат удобен для первой поездки: рыбалка не остаётся единственным смыслом маршрута, если погода меняет планы.';
     }
 
-    if (check === 'weather') text = `${text} До бронирования попросите запасной сценарий и условия переноса или замены дня.`;
-    if (check === 'comfort') text = `${text} Сравните размещение, питание, длительность трансферов и хранение снаряжения или улова.`;
+    if (style === 'active') text = `${text} Вам ближе программы с ранним стартом, большим временем на воде и готовностью менять маршрут по условиям.`;
+    if (style === 'comfort') text = `${text} Вам ближе туры, где важны база, питание, понятные трансферы и меньше самостоятельной подготовки.`;
 
     resultTitle.textContent = title;
     resultText.textContent = text;
