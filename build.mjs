@@ -879,7 +879,7 @@ function winterQuizBlock(page) {
 
 function winterTourFocus(tour) {
   const haystack = `${tour.title || ''} ${(tour.types || []).join(' ')}`.toLowerCase();
-  if (/фрирайд|ски|горнолыж|лавин/.test(haystack)) return 'спорт и снег';
+  if (/фрирайд|ски-тур|ски тур|ski|горнолыж|лавин/.test(haystack)) return 'спорт и снег';
   if (/снего|перевал|вулкан/.test(haystack)) return 'снежная активность';
   if (/паратунк|источник|релакс|город|морозн/.test(haystack)) return 'релакс и источники';
   return (tour.types || []).slice(0, 2).join(', ') || 'зимний маршрут';
