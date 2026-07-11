@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-winter-v1';
+const assetVersion = '20260711-gastro-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -843,6 +843,115 @@ function allInclusiveConversionBlocks(page) {
   </div></section>`;
 }
 
+function gastroTours(page) {
+  const direct = youtravelTours.byPage?.[page.path] || [];
+  if (direct.length) return direct.slice(0, 8);
+  const tours = youtravelTours.tours || [];
+  const scored = tours.map((tour) => {
+    const haystack = `${tour.title || ''} ${(tour.types || []).join(' ')} ${(tour.accommodation || []).join(' ')}`.toLowerCase();
+    let score = 0;
+    if (haystack.includes('гастр')) score += 12;
+    if (haystack.includes('рыбал')) score += 3;
+    if (haystack.includes('всё включено') || haystack.includes('все включено')) score += 2;
+    if (haystack.includes('мор')) score += 1;
+    if (tour.totalDates && tour.totalDates > 1) score += 1;
+    if (tour.durationDays && tour.durationDays >= 6 && tour.durationDays <= 12) score += 1;
+    return { tour, score };
+  });
+  return scored
+    .filter(({ score }) => score >= 5)
+    .sort((a, b) => b.score - a.score || (b.tour.reviews || 0) - (a.tour.reviews || 0) || (a.tour.price || 0) - (b.tour.price || 0))
+    .map(({ tour }) => tour)
+    .slice(0, 8);
+}
+
+function gastroTourFocus(tour) {
+  const haystack = `${tour.title || ''} ${(tour.types || []).join(' ')}`.toLowerCase();
+  if (haystack.includes('гастр') && haystack.includes('рыбал')) return 'гастро и рыбалка';
+  if (haystack.includes('гастр')) return 'гастрономический акцент';
+  if (haystack.includes('всё включено') || haystack.includes('все включено')) return 'питание в пакете';
+  if (haystack.includes('рыбал')) return 'рыбалка и локальная кухня';
+  return (tour.types || []).slice(0, 2).join(', ') || 'гастроформат';
+}
+
+function gastroQuizBlock(page) {
+  if (page.path !== '/tury/gastro/') return '';
+  return `<section class="section section-tight jeep-quiz-section gastro-quiz-section" id="gastro-quiz"><div class="shell">
+    <div class="jeep-quiz gastro-quiz" data-gastro-quiz>
+      <div class="jeep-quiz-copy gastro-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой вкус Камчатки вам ближе?</h2>
+        <p>Ответьте для себя на два вопроса перед сравнением программ: гастротур может быть про рыбалку, спокойные ужины, этноформат или большой маршрут с яркими локальными блюдами.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>Что вы хотите видеть в центре?</legend>
+          <label><input type="radio" name="gastro-focus" value="sea" checked> Морепродукты, рыбу, икру и понятные гастроужины</label>
+          <label><input type="radio" name="gastro-focus" value="fishing"> Рыбалку, приготовление улова и водный день</label>
+          <label><input type="radio" name="gastro-focus" value="local"> Локальные продукты, дикоросы, чай и этноформат</label>
+        </fieldset>
+        <fieldset>
+          <legend>Какой ритм поездки вам ближе?</legend>
+          <label><input type="radio" name="gastro-style" value="comfort" checked> Комфортная база, питание по дням и меньше бытовой сборки</label>
+          <label><input type="radio" name="gastro-style" value="active"> Активный маршрут: вулканы, океан, рыбалка и дегустации между выездами</label>
+          <label><input type="radio" name="gastro-style" value="short"> Один-два ярких гастроакцента внутри большой поездки</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-gastro-quiz-result>
+          <strong>Смотрите гастротуры с понятным питанием по дням.</strong>
+          <span>Начните с программ, где указаны гастроакценты, включённые приёмы пищи, рыбалка или замены при погоде.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Подобрать гастротуры по датам ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function gastroTourTable(page) {
+  if (page.path !== '/tury/gastro/') return '';
+  const tours = gastroTours(page);
+  if (!tours.length) return `<section class="section section-tight tour-compare gastro-compare" id="compare-gastro-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Свежие предложения</p><h2>Гастротуры лучше проверять по актуальным датам</h2></div><p>Гастрономические программы зависят от сезона, меню, рыбалки, морских выходов и свободных мест. Если короткая подборка сейчас пустая, откройте свежие предложения и сравните условия организаторов.</p></div>
+    <div class="table-partner-cta"><div><strong>Не фиксируем меню и места вручную.</strong><span>Смотрите актуальные даты, питание, гастроакценты и условия замены у организатора перед оплатой.</span></div><a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть гастротуры ↗</a></div>
+  </div></section>`;
+  return `<section class="section section-tight tour-compare gastro-compare" id="compare-gastro-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Реальные предложения</p><h2>Гастрономические туры по Камчатке: что сравнить</h2></div><p>В таблице собраны программы, где гастрономия, рыбалка, питание или локальная кухня читаются как важный акцент. Финальные даты, меню, свободные места и состав услуг проверяйте на странице организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Гастроакцент</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${esc(gastroTourFocus(tour))}${tour.accommodation?.length ? `<small>${esc(tour.accommodation.slice(0, 2).join(', '))}</small>` : ''}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Меню и продукты нужно подтверждать ближе к поездке.</strong><span>У организаторов могут быть новые даты, другие гастроужины, рыбалка, этноформаты и условия по питанию, которых нет в короткой таблице.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие гастротуры ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function gastroStickyCta(page) {
+  if (page.path !== '/tury/gastro/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
+function gastroConversionBlocks(page) {
+  if (page.path !== '/tury/gastro/') return '';
+  return `<section class="section section-tight jeep-lead gastro-lead"><div class="shell">
+    <p>Гастротур на Камчатку лучше выбирать как маршрут, где вкус связан с природой и логистикой: рыбалка, морепродукты, локальные ужины, источники, океан и понятное питание по дням. Сначала определите главный гастроакцент, затем сравните реальные программы и проверьте условия у организатора.</p>
+  </div></section>
+  ${gastroQuizBlock(page)}
+  ${gastroTourTable(page)}
+  <section class="section section-tight jeep-proof gastro-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Сильный гастротур не обещает деликатесы без привязки к сезону</h2><p>Проверяйте питание по дням, роль рыбалки, замену морского выхода, ограничения по меню и то, какие продукты входят в базовую стоимость.</p><a class="button button-light" href="#compare-gastro-tours">Сравнить гастротуры</a></article>
+    <article class="proof-card"><img src="/images/gastro-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Еда должна быть частью маршрута</h3><p>Лучше, когда дегустация связана с рыбалкой, океаном, локальной кухней или принимающей стороной, а не добавлена одной строкой в описании.</p></article>
+    <article class="proof-card"><img src="/images/fishing-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Рыбалка меняет правила</h3><p>Если гастроакцент строится вокруг улова, заранее уточните снасти, безопасность, разрешения, питание на воде и замену при ветре или высокой воде.</p></article>
+  </div></section>`;
+}
+
 function winterQuizBlock(page) {
   if (page.path !== '/tury/zima/') return '';
   return `<section class="section section-tight jeep-quiz-section winter-quiz-section" id="winter-quiz"><div class="shell">
@@ -1312,11 +1421,11 @@ function helicopterStickyCtaFixed(page) {
 }
 
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${winterConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${winterStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
