@@ -105,12 +105,16 @@ function byPage(tours) {
   const has = (tour, pattern) => pattern.test([tour.title, ...tour.types].join(' '));
   const jeepTours = tours.filter((tour) => has(tour, /джип|авто|внедорож|offroad|off-road/i));
   const shortKamchatkaJeepTours = tours.filter((tour) => (tour.durationDays || 99) <= 3 && has(tour, /джип|авто|внедорож|offroad|off-road/i));
+  const fishingTours = tours
+    .filter((tour) => has(tour, /рыбал|лосос|нахлыст|морская прогулка|на море/i))
+    .sort((a, b) => Number(!has(a, /рыбал|лосос|нахлыст/i)) - Number(!has(b, /рыбал|лосос|нахлыст/i)));
   return {
     '/tury/': tours.slice(0, 6),
     '/tury/vip/': tours.filter((tour) => tour.isPrivate || tour.isExclusive || has(tour, /vip|вип|индивидуаль|премиум/i)).slice(0, 6),
     '/tury/trekking/': tours.filter((tour) => has(tour, /трек|поход|восхожд|актив|пеш/i)).slice(0, 6),
     '/tury/dzhip-tury/': jeepTours.filter((tour) => (tour.durationDays || 99) > 3).slice(0, 12),
     '/tury/dzhip-tury/one-day': shortKamchatkaJeepTours.slice(0, 8),
+    '/tury/rybalka/': fishingTours.slice(0, 9),
     '/ekskursii/vulkany/': tours.filter((tour) => has(tour, /вулкан|мутнов|горел|толбач|авачин/i)).slice(0, 6)
   };
 }
