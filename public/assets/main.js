@@ -240,3 +240,37 @@ document.querySelectorAll('[data-oneday-quiz]').forEach((quiz) => {
   quiz.addEventListener('change', updateQuiz);
   updateQuiz();
 });
+
+document.querySelectorAll('[data-fishing-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-fishing-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const format = quiz.querySelector('input[name="fishing-format"]:checked')?.value || 'river';
+    const check = quiz.querySelector('input[name="fishing-check"]:checked')?.value || 'gear';
+
+    let title = 'Смотрите речные рыболовные программы.';
+    let text = 'Начните с туров, где прямо описаны место ловли, снасти, лицензии и работа инструктора.';
+
+    if (format === 'sea') {
+      title = 'Смотрите морские выходы и программы у бухт.';
+      text = 'Для такого дня особенно важны судно, точка старта, ветер, волна, питание на борту и правила переноса при шторме.';
+    }
+
+    if (format === 'combo') {
+      title = 'Смотрите комбинированные туры с рыбалкой.';
+      text = 'Этот формат удобен для первой поездки: рыбалка не остаётся единственным смыслом маршрута, если погода меняет планы.';
+    }
+
+    if (check === 'weather') text = `${text} До бронирования попросите запасной сценарий и условия переноса или замены дня.`;
+    if (check === 'comfort') text = `${text} Сравните размещение, питание, длительность трансферов и хранение снаряжения или улова.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
