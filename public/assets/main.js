@@ -19,6 +19,37 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('[data-reveal]').forEach((node) => observer.observe(node));
 
+const closeTourInsights = (except = null) => {
+  document.querySelectorAll('[data-tour-insight]').forEach((insight) => {
+    if (insight === except) return;
+    const button = insight.querySelector('[data-tour-insight-toggle]');
+    const panel = insight.querySelector('[data-tour-insight-panel]');
+    if (!button || !panel) return;
+    button.setAttribute('aria-expanded', 'false');
+    panel.hidden = true;
+  });
+};
+
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-tour-insight-toggle]');
+  if (button) {
+    const insight = button.closest('[data-tour-insight]');
+    const panel = insight?.querySelector('[data-tour-insight-panel]');
+    if (!insight || !panel) return;
+    const isOpen = button.getAttribute('aria-expanded') === 'true';
+    closeTourInsights(insight);
+    button.setAttribute('aria-expanded', String(!isOpen));
+    panel.hidden = isOpen;
+    return;
+  }
+
+  if (!event.target.closest('[data-tour-insight]')) closeTourInsights();
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeTourInsights();
+});
+
 document.querySelectorAll('[data-jeep-quiz]').forEach((quiz) => {
   const result = quiz.querySelector('[data-jeep-quiz-result]');
   const resultTitle = result?.querySelector('strong');
