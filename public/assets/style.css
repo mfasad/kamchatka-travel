@@ -166,6 +166,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .volcano-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(233,111,69,.72)), url('/images/volcano-excursion-kamchatka.jpg') center/cover; }
 .vip-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(93,72,38,.72)), url('/images/vip-kamchatka.jpg') center/cover; }
 .oneday-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(31,104,108,.76)), url('/images/black-beach-kamchatka.jpg') center/cover; }
+.fishing-quiz-copy { background: linear-gradient(135deg, rgba(23,34,31,.96), rgba(35,104,122,.72)), url('/images/fishing-kamchatka.jpg') center/cover; }
 .jeep-quiz-copy .eyebrow { color: var(--acid); }
 .jeep-quiz-copy h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(36px, 5vw, 62px); line-height: .98; letter-spacing: -.04em; font-weight: 500; }
 .jeep-quiz-copy p { max-width: 560px; margin: 18px 0 0; color: rgba(255,255,255,.75); font-size: 18px; }
@@ -245,6 +246,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .partner-tours-note { max-width: 760px; margin: 22px 0 0; color: var(--muted); font-size: 13px; }
 .jeep-proof { background: #14211d; color: var(--white); }
 .trekking-proof { background: #122228; }
+.fishing-proof { background: #12242a; }
 .proof-grid { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 18px; }
 .proof-card { overflow: hidden; border-radius: 30px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); }
 .proof-card img { width: 100%; height: 230px; object-fit: cover; }
