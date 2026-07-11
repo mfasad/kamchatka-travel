@@ -28,7 +28,11 @@ class LinkParser(HTMLParser):
 
 
 root = Path(__file__).resolve().parents[1] / "dist"
-html_files = list(root.rglob("*.html"))
+html_files = [
+    html_file
+    for html_file in root.rglob("*.html")
+    if not html_file.name.startswith("yandex_")
+]
 missing = []
 untitled = []
 image_errors = []
