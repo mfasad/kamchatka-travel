@@ -4709,6 +4709,237 @@ export const youtravelTours = {
         "isExclusive": false,
         "details": null
       }
+    ],
+    "/ekskursii/": [
+      {
+        "id": 43020,
+        "title": "Авачинский перевал. Экструзия верблюд.",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/43020/%25D0%25B0%25D0%25B2%25D0%25B0%25D1%2587%25D0%25B8%25D0%25BD%25D1%2581%25D0%25BA%25D0%25B8%25D0%25B9_%25D0%25BF%25D0%25B5%25D1%2580%25D0%25B5%25D0%25B2%25D0%25B0%25D0%25BB_%25D1%258D%25D0%25BA%25D1%2581%25D1%2582%25D1%2580%25D1%2583%25D0%25B7%25D0%25B8%25D1%258F_%25D0%25B2%25D0%25B5%25D1%2580%25D0%25B1%25D0%25BB%25D1%258E%25D0%25B4_",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Фототур",
+          "Экскурсионный",
+          "Тур в горы"
+        ],
+        "accommodation": [],
+        "expert": "Павел Е",
+        "rating": 5,
+        "reviews": 9,
+        "price": 14000,
+        "dateFrom": "2026-07-11",
+        "dateTo": "2026-07-11",
+        "durationDays": 1,
+        "freeSpaces": 6,
+        "groupSize": 6,
+        "totalDates": 108,
+        "activity": 3,
+        "comfort": 1,
+        "isPrivate": true,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 37567,
+        "title": "Морская прогулка к бухте Русская  длительность 10 часов на Камчатке",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/37567/%25D0%25BC%25D0%25BE%25D1%2580%25D1%2581%25D0%25BA%25D0%25B0%25D1%258F_%25D0%25BF%25D1%2580%25D0%25BE%25D0%25B3%25D1%2583%25D0%25BB%25D0%25BA%25D0%25B0_%25D0%25BA_%25D0%25B1%25D1%2583%25D1%2585%25D1%2582%25D0%25B5_%25D1%2580%25D1%2583%25D1%2581%25D1%2581%25D0%25BA%25D0%25B0%25D1%258F_%25D0%25B4%25D0%25BB%25D0%25B8%25D1%2582%25D0%25B5%25D0%25BB%25D1%258C%25D0%25BD%25D0%25BE%25D1%2581%25D1%2582%25D1%258C_10_%25D1%2587%25D0%25B0%25D1%2581%25D0%25BE%25D0%25B2_%25D0%25BD%25D0%25B0_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B5",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Рыбалка",
+          "На море"
+        ],
+        "accommodation": [],
+        "expert": "Павел К",
+        "rating": 5,
+        "reviews": 6,
+        "price": 20000,
+        "dateFrom": "2026-07-11",
+        "dateTo": "2026-07-11",
+        "durationDays": 1,
+        "freeSpaces": 8,
+        "groupSize": 10,
+        "totalDates": 80,
+        "activity": 2,
+        "comfort": 1,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 37224,
+        "title": "Джип-тур к Авачинскому вулкану (гора Верблюд).",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/37224/%25D0%25B4%25D0%25B6%25D0%25B8%25D0%25BF-%25D1%2582%25D1%2583%25D1%2580_%25D0%25BA_%25D0%25B0%25D0%25B2%25D0%25B0%25D1%2587%25D0%25B8%25D0%25BD%25D1%2581%25D0%25BA%25D0%25BE%25D0%25BC%25D1%2583_%25D0%25B2%25D1%2583%25D0%25BB%25D0%25BA%25D0%25B0%25D0%25BD%25D1%2583_%25D0%25B3%25D0%25BE%25D1%2580%25D0%25B0_%25D0%25B2%25D0%25B5%25D1%2580%25D0%25B1%25D0%25BB%25D1%258E%25D0%25B4_",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Поход",
+          "Экскурсионный",
+          "На внедорожниках",
+          "Тур в горы"
+        ],
+        "accommodation": [],
+        "expert": "Андрей Б",
+        "rating": 5,
+        "reviews": 10,
+        "price": 12000,
+        "dateFrom": "2026-07-15",
+        "dateTo": "2026-07-15",
+        "durationDays": 1,
+        "freeSpaces": 13,
+        "groupSize": 15,
+        "totalDates": 18,
+        "activity": 3,
+        "comfort": 1,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 70697,
+        "title": "Тропы, водопады и цирк горного массива Вачкажец  миниатюрный Алтай на Камчатке",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/70697/%25D1%2582%25D1%2580%25D0%25BE%25D0%25BF%25D1%258B_%25D0%25B2%25D0%25BE%25D0%25B4%25D0%25BE%25D0%25BF%25D0%25B0%25D0%25B4%25D1%258B_%25D0%25B8_%25D1%2586%25D0%25B8%25D1%2580%25D0%25BA_%25D0%25B3%25D0%25BE%25D1%2580%25D0%25BD%25D0%25BE%25D0%25B3%25D0%25BE_%25D0%25BC%25D0%25B0%25D1%2581%25D1%2581%25D0%25B8%25D0%25B2%25D0%25B0_%25D0%25B2%25D0%25B0%25D1%2587%25D0%25BA%25D0%25B0%25D0%25B6%25D0%25B5%25D1%2586_%25D0%25BC%25D0%25B8%25D0%25BD%25D0%25B8%25D0%25B0%25D1%2582%25D1%258E%25D1%2580%25D0%25BD%25D1%258B%25D0%25B9_%25D0%25B0%25D0%25BB%25D1%2582%25D0%25B0%25D0%25B9_%25D0%25BD%25D0%25B0_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B5",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Поход",
+          "Тур в горы",
+          "На внедорожниках"
+        ],
+        "accommodation": [],
+        "expert": "Яна А",
+        "rating": 5,
+        "reviews": 1,
+        "price": 16000,
+        "dateFrom": "2026-07-13",
+        "dateTo": "2026-07-13",
+        "durationDays": 1,
+        "freeSpaces": 8,
+        "groupSize": 8,
+        "totalDates": 78,
+        "activity": 3,
+        "comfort": 1,
+        "isPrivate": true,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 61766,
+        "title": "Джип-тур на озеро Толмачева. Маар Медвежья Чаша + Апачинские / Начикинские источники.",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/61766/%25D0%25B4%25D0%25B6%25D0%25B8%25D0%25BF-%25D1%2582%25D1%2583%25D1%2580_%25D0%25BD%25D0%25B0_%25D0%25BE%25D0%25B7%25D0%25B5%25D1%2580%25D0%25BE_%25D1%2582%25D0%25BE%25D0%25BB%25D0%25BC%25D0%25B0%25D1%2587%25D0%25B5%25D0%25B2%25D0%25B0_%25D0%25BC%25D0%25B0%25D0%25B0%25D1%2580_%25D0%25BC%25D0%25B5%25D0%25B4%25D0%25B2%25D0%25B5%25D0%25B6%25D1%258C%25D1%258F_%25D1%2587%25D0%25B0%25D1%2588%25D0%25B0_%25D0%25B0%25D0%25BF%25D0%25B0%25D1%2587%25D0%25B8%25D0%25BD%25D1%2581%25D0%25BA%25D0%25B8%25D0%25B5_%25D0%25BD%25D0%25B0%25D1%2587%25D0%25B8%25D0%25BA%25D0%25B8%25D0%25BD%25D1%2581%25D0%25BA%25D0%25B8%25D0%25B5_%25D0%25B8%25D1%2581%25D1%2582%25D0%25BE%25D1%2587%25D0%25BD%25D0%25B8%25D0%25BA%25D0%25B8_",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "На внедорожниках",
+          "Экскурсионный"
+        ],
+        "accommodation": [],
+        "expert": "Андрей Б",
+        "rating": 5,
+        "reviews": 10,
+        "price": 14500,
+        "dateFrom": "2026-07-11",
+        "dateTo": "2026-07-11",
+        "durationDays": 1,
+        "freeSpaces": 15,
+        "groupSize": 15,
+        "totalDates": 20,
+        "activity": 3,
+        "comfort": 1,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 42072,
+        "title": "каньон опасный + дачные источники",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/42072/%25D0%25BA%25D0%25B0%25D0%25BD%25D1%258C%25D0%25BE%25D0%25BD_%25D0%25BE%25D0%25BF%25D0%25B0%25D1%2581%25D0%25BD%25D1%258B%25D0%25B9_%25D0%25B4%25D0%25B0%25D1%2587%25D0%25BD%25D1%258B%25D0%25B5_%25D0%25B8%25D1%2581%25D1%2582%25D0%25BE%25D1%2587%25D0%25BD%25D0%25B8%25D0%25BA%25D0%25B8",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "На внедорожниках"
+        ],
+        "accommodation": [],
+        "expert": "Павел Е",
+        "rating": 5,
+        "reviews": 9,
+        "price": 22000,
+        "dateFrom": "2026-07-11",
+        "dateTo": "2026-07-11",
+        "durationDays": 1,
+        "freeSpaces": 6,
+        "groupSize": 6,
+        "totalDates": 100,
+        "activity": 2,
+        "comfort": 1,
+        "isPrivate": true,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 39011,
+        "title": "Авачинский перевал, Экструзия &quot;Верблюд&quot;",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/39011/%25D0%25B0%25D0%25B2%25D0%25B0%25D1%2587%25D0%25B8%25D0%25BD%25D1%2581%25D0%25BA%25D0%25B8%25D0%25B9_%25D0%25BF%25D0%25B5%25D1%2580%25D0%25B5%25D0%25B2%25D0%25B0%25D0%25BB_%25D1%258D%25D0%25BA%25D1%2581%25D1%2582%25D1%2580%25D1%2583%25D0%25B7%25D0%25B8%25D1%258F_%25D0%25B2%25D0%25B5%25D1%2580%25D0%25B1%25D0%25BB%25D1%258E%25D0%25B4_",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Поход",
+          "Восхождение",
+          "На внедорожниках"
+        ],
+        "accommodation": [],
+        "expert": "Павел К",
+        "rating": 5,
+        "reviews": 6,
+        "price": 14000,
+        "dateFrom": "2026-07-12",
+        "dateTo": "2026-07-12",
+        "durationDays": 1,
+        "freeSpaces": 10,
+        "groupSize": 10,
+        "totalDates": 64,
+        "activity": 4,
+        "comfort": null,
+        "isPrivate": true,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 39436,
+        "title": "Джип-тур на Вачкажец + Зеленовские озерки.",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/39436/%25D0%25B4%25D0%25B6%25D0%25B8%25D0%25BF-%25D1%2582%25D1%2583%25D1%2580_%25D0%25BD%25D0%25B0_%25D0%25B2%25D0%25B0%25D1%2587%25D0%25BA%25D0%25B0%25D0%25B6%25D0%25B5%25D1%2586_%25D0%25B7%25D0%25B5%25D0%25BB%25D0%25B5%25D0%25BD%25D0%25BE%25D0%25B2%25D1%2581%25D0%25BA%25D0%25B8%25D0%25B5_%25D0%25BE%25D0%25B7%25D0%25B5%25D1%2580%25D0%25BA%25D0%25B8_",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Экскурсионный",
+          "Восхождение",
+          "На внедорожниках"
+        ],
+        "accommodation": [],
+        "expert": "Андрей Б",
+        "rating": 5,
+        "reviews": 10,
+        "price": 14000,
+        "dateFrom": "2026-07-16",
+        "dateTo": "2026-07-16",
+        "durationDays": 1,
+        "freeSpaces": 15,
+        "groupSize": 15,
+        "totalDates": 19,
+        "activity": 3,
+        "comfort": 1,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      }
     ]
   }
 };
