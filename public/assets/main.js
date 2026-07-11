@@ -344,6 +344,40 @@ document.querySelectorAll('[data-inclusive-quiz]').forEach((quiz) => {
   updateQuiz();
 });
 
+document.querySelectorAll('[data-winter-quiz]').forEach((quiz) => {
+  const result = quiz.querySelector('[data-winter-quiz-result]');
+  const resultTitle = result?.querySelector('strong');
+  const resultText = result?.querySelector('span');
+  if (!result || !resultTitle || !resultText) return;
+
+  const updateQuiz = () => {
+    const format = quiz.querySelector('input[name="winter-format"]:checked')?.value || 'relax';
+    const comfort = quiz.querySelector('input[name="winter-comfort"]:checked')?.value || 'base';
+
+    let title = 'Смотрите зимние туры с Паратункой и источниками.';
+    let text = 'Начните с программ, где понятны проживание, трансферы, список одежды и запасной сценарий при пурге.';
+
+    if (format === 'snow') {
+      title = 'Смотрите снежные активные программы.';
+      text = 'Для таких туров особенно важны транспорт, инструктор, защита от ветра, тёплые паузы и замена выезда при закрытой дороге.';
+    }
+
+    if (format === 'sport') {
+      title = 'Смотрите спортивные зимние маршруты только с проверкой безопасности.';
+      text = 'Фрирайд и ски-тур требуют опыта, лавинной оценки, связи, страховки и понятного решения организатора по выходу на склон.';
+    }
+
+    if (comfort === 'active') text = `${text} Сравните самый длинный переезд, ранние старты, питание и возможность согреться между активностями.`;
+    if (comfort === 'safety') text = `${text} Отдельно проверьте снаряжение, связь, инструктаж, ограничения по погоде и правила отмены.`;
+
+    resultTitle.textContent = title;
+    resultText.textContent = text;
+  };
+
+  quiz.addEventListener('change', updateQuiz);
+  updateQuiz();
+});
+
 document.querySelectorAll('[data-excursions-quiz]').forEach((quiz) => {
   const result = quiz.querySelector('[data-excursions-quiz-result]');
   const resultTitle = result?.querySelector('strong');
