@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-attractions-v1';
+const assetVersion = '20260711-whales-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -1254,6 +1254,115 @@ function volcanoBlogConversionBlocks(page) {
   </div></section>`;
 }
 
+function whaleTours() {
+  const whalePattern = /кит|косат|касат|океан|яхт|морск|бухт|авачин/i;
+  const candidates = [
+    ...(youtravelTours.tours || []).filter((tour) => whalePattern.test([tour.title, ...(tour.types || [])].join(' '))),
+    ...(youtravelTours.byPage?.['/tury/'] || []).filter((tour) => whalePattern.test([tour.title, ...(tour.types || [])].join(' '))),
+    ...(youtravelTours.byPage?.['/ekskursii/'] || []).filter((tour) => whalePattern.test([tour.title, ...(tour.types || [])].join(' '))),
+    ...(youtravelTours.byPage?.['/ekskursii/vulkany/'] || []).filter((tour) => whalePattern.test([tour.title, ...(tour.types || [])].join(' ')))
+  ];
+  const seen = new Set();
+  return candidates.filter((tour) => {
+    if (!tour?.id || seen.has(tour.id)) return false;
+    seen.add(tour.id);
+    return true;
+  }).slice(0, 8);
+}
+
+function whaleTourFocus(tour) {
+  const text = [tour.title, ...(tour.types || [])].join(' ').toLowerCase();
+  if (/яхт|морск|океан|кит|косат|касат/.test(text)) return 'океанский день, погода и вероятность наблюдений';
+  if (/вулкан|восхожд|джип|внедорож/.test(text)) return 'вулканы, океан и запасной сценарий';
+  if (/экскурс/.test(text)) return 'обзорный формат и длительность выездов';
+  return 'маршрут, сезон и условия у организатора';
+}
+
+function whaleTourDetails(tour) {
+  const types = (tour.types || []).slice(0, 3).join(', ');
+  const stay = (tour.accommodation || []).slice(0, 2).join(', ');
+  const summary = [
+    durationLabel(tour),
+    types || 'комбинированная программа',
+    stay ? `размещение: ${stay}` : '',
+    tour.activity ? `нагрузка ${tour.activity} из 5` : ''
+  ].filter(Boolean).join(' · ');
+  return `<div class="tour-insight" data-tour-insight><button class="tour-insight-toggle" type="button" data-tour-insight-toggle aria-expanded="false">Подробнее о программе</button><div class="tour-insight-panel" data-tour-insight-panel hidden>
+    <div class="tour-insight-panel-head"><strong>Коротко о программе</strong><span>Что уточнить перед оплатой</span></div>
+    <div class="tour-insight-body">
+      <p>${esc(summary)}</p>
+      <ul><li><strong>Кому подойдёт:</strong> тем, кто хочет связать морской день с другими впечатлениями Камчатки и не строить поездку вокруг одной гарантии.</li><li><strong>Что проверить:</strong> как проходит океанский день, что заменяют при шторме, сколько свободных мест и какие условия переноса действуют у организатора.</li></ul>
+    </div>
+  </div></div>`;
+}
+
+function whaleTourTable(page) {
+  const tours = whaleTours();
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare whale-compare" id="compare-whale-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Морские сценарии</p><h2>Туры, где можно совместить китов, косаток и Камчатку</h2></div><p>В таблице собраны программы, где океан, киты, косатки или морской формат видны уже в названии и фактах тура. Финальную программу, даты, свободные места и вероятность выхода в море проверяйте у организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Что в центре</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${whaleTourDetails(tour)}</td>
+      <td class="tour-format">${esc(whaleTourFocus(tour))}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Морские условия меняются быстрее обычного расписания.</strong><span>Откройте свежие предложения, чтобы проверить даты, судно, запасной сценарий и условия у организатора перед оплатой.</span></div>
+      <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function whalesStickyCta(page) {
+  if (page.path !== '/blog/kity-na-kamchatke/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
+function whalesConversionBlocks(page) {
+  if (page.path !== '/blog/kity-na-kamchatke/') return '';
+  return `<section class="section section-tight jeep-lead whale-lead"><div class="shell">
+    <p>Эта страница помогает выбрать не «гарантию китов», а разумный морской сценарий: сезон, формат выхода, запас на погоду, этику наблюдения и туры, где океан встроен в общую поездку по Камчатке.</p>
+  </div></section>
+  <section class="section section-tight jeep-quiz-section whale-quiz-section"><div class="shell">
+    <div class="jeep-quiz whale-quiz">
+      <div class="jeep-quiz-copy whale-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой морской сценарий вам ближе?</h2>
+        <p>Выберите, насколько киты и косатки должны быть в центре поездки. Так проще понять, нужен ли отдельный выход в море, многодневный тур или запасной маршрут на случай ветра.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <div class="volcano-choice-list">
+          <div class="checklist-panel volcano-choice-card">
+            <h3>Хочу один океанский день</h3>
+            <p>Смотрите морские прогулки и однодневные выезды, но заранее уточняйте судно, длительность, точку старта и порядок переноса при шторме.</p>
+            <a class="button button-primary" href="/ekskursii/">Сравнить экскурсии</a>
+          </div>
+          <div class="checklist-panel volcano-choice-card">
+            <h3>Хочу китов как часть большого тура</h3>
+            <p>Выбирайте программы, где океан соединён с вулканами, источниками и резервными днями: так меньше риска, что вся поездка зависит от одного выхода.</p>
+            <a class="button button-light" href="/tury/">Сравнить туры</a>
+          </div>
+          <div class="checklist-panel volcano-choice-card">
+            <h3>Хочу максимум шансов без обещаний</h3>
+            <p>Закладывайте несколько дней, проверяйте сезон и спрашивайте организатора о фактической статистике наблюдений на близких датах.</p>
+            <a class="button button-light" ${topToursPartnerAttrs}>Посмотреть свежие предложения ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  ${whaleTourTable(page)}
+  <section class="section section-tight jeep-proof whale-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Сильная программа не обещает китов, а объясняет море</h2><p>Проверяйте сезон, судно, длительность выхода, запасной день, правила переноса и этику наблюдения. На Камчатке честный морской тур говорит о вероятности, а не продаёт стопроцентную встречу.</p><a class="button button-light" href="#compare-whale-tours">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/orca-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Океан важнее расписания</h3><p>Даже в хороший сезон ветер и волна могут изменить день. Лучше иметь запасной сценарий, чем требовать выход любой ценой.</p></article>
+    <article class="proof-card"><img src="/images/black-beach-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Камчатка сильнее в связке</h3><p>Киты и косатки хорошо сочетаются с вулканами, бухтами, источниками и спокойными днями между активными выездами.</p></article>
+  </div></section>`;
+}
+
 function attractionsTours() {
   const candidates = [
     ...(youtravelTours.byPage?.['/tury/dzhip-tury/one-day'] || []),
@@ -1595,11 +1704,11 @@ function helicopterStickyCtaFixed(page) {
 }
 
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${volcanoBlogConversionBlocks(page)}${attractionsConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${volcanoBlogConversionBlocks(page)}${whalesConversionBlocks(page)}${attractionsConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${volcanoBlogStickyCta(page)}${attractionsStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${volcanoBlogStickyCta(page)}${whalesStickyCta(page)}${attractionsStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
