@@ -98,7 +98,7 @@ function schemas(page) {
     '@context': 'https://schema.org', '@type': 'Article', headline: page.title,
     description: page.description, inLanguage: 'ru', mainEntityOfPage: absolute(page.path),
     image: absolute(page.image || '/images/hero-kamchatka.jpg'), author: { '@type': 'Organization', name: site.name },
-    publisher: { '@type': 'Organization', name: site.name }, dateModified: '2026-06-28'
+    publisher: { '@type': 'Organization', name: site.name }, dateModified: '2026-07-11'
   });
   if (page.faqs?.length) output.push({
     '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: page.faqs.map((item) => ({
@@ -1923,7 +1923,7 @@ writePage('/', homeTemplate());
 pages.forEach((page) => writePage(page.path, pageTemplate(page)));
 
 const urls = ['/', ...pages.map((page) => page.path)];
-writeFileSync(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((path) => `<url><loc>${absolute(path)}</loc><lastmod>2026-06-28</lastmod></url>`).join('')}</urlset>`, 'utf8');
+writeFileSync(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((path) => `<url><loc>${absolute(path)}</loc><lastmod>2026-07-11</lastmod></url>`).join('')}</urlset>`, 'utf8');
 writeFileSync(join(dist, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\n`, 'utf8');
 writeFileSync(join(dist, '404.html'), `${head({ title: 'Страница не найдена', description: 'Страница не найдена.', path: '/404/' })}${header('/404/')}<main id="content"><section class="page-hero" style="--page-hero-image: url('/images/field-guide-kamchatka.jpg')"><div class="shell"><p class="eyebrow">Ошибка 404</p><h1>Маршрут потерялся в тумане</h1><p class="page-lead">Вернитесь на главную или продолжите подготовку к поездке.</p><p><a class="button button-primary" href="/">На главную</a></p></div></section></main>${footer()}${assetScripts()}</body></html>`, 'utf8');
 console.log(`Built ${urls.length} pages in ${dist}`);
