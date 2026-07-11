@@ -1363,6 +1363,88 @@ function whalesConversionBlocks(page) {
   </div></section>`;
 }
 
+function seasonalTours() {
+  const candidates = [
+    ...(youtravelTours.byPage?.['/tury/'] || []),
+    ...(youtravelTours.byPage?.['/tury/trekking/'] || []),
+    ...(youtravelTours.byPage?.['/tury/zima/'] || []),
+    ...(youtravelTours.byPage?.['/tury/dzhip-tury/'] || []),
+    ...(youtravelTours.byPage?.['/ekskursii/vulkany/'] || []),
+    ...(youtravelTours.tours || []).filter((tour) => /лет|зим|июл|август|сентябр|вулкан|океан|рыбал|трек|поход|снег|источник/i.test([tour.title, ...(tour.types || [])].join(' ')))
+  ];
+  const seen = new Set();
+  return candidates.filter((tour) => {
+    if (!tour?.id || seen.has(tour.id)) return false;
+    seen.add(tour.id);
+    return true;
+  }).slice(0, 8);
+}
+
+function seasonalTourTable(page) {
+  const tours = seasonalTours();
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare seasonal-compare" id="compare-seasonal-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Туры по сезонам</p><h2>Программы, где важно сравнить даты и формат</h2></div><p>В таблице собраны реальные камчатские программы разных сезонов: обзорные туры, вулканы, треккинг, рыбалка и зимние форматы. Финальную стоимость, свободные места и условия переноса проверяйте на странице организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Когда смотреть</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${tour.dateFrom ? esc(formatDate(tour.dateFrom)) : 'даты у организатора'}${tour.activity ? `<small>нагрузка ${esc(tour.activity)} из 5</small>` : ''}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить даты ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Сезонные места быстро меняются.</strong><span>Откройте свежие предложения, чтобы проверить новые заезды, свободные места, актуальную стоимость и условия организатора на ваши даты.</span></div>
+      <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function seasonalConversionBlocks(page) {
+  if (page.path !== '/blog/kogda-ehat/') return '';
+  return `<section class="section section-tight jeep-lead seasonal-lead"><div class="shell">
+    <p>Эта страница помогает выбрать сезон без ложной точности: сначала цель поездки, потом месяц, затем реальные программы с датами, нагрузкой, транспортом и понятным запасным сценарием.</p>
+  </div></section>
+  <section class="section section-tight jeep-quiz-section seasonal-quiz-section"><div class="shell">
+    <div class="jeep-quiz seasonal-quiz">
+      <div class="jeep-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой ритм поездки вам ближе?</h2>
+        <p>Выберите главный сценарий, а не абстрактный лучший месяц. Так проще понять, какие даты и туры стоит сравнивать в первую очередь.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <div class="volcano-choice-list">
+          <div class="checklist-panel volcano-choice-card">
+            <h3>Хочу первую большую поездку</h3>
+            <p>Смотрите июль, август и начало сентября, многодневные туры с вулканами, океаном, источниками и резервом на погоду.</p>
+            <a class="button button-primary" href="/tury/">Сравнить туры</a>
+          </div>
+          <div class="checklist-panel volcano-choice-card">
+            <h3>Хочу активный маршрут</h3>
+            <p>Сравните треккинг, джип-туры и вулканические программы по нагрузке, дорогам, снаряжению и условиям разворота.</p>
+            <a class="button button-light" href="/tury/trekking/">Открыть треккинг</a>
+          </div>
+          <div class="checklist-panel volcano-choice-card">
+            <h3>Хочу снег и термальные источники</h3>
+            <p>Выбирайте зимние программы с тёплой базой, понятным транспортом и запасным планом при пурге или закрытой дороге.</p>
+            <a class="button button-light" href="/tury/zima/">Смотреть зимние туры</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  ${seasonalTourTable(page)}
+  <section class="section section-tight jeep-proof seasonal-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Лучший сезон на Камчатке зависит от маршрута, а не от календарной легенды</h2><p>Проверяйте дорогу, снег, море, длительность переездов, запасной день и правила переноса. Один и тот же месяц может быть удачным для океана и сложным для дальнего треккинга.</p><a class="button button-light" href="#compare-seasonal-tours">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/seasons-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Лето не отменяет запас</h3><p>В тёплый сезон больше маршрутов, но туман, дождь, ветер и закрытая грунтовка всё равно могут переставить программу.</p></article>
+    <article class="proof-card"><img src="/images/winter-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Зима требует другого плана</h3><p>Снежная Камчатка сильна термальными источниками, базой и короткими выездами, если организатор честно описывает транспорт и ограничения.</p></article>
+  </div></section>`;
+}
+
+function seasonalStickyCta(page) {
+  if (page.path !== '/blog/kogda-ehat/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке"><a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a></div>`;
+}
+
 function attractionsTours() {
   const candidates = [
     ...(youtravelTours.byPage?.['/tury/dzhip-tury/one-day'] || []),
@@ -1704,11 +1786,11 @@ function helicopterStickyCtaFixed(page) {
 }
 
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${volcanoBlogConversionBlocks(page)}${whalesConversionBlocks(page)}${attractionsConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${volcanoBlogConversionBlocks(page)}${whalesConversionBlocks(page)}${seasonalConversionBlocks(page)}${attractionsConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}${gastroConversionBlocks(page)}${winterConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${volcanoBlogStickyCta(page)}${whalesStickyCta(page)}${attractionsStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${volcanoBlogStickyCta(page)}${whalesStickyCta(page)}${seasonalStickyCta(page)}${attractionsStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}${gastroStickyCta(page)}${winterStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
