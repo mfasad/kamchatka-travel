@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-fishing-page-v1';
+const assetVersion = '20260711-fishing-quiz-choice-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -586,10 +586,10 @@ function fishingQuizBlock(page) {
           <label><input type="radio" name="fishing-format" value="combo"> Большой тур: рыбалка плюс вулканы, сплав или гастрономия</label>
         </fieldset>
         <fieldset>
-          <legend>2. Что важнее всего проверить?</legend>
-          <label><input type="radio" name="fishing-check" value="gear" checked> Снасти, вейдерсы, лицензии и инструктор</label>
-          <label><input type="radio" name="fishing-check" value="weather"> Запасной план при воде, ветре или шторме</label>
-          <label><input type="radio" name="fishing-check" value="comfort"> Размещение, питание и бытовые условия</label>
+          <legend>2. Какой темп дня на воде вам ближе?</legend>
+          <label><input type="radio" name="fishing-style" value="easy" checked> Спокойный выезд с инструктором и снаряжением на месте</label>
+          <label><input type="radio" name="fishing-style" value="active"> Активный день с ранним стартом и готовностью к перемене погоды</label>
+          <label><input type="radio" name="fishing-style" value="comfort"> Больше бытового комфорта: питание, база и меньше суеты</label>
         </fieldset>
         <div class="jeep-quiz-result" data-fishing-quiz-result>
           <strong>Смотрите речные рыболовные программы.</strong>
