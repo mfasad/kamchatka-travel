@@ -111,6 +111,9 @@ function byPage(tours) {
   const fishingTours = tours
     .filter((tour) => has(tour, /рыбал|лосос|нахлыст|морская прогулка|на море/i))
     .sort((a, b) => Number(!has(a, /рыбал|лосос|нахлыст/i)) - Number(!has(b, /рыбал|лосос|нахлыст/i)));
+  const winterTours = tours
+    .filter((tour) => has(tour, /зим|снего|фрирайд|горнолыж|лавин|морозн|декабр|январ|феврал|март|апрел|snow|winter|freeride/i))
+    .slice(0, 8);
   return {
     '/tury/': tours.slice(0, 6),
     '/tury/vip/': tours.filter((tour) => tour.isPrivate || tour.isExclusive || has(tour, /vip|вип|индивидуаль|премиум/i)).slice(0, 6),
@@ -118,6 +121,7 @@ function byPage(tours) {
     '/tury/dzhip-tury/': jeepTours.filter((tour) => (tour.durationDays || 99) > 3).slice(0, 12),
     '/tury/dzhip-tury/one-day': shortKamchatkaJeepTours.slice(0, 8),
     '/tury/rybalka/': fishingTours.slice(0, 9),
+    '/tury/zima/': winterTours,
     '/ekskursii/': excursionTours.slice(0, 8),
     '/ekskursii/vulkany/': tours.filter((tour) => has(tour, /вулкан|мутнов|горел|толбач|авачин/i)).slice(0, 6)
   };
