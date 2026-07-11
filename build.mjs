@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-family-v1';
+const assetVersion = '20260711-inclusive-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -734,6 +734,110 @@ function familyStickyCta(page) {
   </div>`;
 }
 
+
+function allInclusiveTours() {
+  const tours = youtravelTours.tours || [];
+  const scored = tours.map((tour) => {
+    const haystack = `${tour.title || ''} ${(tour.types || []).join(' ')} ${(tour.accommodation || []).join(' ')}`.toLowerCase();
+    let score = 0;
+    if (haystack.includes('всё включено') || haystack.includes('все включено')) score += 12;
+    if (haystack.includes('комфорт')) score += 3;
+    if (haystack.includes('семей')) score += 2;
+    if (haystack.includes('рыбал')) score += 1;
+    if (tour.comfort && tour.comfort >= 4) score += 2;
+    if (tour.durationDays && tour.durationDays >= 6 && tour.durationDays <= 10) score += 2;
+    if (tour.totalDates && tour.totalDates > 1) score += 1;
+    return { tour, score };
+  });
+  return scored
+    .filter(({ score }) => score >= 7)
+    .sort((a, b) => b.score - a.score || (b.tour.reviews || 0) - (a.tour.reviews || 0) || (a.tour.price || 0) - (b.tour.price || 0))
+    .map(({ tour }) => tour)
+    .slice(0, 8);
+}
+
+function allInclusiveFormat(tour) {
+  if (tour.isPrivate) return 'приватный / гибкий пакет';
+  if ((tour.types || []).some((type) => type.toLowerCase().includes('рыбал'))) return 'пакет с рыбалкой';
+  if (tour.comfort && tour.comfort >= 4) return 'комфортный пакет';
+  return (tour.types || []).slice(0, 2).join(', ') || 'пакетный тур';
+}
+
+function allInclusiveQuizBlock(page) {
+  if (page.path !== '/tury/vse-vklyucheno/') return '';
+  return `<section class="section section-tight jeep-quiz-section inclusive-quiz-section" id="inclusive-quiz"><div class="shell">
+    <div class="jeep-quiz inclusive-quiz" data-inclusive-quiz>
+      <div class="jeep-quiz-copy inclusive-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой пакет «всё включено» вам ближе?</h2>
+        <p>Ответьте на два вопроса перед сравнением программ: важнее бытовой комфорт, насыщенный маршрут или минимальная самостоятельная сборка логистики.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset>
+          <legend>1. Какой стиль поездки вам ближе?</legend>
+          <label><input type="radio" name="inclusive-style" value="comfort" checked> Комфортная база, понятное питание и меньше бытовых решений</label>
+          <label><input type="radio" name="inclusive-style" value="active"> Максимум локаций: вулканы, океан, источники и внедорожные дни</label>
+          <label><input type="radio" name="inclusive-style" value="family"> Семейный или спокойный темп без перегруза</label>
+        </fieldset>
+        <fieldset>
+          <legend>2. Где хочется снять больше всего неопределённости?</legend>
+          <label><input type="radio" name="inclusive-risk" value="budget" checked> Итоговый бюджет: что входит и где доплаты</label>
+          <label><input type="radio" name="inclusive-risk" value="weather"> Замены при погоде и закрытых дорогах</label>
+          <label><input type="radio" name="inclusive-risk" value="logistics"> Трансферы, багаж, размещение и питание по дням</label>
+        </fieldset>
+        <div class="jeep-quiz-result" data-inclusive-quiz-result>
+          <strong>Смотрите комфортные пакетные туры.</strong>
+          <span>Начните с программ, где подробно расписаны проживание, питание, трансферы и условия замены выездов.</span>
+        </div>
+        <div class="jeep-quiz-actions">
+          <a class="button button-primary" ${partnerAttrsFor(page)}>Сравнить туры всё включено по датам ↗</a>
+        </div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function allInclusiveTourTable(page) {
+  if (page.path !== '/tury/vse-vklyucheno/') return '';
+  const tours = allInclusiveTours();
+  if (!tours.length) return '';
+  return `<section class="section section-tight tour-compare inclusive-compare" id="compare-inclusive-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Пакетные программы</p><h2>Туры на Камчатку всё включено: что сравнить в первую очередь</h2></div><p>В таблице собраны реальные программы, где пакетность заявлена в названии или хорошо считывается по формату. Смотрите не только цену: важны состав включённых услуг, тип размещения, питание, группа и правила замены погодозависимых выездов.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Пакетный акцент</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr>
+      <td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td>
+      <td class="tour-format">${esc(allInclusiveFormat(tour))}${tour.accommodation?.length ? `<small>${esc(tour.accommodation.slice(0, 2).join(', '))}</small>` : ''}</td>
+      <td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td>
+      <td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td>
+      <td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td>
+    </tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta">
+      <div><strong>Состав «всё включено» всегда проверяется в карточке тура.</strong><span>У организаторов могут быть новые даты, другие варианты размещения, семейные условия и доплаты, которых нет в короткой таблице.</span></div>
+      <a class="button button-primary" ${partnerAttrsFor(page)}>Посмотреть свежие предложения ↗</a>
+    </div>
+  </div></section>`;
+}
+
+function allInclusiveStickyCta(page) {
+  if (page.path !== '/tury/vse-vklyucheno/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке">
+    <a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a>
+  </div>`;
+}
+
+function allInclusiveConversionBlocks(page) {
+  if (page.path !== '/tury/vse-vklyucheno/') return '';
+  return `<section class="section section-tight jeep-lead inclusive-lead"><div class="shell">
+    <p>Пакетный тур хорош, когда он снимает с вас сборку маршрута, но не прячет важные условия. Сначала выберите стиль поездки, затем сравните реальные программы и проверьте, какие услуги входят в стоимость именно по дням.</p>
+  </div></section>
+  ${allInclusiveQuizBlock(page)}
+  ${allInclusiveTourTable(page)}
+  <section class="section section-tight jeep-proof inclusive-proof"><div class="shell proof-grid">
+    <article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Сильный пакет не обещает невозможного, а честно показывает границы</h2><p>На Камчатке погода, дороги и море могут менять планы. Хороший формат «всё включено» заранее объясняет, какие услуги входят, что заменяется и где возможны доплаты.</p><a class="button button-light" href="#compare-inclusive-tours">Сравнить программы</a></article>
+    <article class="proof-card"><img src="/images/lodge-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Бытовая собранность</h3><p>Проверьте размещение, питание, трансферы и свободные дни: именно здесь пакетный формат должен экономить время и помогать не собирать маршрут вручную.</p></article>
+    <article class="proof-card"><img src="/images/hero-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Запасной сценарий</h3><p>Всё включено не гарантирует погоду. Зато может заранее дать понятный план замены для моря, вертолёта, вулкана или закрытой дороги.</p></article>
+  </div></section>`;
+}
+
 function trekkingQuizBlock(page) {
   if (page.path !== '/tury/trekking/') return '';
   return `<section class="section section-tight jeep-quiz-section trekking-quiz-section" id="trekking-quiz"><div class="shell">
@@ -1117,11 +1221,11 @@ function helicopterStickyCtaFixed(page) {
 }
 
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}${familyConversionBlocks(page)}${allInclusiveConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}${familyStickyCta(page)}${allInclusiveStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
