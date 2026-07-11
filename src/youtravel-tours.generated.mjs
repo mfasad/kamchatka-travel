@@ -4403,6 +4403,312 @@ export const youtravelTours = {
         "isExclusive": false,
         "details": null
       }
+    ],
+    "/tury/rybalka/": [
+      {
+        "id": 42882,
+        "title": "Хит Камчатки: более 20 локаций за 8 дней. Всё включено.",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/42882/%25D1%2585%25D0%25B8%25D1%2582_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B8_%25D0%25B1%25D0%25BE%25D0%25BB%25D0%25B5%25D0%25B5_20_%25D0%25BB%25D0%25BE%25D0%25BA%25D0%25B0%25D1%2586%25D0%25B8%25D0%25B9_%25D0%25B7%25D0%25B0_8_%25D0%25B4%25D0%25BD%25D0%25B5%25D0%25B9_%25D0%25B2%25D1%2581%25D1%2591_%25D0%25B2%25D0%25BA%25D0%25BB%25D1%258E%25D1%2587%25D0%25B5%25D0%25BD%25D0%25BE_",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Рыбалка",
+          "Сплав",
+          "На внедорожниках",
+          "Экскурсионный"
+        ],
+        "accommodation": [
+          "Отели 3*",
+          "Отели 4*"
+        ],
+        "expert": "Ольга А",
+        "rating": 5,
+        "reviews": 11,
+        "price": 196000,
+        "dateFrom": "2026-07-22",
+        "dateTo": "2026-07-29",
+        "durationDays": 8,
+        "freeSpaces": 3,
+        "groupSize": 12,
+        "totalDates": 2,
+        "activity": 3,
+        "comfort": 4,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 30994,
+        "title": "Многогранная Камчатка",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/30994/%25D0%25BC%25D0%25BD%25D0%25BE%25D0%25B3%25D0%25BE%25D0%25B3%25D1%2580%25D0%25B0%25D0%25BD%25D0%25BD%25D0%25B0%25D1%258F_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B0",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Тур в горы",
+          "Рыбалка",
+          "Гастрономический",
+          "Сплав",
+          "Восхождение"
+        ],
+        "accommodation": [
+          "Гостевые домики",
+          "Отели 3*",
+          "Палатки"
+        ],
+        "expert": "Андрей Б",
+        "rating": 5,
+        "reviews": 10,
+        "price": 210000,
+        "dateFrom": "2026-07-12",
+        "dateTo": "2026-07-22",
+        "durationDays": 11,
+        "freeSpaces": 14,
+        "groupSize": 16,
+        "totalDates": 14,
+        "activity": 4,
+        "comfort": 3,
+        "isPrivate": false,
+        "isExclusive": true,
+        "details": null
+      },
+      {
+        "id": 32371,
+        "title": "Камчатка + Все Включено",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/32371/%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B0_%25D0%25B2%25D1%2581%25D0%25B5_%25D0%25B2%25D0%25BA%25D0%25BB%25D1%258E%25D1%2587%25D0%25B5%25D0%25BD%25D0%25BE",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Рыбалка",
+          "Семейный",
+          "Гастрономический",
+          "Поход",
+          "Автотур",
+          "Экскурсионный"
+        ],
+        "accommodation": [
+          "Глэмпинги",
+          "Кемпинги",
+          "Отели 1-2*",
+          "Хостелы"
+        ],
+        "expert": "Дмитрий К",
+        "rating": 4.9133,
+        "reviews": 150,
+        "price": 165000,
+        "dateFrom": "2026-08-29",
+        "dateTo": "2026-09-06",
+        "durationDays": 9,
+        "freeSpaces": 1,
+        "groupSize": 15,
+        "totalDates": 1,
+        "activity": 3,
+        "comfort": 2,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 11430,
+        "title": "Легендарные Маршруты Камчатки",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/11430/%25D0%25BB%25D0%25B5%25D0%25B3%25D0%25B5%25D0%25BD%25D0%25B4%25D0%25B0%25D1%2580%25D0%25BD%25D1%258B%25D0%25B5_%25D0%25BC%25D0%25B0%25D1%2580%25D1%2588%25D1%2580%25D1%2583%25D1%2582%25D1%258B_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B8",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Рыбалка",
+          "Поход",
+          "Сплав",
+          "Восхождение",
+          "На внедорожниках"
+        ],
+        "accommodation": [
+          "Апартаменты"
+        ],
+        "expert": "Ирина Щ",
+        "rating": 4.9167,
+        "reviews": 120,
+        "price": 155000,
+        "dateFrom": "2026-09-27",
+        "dateTo": "2026-10-06",
+        "durationDays": 10,
+        "freeSpaces": 6,
+        "groupSize": 12,
+        "totalDates": 8,
+        "activity": 3,
+        "comfort": 5,
+        "isPrivate": true,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 58250,
+        "title": "Камчатка. Вулканы, океан, рафтинг, рыбалка, восхождения",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/58250/%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B0_%25D0%25B2%25D1%2583%25D0%25BB%25D0%25BA%25D0%25B0%25D0%25BD%25D1%258B_%25D0%25BE%25D0%25BA%25D0%25B5%25D0%25B0%25D0%25BD_%25D1%2580%25D0%25B0%25D1%2584%25D1%2582%25D0%25B8%25D0%25BD%25D0%25B3_%25D1%2580%25D1%258B%25D0%25B1%25D0%25B0%25D0%25BB%25D0%25BA%25D0%25B0_%25D0%25B2%25D0%25BE%25D1%2581%25D1%2585%25D0%25BE%25D0%25B6%25D0%25B4%25D0%25B5%25D0%25BD%25D0%25B8%25D1%258F",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Тур в горы",
+          "Рыбалка",
+          "Семейный",
+          "Восхождение",
+          "На внедорожниках",
+          "Авторский"
+        ],
+        "accommodation": [
+          "Отели 4*"
+        ],
+        "expert": "Екатерина С",
+        "rating": 4.884,
+        "reviews": 181,
+        "price": 199000,
+        "dateFrom": "2026-07-20",
+        "dateTo": "2026-07-26",
+        "durationDays": 7,
+        "freeSpaces": 5,
+        "groupSize": 12,
+        "totalDates": 1,
+        "activity": 3,
+        "comfort": 5,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 68582,
+        "title": "Рыболовный тур 7 дней все включено",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/68582/%25D1%2580%25D1%258B%25D0%25B1%25D0%25BE%25D0%25BB%25D0%25BE%25D0%25B2%25D0%25BD%25D1%258B%25D0%25B9_%25D1%2582%25D1%2583%25D1%2580_7_%25D0%25B4%25D0%25BD%25D0%25B5%25D0%25B9_%25D0%25B2%25D1%2581%25D0%25B5_%25D0%25B2%25D0%25BA%25D0%25BB%25D1%258E%25D1%2587%25D0%25B5%25D0%25BD%25D0%25BE",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "На внедорожниках",
+          "Семейный",
+          "Рыбалка"
+        ],
+        "accommodation": [
+          "Отели 3*",
+          "Отели 4*"
+        ],
+        "expert": "Анастасия Б",
+        "rating": 5,
+        "reviews": 14,
+        "price": 220000,
+        "dateFrom": "2026-07-13",
+        "dateTo": "2026-07-19",
+        "durationDays": 7,
+        "freeSpaces": 6,
+        "groupSize": 8,
+        "totalDates": 14,
+        "activity": 2,
+        "comfort": 4,
+        "isPrivate": true,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 37567,
+        "title": "Морская прогулка к бухте Русская  длительность 10 часов на Камчатке",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/37567/%25D0%25BC%25D0%25BE%25D1%2580%25D1%2581%25D0%25BA%25D0%25B0%25D1%258F_%25D0%25BF%25D1%2580%25D0%25BE%25D0%25B3%25D1%2583%25D0%25BB%25D0%25BA%25D0%25B0_%25D0%25BA_%25D0%25B1%25D1%2583%25D1%2585%25D1%2582%25D0%25B5_%25D1%2580%25D1%2583%25D1%2581%25D1%2581%25D0%25BA%25D0%25B0%25D1%258F_%25D0%25B4%25D0%25BB%25D0%25B8%25D1%2582%25D0%25B5%25D0%25BB%25D1%258C%25D0%25BD%25D0%25BE%25D1%2581%25D1%2582%25D1%258C_10_%25D1%2587%25D0%25B0%25D1%2581%25D0%25BE%25D0%25B2_%25D0%25BD%25D0%25B0_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B5",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Рыбалка",
+          "На море"
+        ],
+        "accommodation": [],
+        "expert": "Павел К",
+        "rating": 5,
+        "reviews": 6,
+        "price": 20000,
+        "dateFrom": "2026-07-11",
+        "dateTo": "2026-07-11",
+        "durationDays": 1,
+        "freeSpaces": 8,
+        "groupSize": 10,
+        "totalDates": 80,
+        "activity": 2,
+        "comfort": 1,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 71174,
+        "title": "Сахалин + Камчатка. Активный тур без палаток и рюкзаков",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/71174/%25D1%2581%25D0%25B0%25D1%2585%25D0%25B0%25D0%25BB%25D0%25B8%25D0%25BD_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B0_%25D0%25B0%25D0%25BA%25D1%2582%25D0%25B8%25D0%25B2%25D0%25BD%25D1%258B%25D0%25B9_%25D1%2582%25D1%2583%25D1%2580_%25D0%25B1%25D0%25B5%25D0%25B7_%25D0%25BF%25D0%25B0%25D0%25BB%25D0%25B0%25D1%2582%25D0%25BE%25D0%25BA_%25D0%25B8_%25D1%2580%25D1%258E%25D0%25BA%25D0%25B7%25D0%25B0%25D0%25BA%25D0%25BE%25D0%25B2",
+        "regions": [
+          "Камчатка",
+          "Сахалин и Курильские острова",
+          "Японское море",
+          "Дальний Восток"
+        ],
+        "types": [
+          "Авторский",
+          "Автотур",
+          "Поход",
+          "Рыбалка",
+          "На море",
+          "Семейный",
+          "Этнографический",
+          "Тур в горы",
+          "Для соло путешественников",
+          "Экологический"
+        ],
+        "accommodation": [
+          "Гостевые домики",
+          "Отели 3*"
+        ],
+        "expert": "Валентин А",
+        "rating": 4.9667,
+        "reviews": 90,
+        "price": 212000,
+        "dateFrom": "2026-07-17",
+        "dateTo": "2026-07-26",
+        "durationDays": 10,
+        "freeSpaces": 1,
+        "groupSize": 14,
+        "totalDates": 1,
+        "activity": 3,
+        "comfort": 4,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      },
+      {
+        "id": 74168,
+        "title": "Рыбалка на реках Камчатки (с берега)",
+        "url": "https://travelme.g2afse.com/click?pid=1177&offer_id=1&path=/tours/74168/%25D1%2580%25D1%258B%25D0%25B1%25D0%25B0%25D0%25BB%25D0%25BA%25D0%25B0_%25D0%25BD%25D0%25B0_%25D1%2580%25D0%25B5%25D0%25BA%25D0%25B0%25D1%2585_%25D0%25BA%25D0%25B0%25D0%25BC%25D1%2587%25D0%25B0%25D1%2582%25D0%25BA%25D0%25B8_%25D1%2581_%25D0%25B1%25D0%25B5%25D1%2580%25D0%25B5%25D0%25B3%25D0%25B0_",
+        "regions": [
+          "Камчатка"
+        ],
+        "types": [
+          "Рыбалка",
+          "Авторский",
+          "Гастрономический",
+          "На внедорожниках"
+        ],
+        "accommodation": [],
+        "expert": "Максим Е",
+        "rating": 5,
+        "reviews": 5,
+        "price": 17500,
+        "dateFrom": "2026-08-01",
+        "dateTo": "2026-08-01",
+        "durationDays": 1,
+        "freeSpaces": 2,
+        "groupSize": 2,
+        "totalDates": 70,
+        "activity": 2,
+        "comfort": null,
+        "isPrivate": false,
+        "isExclusive": false,
+        "details": null
+      }
     ]
   }
 };
