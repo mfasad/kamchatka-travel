@@ -105,6 +105,9 @@ function byPage(tours) {
   const has = (tour, pattern) => pattern.test([tour.title, ...tour.types].join(' '));
   const jeepTours = tours.filter((tour) => has(tour, /джип|авто|внедорож|offroad|off-road/i));
   const shortKamchatkaJeepTours = tours.filter((tour) => (tour.durationDays || 99) <= 3 && has(tour, /джип|авто|внедорож|offroad|off-road/i));
+  const excursionTours = tours
+    .filter((tour) => (tour.durationDays || 99) <= 3 || has(tour, /экскурс|вулкан|гейзер|морская прогулка|бухт|источник|каньон|вертолет|вертолёт/i))
+    .sort((a, b) => Number((a.durationDays || 99) > 3) - Number((b.durationDays || 99) > 3));
   const fishingTours = tours
     .filter((tour) => has(tour, /рыбал|лосос|нахлыст|морская прогулка|на море/i))
     .sort((a, b) => Number(!has(a, /рыбал|лосос|нахлыст/i)) - Number(!has(b, /рыбал|лосос|нахлыст/i)));
@@ -115,6 +118,7 @@ function byPage(tours) {
     '/tury/dzhip-tury/': jeepTours.filter((tour) => (tour.durationDays || 99) > 3).slice(0, 12),
     '/tury/dzhip-tury/one-day': shortKamchatkaJeepTours.slice(0, 8),
     '/tury/rybalka/': fishingTours.slice(0, 9),
+    '/ekskursii/': excursionTours.slice(0, 8),
     '/ekskursii/vulkany/': tours.filter((tour) => has(tour, /вулкан|мутнов|горел|толбач|авачин/i)).slice(0, 6)
   };
 }
