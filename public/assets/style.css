@@ -263,6 +263,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .checklist-panel { margin: 26px 0; padding: 28px; border-radius: 26px; background: var(--paper-2); border: 1px solid var(--line); }
 .checklist-panel h3 { margin-top: 0; }
 .checklist-panel ol { margin-bottom: 0; }
+.volcano-choice-list { display: grid; gap: 14px; }
+.volcano-choice-card { margin: 0; display: grid; gap: 14px; background: linear-gradient(180deg, var(--white), var(--paper-2)); }
+.volcano-choice-card h3 { margin: 0; font-family: Georgia, serif; font-size: 25px; line-height: 1.08; font-weight: 500; }
+.volcano-choice-card p { margin: 0; color: #33443e; }
+.volcano-choice-card .button { width: 100%; min-height: 48px; border-radius: 18px; text-align: center; line-height: 1.15; }
+.volcano-choice-card .button-light { color: var(--ink); border-color: rgba(23,34,31,.18); background: var(--white); box-shadow: 0 10px 24px rgba(23,34,31,.08); }
+.volcano-choice-card .button-light:hover { background: var(--acid); border-color: transparent; }
 .cta { border-radius: 36px; padding: 54px; background: var(--acid); display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; }
 .cta h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(34px, 5vw, 58px); line-height: .98; font-weight: 500; }
 .cta p { margin: 12px 0 0; color: rgba(23,34,31,.7); }
