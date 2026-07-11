@@ -10,7 +10,7 @@ cpSync(join(process.cwd(), 'public'), dist, { recursive: true });
 
 const esc = (value = '') => String(value).replaceAll('&quot;', '"').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const absolute = (path) => `${site.url}${path}`;
-const assetVersion = '20260711-excursions-hub-v1';
+const assetVersion = '20260711-helicopter-v1';
 const partnerAttrs = `href="${site.partnerUrl}" target="_blank" rel="nofollow noopener"`;
 const topToursPartnerUrl = `${site.partnerBaseUrl}&path=/tours/region/%D0%BA%D0%B0%D0%BC%D1%87%D0%B0%D1%82%D0%BA%D0%B0/type-dzhipping`;
 const topToursPartnerAttrs = `href="${topToursPartnerUrl.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener"`;
@@ -953,12 +953,63 @@ function excursionsHubStickyCta(page) {
   </div>`;
 }
 
+
+function helicopterToursFixed() {
+  const terms = ['вертолет', 'вертолёт', 'долина гейзеров', 'гейзер'];
+  return (youtravelTours.tours || [])
+    .filter((tour) => {
+      const haystack = `${tour.title || ''} ${(tour.types || []).join(' ')}`.toLowerCase();
+      return terms.some((term) => haystack.includes(term));
+    })
+    .slice(0, 8);
+}
+
+function helicopterQuizBlockFixed(page) {
+  if (page.path !== '/ekskursii/vertoletnye/') return '';
+  return `<section class="section section-tight jeep-quiz-section helicopter-quiz-section" id="helicopter-quiz"><div class="shell">
+    <div class="jeep-quiz helicopter-quiz" data-helicopter-quiz-fixed>
+      <div class="jeep-quiz-copy helicopter-quiz-copy">
+        <p class="eyebrow">Быстрый выбор</p>
+        <h2>Какой вертолётный сценарий вам ближе?</h2>
+        <p>Отметьте главную цель и запас по времени. Это поможет сравнить не только цену, но и риск переноса, длительность на месте и наземную альтернативу.</p>
+      </div>
+      <div class="jeep-quiz-panel">
+        <fieldset><legend>Что вы хотите видеть в центре?</legend><label><input type="radio" name="helicopter-focus-fixed" value="geysers" checked> Долину гейзеров или термальные поля</label><label><input type="radio" name="helicopter-focus-fixed" value="lake"> Курильское озеро или удалённую природную локацию</label><label><input type="radio" name="helicopter-focus-fixed" value="volcano"> Вулканы с воздуха и посадки в вулканических районах</label></fieldset>
+        <fieldset><legend>Какой запас по датам у вас есть?</legend><label><input type="radio" name="helicopter-reserve-fixed" value="reserve" checked> Есть резервный день под перенос</label><label><input type="radio" name="helicopter-reserve-fixed" value="tight"> График плотный, нужен понятный план замены</label><label><input type="radio" name="helicopter-reserve-fixed" value="combo"> Хочу встроить вылет в большой тур</label></fieldset>
+        <div class="jeep-quiz-result" data-helicopter-quiz-result-fixed><strong>Смотрите программы в Долину гейзеров с резервом по погоде.</strong><span>Начните с условий переноса, веса, регистрации и времени на самой локации. Даты и места проверяйте у организатора перед оплатой.</span></div>
+        <div class="jeep-quiz-actions"><a class="button button-primary" ${partnerAttrsFor(page)}>Проверить свежие предложения и места ↗</a></div>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function helicopterTourTableFixed(page) {
+  if (page.path !== '/ekskursii/vertoletnye/') return '';
+  const tours = helicopterToursFixed();
+  if (!tours.length) return `<section class="section section-tight tour-compare helicopter-compare" id="compare-helicopter-tours"><div class="shell"><div class="section-head"><div><p class="eyebrow">Свежие предложения</p><h2>Вертолётные программы нужно проверять у организатора</h2></div><p>В локальной партнёрской выгрузке сейчас нет достаточно точной подборки вертолётных экскурсий для честной таблицы. Откройте свежую выдачу партнёра и сравните даты, места, условия переноса и возврата перед оплатой.</p></div><div class="table-partner-cta"><div><strong>Не подставляем выдуманные строки ради красивой таблицы.</strong><span>Для вертолётных маршрутов особенно важны актуальные условия: авиационное окно, регистрация, вес, возврат и наземная замена.</span></div><a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие предложения ↗</a></div></div></section>`;
+  return `<section class="section section-tight tour-compare helicopter-compare" id="compare-helicopter-tours"><div class="shell">
+    <div class="section-head"><div><p class="eyebrow">Реальные предложения</p><h2>Вертолётные и близкие по интенту программы из партнёрской выдачи</h2></div><p>В таблице только фактические туры из локальной выгрузки YouTravel, где в названии или типах есть вертолётный или гейзерный интент. Финальную стоимость, вылет, свободные места и условия переноса проверяйте на странице организатора.</p></div>
+    <div class="compare-table-wrap"><table class="tour-compare-table"><thead><tr><th>Программа</th><th>Формат</th><th>Ориентир цены</th><th>Группа</th><th></th></tr></thead><tbody>${tours.map((tour) => `<tr><td class="tour-name"><strong>${esc(tour.title)}</strong><small>${esc(durationLabel(tour))}${tour.expert ? ` · организатор: ${esc(tour.expert)}` : ''}</small>${tourInsightDetails(tour)}</td><td class="tour-format">${esc((tour.types || []).slice(0, 3).join(', ') || 'вертолётный/гейзерный маршрут')}</td><td class="tour-price">${tour.price ? `от ${formatRub(tour.price)}` : 'уточнить'}</td><td class="tour-group">${tour.groupSize ? `до ${esc(tour.groupSize)} чел.` : 'уточнить'}</td><td class="tour-action"><a class="button button-compact" href="${tour.url.replaceAll('&', '&amp;')}" target="_blank" rel="nofollow noopener">Проверить места ↗</a></td></tr>`).join('')}</tbody></table></div>
+    <div class="table-partner-cta"><div><strong>Вертолётные условия меняются быстрее обычных экскурсий.</strong><span>У организаторов могут быть новые даты, другие борта, лист ожидания, наземные замены и правила возврата, которых нет в короткой таблице.</span></div><a class="button button-primary" ${partnerAttrsFor(page)}>Смотреть свежие предложения ↗</a></div>
+  </div></section>`;
+}
+
+function helicopterConversionBlocksFixed(page) {
+  if (page.path !== '/ekskursii/vertoletnye/') return '';
+  return `<section class="section section-tight jeep-lead helicopter-lead"><div class="shell"><p>Вертолётные экскурсии на Камчатке лучше выбирать от обратного: сначала понять, какую удалённую локацию вы хотите увидеть, затем проверить резерв по датам, правила отмены и реальное время на месте. Для Долины гейзеров, Курильского озера и вулканических облётов важны не обещания, а прозрачный порядок действий при тумане, ветре и закрытии площадки.</p></div></section>${helicopterQuizBlockFixed(page)}${helicopterTourTableFixed(page)}<section class="section section-tight jeep-proof helicopter-proof"><div class="shell proof-grid"><article class="proof-card proof-card-dark"><p class="eyebrow">Как выбрать</p><h2>Сильная вертолётная программа заранее объясняет, что будет при отмене</h2><p>Проверяйте не только маршрут, но и регистрацию, ограничения по весу, резервный день, правила возврата, наземную замену и то, кто принимает финальное решение о вылете.</p><a class="button button-light" href="#compare-helicopter-tours">Сравнить условия</a></article><article class="proof-card"><img src="/images/helicopter-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Погода важнее расписания</h3><p>Ясное утро в городе не гарантирует видимость на маршруте. Держите запас по датам и не ставьте вылет перед обратным рейсом домой.</p></article><article class="proof-card"><img src="/images/volcano-crater-kamchatka.jpg" alt="" loading="lazy" width="768" height="512"><h3>Наземная замена должна быть заранее</h3><p>Если авиационное окно не открылось, полезно иметь понятный план: вулканический район, Дачные источники, побережье или термальные локации.</p></article></div></section>`;
+}
+
+function helicopterStickyCtaFixed(page) {
+  if (page.path !== '/ekskursii/vertoletnye/') return '';
+  return `<div class="mobile-sticky-cta mobile-sticky-cta-single" aria-label="Топовые туры по Камчатке"><a class="button button-primary" ${topToursPartnerAttrs}>Смотреть топовые туры ↗</a></div>`;
+}
+
 function conversionBlocks(page) {
-  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
+  return `${toursHubConversionBlocks(page)}${excursionsHubConversionBlocks(page)}${helicopterConversionBlocksFixed(page)}${jeepConversionBlocks(page)}${trekkingConversionBlocks(page)}${volcanoConversionBlocks(page)}${oneDayExcursionConversionBlocks(page)}${vipConversionBlocks(page)}${fishingConversionBlocks(page)}`;
 }
 
 function stickyCta(page) {
-  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
+  return `${toursHubStickyCta(page)}${excursionsHubStickyCta(page)}${helicopterStickyCtaFixed(page)}${jeepStickyCta(page)}${trekkingStickyCta(page)}${volcanoStickyCta(page)}${oneDayExcursionStickyCta(page)}${vipStickyCta(page)}${fishingStickyCta(page)}`;
 }
 
 function jeepConversionBlocks(page) {
